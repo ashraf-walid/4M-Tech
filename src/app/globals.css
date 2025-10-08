@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Color Variables */
+  --color-lemon: #fdf407;
+  --color-cod-gray: #181313;
+  --color-dark-ebony: #393405;
+  --color-quill-gray: #d9d8d4;
+  --color-merlin: #3b3934;
+  --color-olivetone: #7c760f;
+  --color-wattle: #dfd93e;
+}
+
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.animated-border {
+  position: relative;
+  border-radius: 9999px; 
+  padding: 3px; 
+  background: conic-gradient(
+    from var(--angle),
+    var(--color-lemon),
+    var(--color-wattle),
+    var(--color-olivetone),
+    var(--color-dark-ebony),
+    var(--color-lemon)
+  );
+  animation: rotate 3s linear infinite;
+}
+
+.animated-border > .inner {
+  border-radius: inherit;
+  background: white; 
+}
+
+@keyframes rotate {
+  to {
+    --angle: 360deg;
+  }
+}
+
+/* Custom utility classes */
+.bg-primary {
+  background-color: var(--color-lemon);
+  color: var(--color-cod-gray);
+}
+
+.text-primary {
+  color: var(--color-lemon);
+}
+
+.border-primary {
+  border-color: var(--color-lemon);
+}
+
+.hover\:bg-primary:hover {
+  background-color: var(--color-wattle);
+}
