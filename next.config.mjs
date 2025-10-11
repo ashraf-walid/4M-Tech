@@ -1,4 +1,11 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  images: {
+    qualities: [75, 85, 90, 100], 
+  },
+  experimental: {
+    allowedDevOrigins: ['http://192.168.1.4:3000'],
+  },
+};
 
 export default nextConfig;
