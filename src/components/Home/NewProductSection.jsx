@@ -16,16 +16,29 @@ const NewProductSection = () => {
     // Compose specs for display (flatten nested specs object)
     const specs = [];
     if (p.specs) {
-      if (p.specs.cpu) specs.push(`${p.specs.cpu.brand} ${p.specs.cpu.model}${p.specs.cpu.generation ? ` Gen${p.specs.cpu.generation}` : ""}`);
+      // if (p.specs.cpu)
+      //   specs.push(
+      //     `${p.specs.cpu.brand} ${p.specs.cpu.model}${
+      //       p.specs.cpu.generation ? ` Gen${p.specs.cpu.generation}` : ""
+      //     }`
+      //   );
       if (p.specs.gpu) specs.push(`${p.specs.gpu.brand} ${p.specs.gpu.model}`);
       if (p.specs.ram) specs.push(`${p.specs.ram.size}GB ${p.specs.ram.type}`);
-      if (p.specs.storage) specs.push(`${p.specs.storage.capacity}${p.specs.storage.unit} ${p.specs.storage.type}`);
-      if (p.specs.screen) specs.push(`${p.specs.screen.size}${p.specs.screen.unit} ${p.specs.screen.resolution}`);
-      if (p.specs.battery && p.specs.battery.capacity) specs.push(`${p.specs.battery.capacity}${p.specs.battery.unit} بطارية`);
-      if (p.specs.type) specs.push(p.specs.type);
-      if (p.specs.bluetoothVersion) specs.push(`BT ${p.specs.bluetoothVersion}`);
-      if (p.specs.audioCodecs) specs.push(p.specs.audioCodecs.join("/"));
-      if (p.specs.specialFeatures) specs.push(...p.specs.specialFeatures);
+      if (p.specs.storage)
+        specs.push(
+          `${p.specs.storage.capacity}${p.specs.storage.unit} ${p.specs.storage.type}`
+        );
+      if (p.specs.screen)
+        specs.push(
+          `${p.specs.screen.size}${p.specs.screen.unit} ${p.specs.screen.resolution}`
+        );
+      // if (p.specs.battery && p.specs.battery.capacity)
+      //   specs.push(`${p.specs.battery.capacity}${p.specs.battery.unit} بطارية`);
+      // if (p.specs.type) specs.push(p.specs.type);
+      // if (p.specs.bluetoothVersion)
+      //   specs.push(`BT ${p.specs.bluetoothVersion}`);
+      // if (p.specs.audioCodecs) specs.push(p.specs.audioCodecs.join("/"));
+      // if (p.specs.specialFeatures) specs.push(...p.specs.specialFeatures);
     }
     if (Array.isArray(p.extraFeatures)) specs.push(...p.extraFeatures);
 
@@ -46,11 +59,11 @@ const NewProductSection = () => {
       condition: p.condition,
       badge: p.badge || (index < 3 ? "جديد" : "مميز"),
       releaseYear: p.releaseYear,
-      sku: p.sku,
-      barcode: p.barcode,
+      // sku: p.sku,
+      // barcode: p.barcode,
       specs: specs,
       ports: p.specs && p.specs.ports ? p.specs.ports : [],
-      connectivity: p.specs && p.specs.connectivity ? p.specs.connectivity : [],
+      // connectivity: p.specs && p.specs.connectivity ? p.specs.connectivity : [],
       color: p.specs && p.specs.color ? p.specs.color : undefined,
     };
   });
@@ -112,7 +125,7 @@ const NewProductSection = () => {
   return (
     <section className="w-full py-8 bg-white overflow-hidden">
       <div className="max-w-[1400px] mx-auto">
-        <div className="text-center">
+        <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-[#393405] mb-1 sm:mb-4 leading-[120%] tracking-tight relative inline-block">
             <span className="relative z-10">احدث المنتجات</span>
             <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[90%] h-3 bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-100 rounded-lg opacity-70 -z-0"></span>
@@ -201,22 +214,26 @@ const NewProductSection = () => {
                     <h3 className="sm:text-2xl text-xl font-bold text-[#393405] mt-2 mb-4">
                       {product.name}
                     </h3>
-                    <ul className="space-y-2 mb-6">
+                    <ul className="space-y-1 mb-4">
                       {product.specs.map((spec, i) => (
                         <li key={i} className="flex items-start">
-                          <span className="text-green-600 mr-2 mt-1">✓</span>
-                          <span className="text-[#3b3934] text-sm sm:text-base">
+                          <span className="text-green-600 ml-2"> ✓ </span>
+                          <span className="text-[#3b3934] text-xs sm:text-sm">
                             {spec}
                           </span>
                         </li>
                       ))}
                     </ul>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {product.ports && product.ports.map((port, i) => (
-                        <span key={i} className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">
-                          {port}
-                        </span>
-                      ))}
+                    <div className="flex flex-wrap gap-1 mb-2">
+                      {product.ports &&
+                        product.ports.map((port, i) => (
+                          <span
+                            key={i}
+                            className="bg-gray-100 text-gray-700 px-1 py-[2px] rounded text-xs"
+                          >
+                            {port}
+                          </span>
+                        ))}
                     </div>
                     <div className="flex items-center justify-between">
                       <span className="sm:text-2xl text-xl font-bold text-[#393405]">
@@ -227,7 +244,7 @@ const NewProductSection = () => {
                         <span className="sm:text-lg text-base">🛒</span>
                       </button>
                     </div>
-                    {product.warranty && (
+                    {/* {product.warranty && (
                       <div className="mt-2 text-xs text-gray-500">
                         الضمان: {product.warranty}
                       </div>
@@ -236,7 +253,7 @@ const NewProductSection = () => {
                       <div className="text-xs text-gray-500">
                         الحالة: {product.condition}
                       </div>
-                    )}
+                    )} */}
                   </div>
                 </div>
               </div>
@@ -250,8 +267,8 @@ const NewProductSection = () => {
           >
             <ChevronRight className="button-icon" />
           </button>
-
-          <div className="flex justify-center mt-4 sm:mt-8 space-x-2">
+          {/* Pagination indicators */}
+          <div className="flex justify-center mt-10 sm:mt-20 space-x-2">
             {products.map((_, index) => (
               <button
                 key={index}

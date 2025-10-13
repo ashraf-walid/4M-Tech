@@ -12,7 +12,7 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="bg-[#1f1b1a] text-white border-t-2 border-[var(--color-lemon)]">
+    <footer className="bg-[#1f1b1a] text-white border-t-2 border-[var(--color-lemon)] mt-20">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-10">
           {/* Company Info */}
