@@ -16,12 +16,6 @@ const NewProductSection = () => {
     // Compose specs for display (flatten nested specs object)
     const specs = [];
     if (p.specs) {
-      // if (p.specs.cpu)
-      //   specs.push(
-      //     `${p.specs.cpu.brand} ${p.specs.cpu.model}${
-      //       p.specs.cpu.generation ? ` Gen${p.specs.cpu.generation}` : ""
-      //     }`
-      //   );
       if (p.specs.gpu) specs.push(`${p.specs.gpu.brand} ${p.specs.gpu.model}`);
       if (p.specs.ram) specs.push(`${p.specs.ram.size}GB ${p.specs.ram.type}`);
       if (p.specs.storage)
@@ -32,13 +26,6 @@ const NewProductSection = () => {
         specs.push(
           `${p.specs.screen.size}${p.specs.screen.unit} ${p.specs.screen.resolution}`
         );
-      // if (p.specs.battery && p.specs.battery.capacity)
-      //   specs.push(`${p.specs.battery.capacity}${p.specs.battery.unit} بطارية`);
-      // if (p.specs.type) specs.push(p.specs.type);
-      // if (p.specs.bluetoothVersion)
-      //   specs.push(`BT ${p.specs.bluetoothVersion}`);
-      // if (p.specs.audioCodecs) specs.push(p.specs.audioCodecs.join("/"));
-      // if (p.specs.specialFeatures) specs.push(...p.specs.specialFeatures);
     }
     if (Array.isArray(p.extraFeatures)) specs.push(...p.extraFeatures);
 
@@ -59,11 +46,8 @@ const NewProductSection = () => {
       condition: p.condition,
       badge: p.badge || (index < 3 ? "جديد" : "مميز"),
       releaseYear: p.releaseYear,
-      // sku: p.sku,
-      // barcode: p.barcode,
       specs: specs,
       ports: p.specs && p.specs.ports ? p.specs.ports : [],
-      // connectivity: p.specs && p.specs.connectivity ? p.specs.connectivity : [],
       color: p.specs && p.specs.color ? p.specs.color : undefined,
     };
   });
@@ -244,16 +228,6 @@ const NewProductSection = () => {
                         <span className="sm:text-lg text-base">🛒</span>
                       </button>
                     </div>
-                    {/* {product.warranty && (
-                      <div className="mt-2 text-xs text-gray-500">
-                        الضمان: {product.warranty}
-                      </div>
-                    )}
-                    {product.condition && (
-                      <div className="text-xs text-gray-500">
-                        الحالة: {product.condition}
-                      </div>
-                    )} */}
                   </div>
                 </div>
               </div>
