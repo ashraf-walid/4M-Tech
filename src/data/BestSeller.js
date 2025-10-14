@@ -1,4 +1,4 @@
-export const BestSeller = [
+export const BestSellerProducts = [
   {
     id: "Dell-Latitude-5430-i7-1255U-16-512",
     name: "Dell Latitude 5430",
@@ -8,8 +8,8 @@ export const BestSeller = [
     subCategory: "business / mainstream",
     description:
       "لابتوب من Dell فئة Latitude 5430 بشاشة ‎14″‎ FHD، معالج Intel الجيل الـ12، RAM ‎16GB‎، SSD ‎512GB‎، مناسب للأعمال والتنقل.",
-    image: "", // أضف رابط صورتك
-    images: [""], // صور متعددة إن متوفرة
+    image: "/BestSeller/DELL9.webp", // أضف رابط صورتك
+    images: ["/BestSeller/DELL9.webp"], // صور متعددة إن متوفرة
     price: null,
     discount: 0,
     stock: null,
@@ -76,8 +76,8 @@ export const BestSeller = [
     subCategory: "business / ultrabook",
     description:
       "لابتوب HP EliteBook 830 G7، فئة أعمال خفيفة الوزن مع أداء جيد ومواصفات متوازنة.",
-    image: "", // أضف رابط الصورة إن متوفر
-    images: [""],
+    image: "/BestSeller/HP6.webp", // أضف رابط الصورة إن متوفر
+    images: ["/BestSeller/HP6.webp"],
     price: null,
     discount: 0,
     stock: null,
@@ -143,8 +143,8 @@ export const BestSeller = [
     subCategory: "laser / monochrome",
     description:
       "طابعة ليزر أحادية اللون (أسود-أبيض) من Ricoh بسرعة عالية مع خاصية الطباعة المزدوجة التلقائية (Duplex).",
-    image: "",
-    images: [""],
+    image: "/BestSeller/RICOH.jpeg",
+    images: ["/BestSeller/RICOH.jpeg"],
     price: null,
     discount: 0,
     stock: null,

@@ -50,6 +50,7 @@ export default function SaleSection() {
           alt="Special Offer"
           width={380}
           height={380}
+          className="h-[0px] sm:h-[180px] md:h-[280px] lg:h-[380px]"
         />
 
         {/* Content */}
@@ -59,9 +60,9 @@ export default function SaleSection() {
             {["days", "hours", "minutes", "seconds"].map((unit) => (
               <div
                 key={unit}
-                className="bg-red-700 rounded-full w-24 h-24 flex flex-col items-center justify-center text-center"
+                className="bg-red-700 rounded-full w-[70px] h-[70px] md:w-20 md:h-20 lg:w-24 lg:h-24 flex flex-col items-center justify-center text-center"
               >
-                <p className="text-2xl font-bold text-white">
+                <p className="text-lg md:text-xl lg:text-2xl font-bold text-white">
                   {String(timeLeft[unit]).padStart(2, "0")}
                 </p>
                 <span className="text-xs text-white">
@@ -77,7 +78,7 @@ export default function SaleSection() {
             ))}
           </div>
 
-          <h2 className="text-4xl font-bold text-black mb-4">
+          <h2 className="text-3xl lg:text-4xl font-bold text-black mb-4">
             SPECIAL OFFER <span className="text-red-700">20%</span>
           </h2>
 
@@ -95,6 +96,7 @@ export default function SaleSection() {
           alt="Special Offer"
           width={480}
           height={480}
+          className="h-[0px] sm:h-[180px] md:h-[280px] lg:h-[380px]"
         />
       </div>
     </section>
