@@ -41,12 +41,11 @@ export default function SaleSection() {
   }, []);
 
   return (
-    <section className="relative w-full py-12 bg-gray-100 my-20">
-      {/* <div className=" w-full  flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-right"> */}
+    <section className="relative w-full py-12 bg-gray-100 my-20 overflow-hidden">
       <div className="mx-auto lg:w-[80%] flex items-center justify-center gap-12">
         {/* Left Image */}
         <Image
-          src="/sale/deal1.webp"
+          src="/sale/deal1.png"
           alt="Special Offer"
           width={380}
           height={380}

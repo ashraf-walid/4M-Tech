@@ -61,7 +61,7 @@ const BestSeller = () => {
 
   return (
     <section className="w-full py-20 bg-white">
-      <div className="w-full lg:w-[80%] mx-auto px-4">
+      <div className="w-full lg:w-[82%] mx-auto px-4">
         {/* Container */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#393405] mb-4 leading-[120%] tracking-tight relative inline-block">
@@ -75,15 +75,26 @@ const BestSeller = () => {
             aria-label="Scroll left"
             className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 shadow hover:bg-yellow-100 rounded-full p-2 transition"
             onClick={() => scroll("left")}
-            style={{ display: canScrollLeft ? "block" : "none" }}
+            // style={{ display: canScrollLeft ? "block" : "none" }}
           >
             <ChevronLeft className="text-xl text-[#393405]" />
           </button>
+          {/* content */}
           <div
             ref={sliderRef}
-            className="flex gap-6 overflow-x-auto scrollbar-hide scroll-smooth px-2"
-            style={{ scrollSnapType: "x mandatory", willChange: "scroll-position" }}
+            className="flex gap-6 overflow-x-auto scroll-smooth px-2"
+            style={{ 
+              scrollSnapType: "x mandatory", 
+              willChange: "scroll-position",
+              scrollbarWidth: "none", /* Firefox */
+              msOverflowStyle: "none", /* IE and Edge */
+            }}
           >
+            <style jsx>{`
+              div::-webkit-scrollbar {
+                display: none; /* Chrome, Safari and Opera */
+              }
+            `}</style>
             {Array.isArray(products) ? products.map((product) => (
               <div
                 key={product.id}
