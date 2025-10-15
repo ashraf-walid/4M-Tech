@@ -110,7 +110,7 @@ const NewProductSection = () => {
     <section className="w-full py-8 bg-white overflow-hidden">
       <div className="max-w-[1400px] mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#393405] mb-1 sm:mb-4 md:mb-6 lg:mb-8 leading-[120%] tracking-tight relative inline-block">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#393405] mb-2 sm:mb-6 md:mb-8 lg:mb-10 leading-[120%] tracking-tight relative inline-block">
             <span className="relative z-10">احدث المنتجات</span>
             <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[90%] h-3 bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-100 rounded-lg opacity-70 -z-0"></span>
           </h2>

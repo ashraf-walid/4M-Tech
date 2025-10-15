@@ -42,7 +42,7 @@ const ProductCard = ({
           <span className="text-lg font-bold text-[#393405]">
             {formatPrice(price)}
           </span>
-          <button className="bg-[#fdf407] hover:bg-[#dfd93e] text-[#393405] font-semibold py-2 px-1 rounded-lg cursor-pointer flex items-center gap-2 transition-all duration-300">
+          <button className="bg-[#fdf407] hover:bg-[#dfd93e] text-sm text-[#393405] font-semibold py-2 px-1 rounded-lg cursor-pointer flex items-center gap-2 transition-all duration-300">
             أضف إلى السلة
             <span className="sm:text-lg text-base">🛒</span>
           </button>

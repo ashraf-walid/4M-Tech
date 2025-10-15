@@ -61,7 +61,7 @@ const BestSeller = () => {
 
   return (
     <section className="w-full py-20 bg-white">
-      <div className="w-full lg:w-[82%] mx-auto px-4">
+      <div className="w-full lg:w-[82%] mx-auto px-4 py-10">
         {/* Container */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#393405] mb-4 leading-[120%] tracking-tight relative inline-block">
@@ -82,7 +82,7 @@ const BestSeller = () => {
           {/* content */}
           <div
             ref={sliderRef}
-            className="flex gap-6 overflow-x-auto scroll-smooth px-2"
+            className="flex gap-6 overflow-x-auto scroll-smooth px-2 py-6"
             style={{ 
               scrollSnapType: "x mandatory", 
               willChange: "scroll-position",

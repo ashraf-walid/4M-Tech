@@ -49,7 +49,7 @@ export default function SaleSection() {
           alt="Special Offer"
           width={380}
           height={380}
-          className="h-[0px] sm:h-[180px] md:h-[280px] lg:h-[380px]"
+          className="h-[0px] sm:h-[180px] md:h-[280px] lg:h-[330px]"
         />
 
         {/* Content */}
@@ -95,7 +95,7 @@ export default function SaleSection() {
           alt="Special Offer"
           width={480}
           height={480}
-          className="h-[0px] sm:h-[180px] md:h-[280px] lg:h-[380px]"
+          className="h-[0px] sm:h-[180px] md:h-[280px] lg:h-[390px]"
         />
       </div>
     </section>

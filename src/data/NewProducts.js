@@ -19,7 +19,7 @@ export const NewProducts = [
     releaseYear: 2020,
     sku: "H840G7-10510U-16-512",
     barcode: "",
-    extraFeatures: ["قارئ بصمة", "واي-فاي 6", "USB-C مع Thunderbolt"],
+    extraFeatures: ["قارئ بصمة", "Wi-Fi 6", "USB-C مع Thunderbolt"],
     specs: {
       cpu: { brand: "Intel", model: "Core i7-10510U", generation: 10, baseClock: 1.8, boostClock: 4.9, cores: 4, threads: 8 },
       gpu: { brand: "Intel", model: "UHD Graphics 620", dedicated: false },
@@ -145,7 +145,7 @@ export const NewProducts = [
     releaseYear: 2021,
     sku: "ZBookFury15-G8-i7-11800H-32-512",
     barcode: "",
-    extraFeatures: ["Thunderbolt 4", "Wi-Fi 6", "تبريد مزدوج عالي الأداء"],
+    extraFeatures: ["Thunderbolt 4", "تبريد مزدوج عالي الأداء"],
     specs: {
       cpu: { brand: "Intel", model: "Core i7-11800H", generation: 11, baseClock: 2.3, boostClock: 4.6, cores: 8, threads: 16 },
       gpu: { brand: "NVIDIA", model: "RTX A2000", dedicated: true },

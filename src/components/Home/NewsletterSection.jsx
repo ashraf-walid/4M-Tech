@@ -46,10 +46,10 @@ export default function NewsletterSection() {
     <section className="bg-gray-50 py-16 border-t border-gray-200">
       <div className="max-w-4xl mx-auto text-center px-4">
         {/* Title */}
-        <h2 className="text-3xl font-bold text-gray-900 mb-3">
+        <h2 className="text-3xl font-bold text-gray-900 mb-8">
           اشترك في <span className="text-red-600">النشرة البريدية</span>
         </h2>
-        <p className="text-gray-600 mb-8">
+        <p className="text-gray-600 mb-12">
           كن أول من يحصل على أحدث العروض والمنتجات من 4M Technology.
         </p>
 
@@ -61,7 +61,7 @@ export default function NewsletterSection() {
           <button
             type="submit"
             disabled={loading}
-            className="bg-red-600 text-white px-8 py-3 rounded-full hover:bg-red-700 transition disabled:opacity-60 disabled:cursor-not-allowed"
+            className="bg-red-600 text-white px-8 py-3 rounded-r-full hover:bg-red-700 transition disabled:opacity-60 disabled:cursor-not-allowed whitespace-nowrap"
           >
             {loading ? "جارٍ الاشتراك..." : "اشترك الآن"}
           </button>
@@ -71,11 +71,10 @@ export default function NewsletterSection() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
-            className="z-20 w-full sm:w-96 py-3 pr-10 pl-4 text-black border border-gray-300 rounded-full focus:ring-2 focus:ring-red-500 focus:outline-none transition"
+            className="z-20 w-full bg-gray-50 sm:w-96 py-3 pr-10 pl-4 text-black border border-gray-300 rounded-l-full focus:ring-2 focus:ring-red-500 focus:outline-none transition"
           />
           <Mail
-            size={100}
-            className="z-10 text-gray-400 absolute -top-4 left-36 -rotate-12 "
+            className="z-0 text-gray-100 absolute -top-12 left-0 lg:-top-16 lg:left-20 -rotate-12 lg:h-[200px] lg:w-[200px] h-[100px] w-[100px]"
           />
         </form>
 
