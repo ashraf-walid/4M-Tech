@@ -5,12 +5,15 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCard from "./ProductCard";
 import * as BestSellerModule from "@/data/BestSeller";
 import { useMemo, useRef, useState, useEffect } from "react";
+import useCartStore from "@/store/cartStore";
 
 const BestSeller = () => {
   const sliderRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
   const [scrollAmount, setScrollAmount] = useState(320);
+
+  const { cartItem } = useCartStore();
 
   // Memoize product extraction
   const products = useMemo(() => {
@@ -95,23 +98,19 @@ const BestSeller = () => {
                 display: none; /* Chrome, Safari and Opera */
               }
             `}</style>
-            {Array.isArray(products) ? products.map((product) => (
-              <div
-                key={product.id}
-                className="min-w-[280px] max-w-[320px] flex-shrink-0 transition-shadow duration-300 hover:shadow-2xl hover:-translate-y-1.5"
-                style={{ scrollSnapAlign: "start" }}
-              >
-                <ProductCard
-                  name={product.name}
-                  brand={product.brand}
-                  image={product.image}
-                  price={product.price}
-                  discount={product.discount}
-                  badge={product.badge}
-                  condition={product.condition}
-                />
-              </div>
-            )) : null}
+            {Array.isArray(products) ? products.map((product, index) => {
+              const quantity = cartItem[product.id] || 0;
+              const isInCart = quantity > 0;
+              const getProductQuantity = (id) => cartItem[id] || 0;
+              return (
+                <div
+                  key={product.id}
+                  className="min-w-[280px] max-w-[320px] flex-shrink-0 transition-shadow duration-300 hover:shadow-2xl hover:-translate-y-1.5"
+                  style={{ scrollSnapAlign: "start" }}
+                >
+                  <ProductCard product={product} isInCart={isInCart} getProductQuantity={getProductQuantity} />
+                </div>
+            )}) : null}
           </div>
           <button
             aria-label="Scroll right"

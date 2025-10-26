@@ -1,56 +1,67 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { NewProducts } from "@/data/NewProducts";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import { formatPrice } from "@/utils/formatPrice";
+import useCartStore from "@/store/cartStore";
+import { Trash2 } from "lucide-react";
 import Image from "next/image";
+import ProductCard from "./ProductCard";
 
 const NewProductSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
+  const { cartItem, addToCart, removeFromCart } = useCartStore();
   const timerRef = useRef(null);
 
   // Transform NewProducts data to match new structure
-  const products = NewProducts.map((p, index) => {
-    // Compose specs for display (flatten nested specs object)
-    const specs = [];
-    if (p.specs) {
-      if (p.specs.gpu) specs.push(`${p.specs.gpu.brand} ${p.specs.gpu.model}`);
-      if (p.specs.ram) specs.push(`${p.specs.ram.size}GB ${p.specs.ram.type}`);
-      if (p.specs.storage)
-        specs.push(
-          `${p.specs.storage.capacity}${p.specs.storage.unit} ${p.specs.storage.type}`
-        );
-      if (p.specs.screen)
-        specs.push(
-          `${p.specs.screen.size}${p.specs.screen.unit} ${p.specs.screen.resolution}`
-        );
-    }
-    if (Array.isArray(p.extraFeatures)) specs.push(...p.extraFeatures);
+  const products = useMemo(
+    () =>
+      NewProducts.map((p, index) => {
+        // Compose specs for display (flatten nested specs object)
+        const specs = [];
+        if (p.specs) {
+          if (p.specs.gpu)
+            specs.push(`${p.specs.gpu.brand} ${p.specs.gpu.model}`);
+          if (p.specs.ram)
+            specs.push(`${p.specs.ram.size}GB ${p.specs.ram.type}`);
+          if (p.specs.storage)
+            specs.push(
+              `${p.specs.storage.capacity}${p.specs.storage.unit} ${p.specs.storage.type}`
+            );
+          if (p.specs.screen)
+            specs.push(
+              `${p.specs.screen.size}${p.specs.screen.unit} ${p.specs.screen.resolution}`
+            );
+        }
+        if (Array.isArray(p.extraFeatures)) specs.push(...p.extraFeatures);
 
-    return {
-      id: p.id,
-      name: p.name,
-      brand: p.brand,
-      model: p.model,
-      category: p.category,
-      subCategory: p.subCategory,
-      description: p.description,
-      image: p.image,
-      images: p.images,
-      price: p.price ? formatPrice(p.price) : "السعر عند الطلب",
-      discount: p.discount,
-      stock: p.stock,
-      warranty: p.warranty,
-      condition: p.condition,
-      badge: p.badge || (index < 3 ? "جديد" : "مميز"),
-      releaseYear: p.releaseYear,
-      specs: specs,
-      ports: p.specs && p.specs.ports ? p.specs.ports : [],
-      color: p.specs && p.specs.color ? p.specs.color : undefined,
-    };
-  });
+        return {
+          id: p.id,
+          name: p.name,
+          brand: p.brand,
+          model: p.model,
+          category: p.category,
+          subCategory: p.subCategory,
+          description: p.description,
+          image: p.image,
+          images: p.images,
+          price: p.price ? formatPrice(p.price) : "السعر عند الطلب",
+          discount: p.discount,
+          stock: p.stock,
+          warranty: p.warranty,
+          condition: p.condition,
+          badge: p.badge || (index < 3 ? "جديد" : "مميز"),
+          releaseYear: p.releaseYear,
+          specs: specs,
+          ports: p.specs && p.specs.ports ? p.specs.ports : [],
+          color: p.specs && p.specs.color ? p.specs.color : undefined,
+        };
+      }),
+    []
+  );
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % products.length);
@@ -125,113 +136,145 @@ const NewProductSection = () => {
           </button>
           {/* Product Card */}
           <div className="relative h-[600px] flex items-center justify-center">
-            {products.map((product, index) => (
-              <div
-                key={product.id}
-                className={`absolute top-1/2 left-1/2 transition-all duration-700 ease-in-out`}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                style={{
-                  transform:
-                    index === currentSlide
-                      ? "translate(-50%, -50%) scale(1)"
-                      : index ===
-                        (currentSlide - 1 + products.length) % products.length
-                      ? "translate(-150%, -50%) scale(0.75)"
-                      : index === (currentSlide + 1) % products.length
-                      ? "translate(50%, -50%) scale(0.75)"
-                      : "translate(-50%, -50%) scale(0.8)",
-                  zIndex:
-                    index === currentSlide
-                      ? 30
-                      : index ===
-                          (currentSlide - 1 + products.length) %
-                            products.length ||
-                        index === (currentSlide + 1) % products.length
-                      ? 20
-                      : 1,
-                  opacity: index === currentSlide ? 1 : 0.3,
-                  pointerEvents: index === currentSlide ? "auto" : "none",
-                  visibility:
-                    index === currentSlide ||
-                    index ===
-                      (currentSlide - 1 + products.length) % products.length ||
-                    index === (currentSlide + 1) % products.length
-                      ? "visible"
-                      : "hidden",
-                }}
-              >
+            {products.map((product, index) => {
+              const quantity = cartItem[product.id] || 0;
+              const isInCart = quantity > 0;
+              const getProductQuantity = (id) => cartItem[id] || 0;
+              return (
                 <div
-                  className={`w-[350px] sm:w-[400px] md:w-[430px] lg:w-[450px]  bg-white rounded-2xl overflow-hidden shadow-lg transition-all duration-300 ${
-                    index === currentSlide ? "shadow-2xl" : ""
-                  }`}
+                  key={product.id}
+                  className={`absolute top-1/2 left-1/2 transition-all duration-700 ease-in-out`}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  style={{
+                    transform:
+                      index === currentSlide
+                        ? "translate(-50%, -50%) scale(1)"
+                        : index ===
+                          (currentSlide - 1 + products.length) % products.length
+                        ? "translate(-150%, -50%) scale(0.75)"
+                        : index === (currentSlide + 1) % products.length
+                        ? "translate(50%, -50%) scale(0.75)"
+                        : "translate(-50%, -50%) scale(0.8)",
+                    zIndex:
+                      index === currentSlide
+                        ? 30
+                        : index ===
+                            (currentSlide - 1 + products.length) %
+                              products.length ||
+                          index === (currentSlide + 1) % products.length
+                        ? 20
+                        : 1,
+                    opacity: index === currentSlide ? 1 : 0.3,
+                    pointerEvents: index === currentSlide ? "auto" : "none",
+                    visibility:
+                      index === currentSlide ||
+                      index ===
+                        (currentSlide - 1 + products.length) %
+                          products.length ||
+                      index === (currentSlide + 1) % products.length
+                        ? "visible"
+                        : "hidden",
+                  }}
                 >
-                  <div className="relative h-60 md:h-80 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                    {product.badge && (
-                      <span className="absolute top-5 left-5 bg-[#fdf407] text-[#393405] px-4 py-2 rounded-lg text-xs font-bold shadow-md z-10">
-                        {product.badge}
-                      </span>
-                    )}
-                    {product.discount > 0 && (
-                      <span className="absolute top-5 right-5 bg-red-600 text-white px-4 py-2 rounded-lg text-xs font-bold shadow-md z-10">
-                        {product.discount}% خصم
-                      </span>
-                    )}
-                    <div
-                      className={`w-full h-full transition-transform duration-500 ${
-                        index === currentSlide ? "scale-[1.02]" : "scale-100"
-                      }`}
-                    >
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        width={400}
-                        height={400}
-                        className="w-full h-full object-contain"
-                      />
+                  <div
+                    className={`w-[350px] sm:w-[400px] md:w-[430px] lg:w-[450px]  bg-white rounded-2xl overflow-hidden shadow-lg transition-all duration-300 ${
+                      index === currentSlide ? "shadow-2xl" : ""
+                    }`}
+                  >
+                    {/* <ProductCard product={product} isInCart={isInCart} getProductQuantity={getProductQuantity} /> */}
+                    <div className="relative h-60 md:h-80 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                      {product.badge && (
+                        <span className="absolute top-5 left-5 bg-[#fdf407] text-[#393405] px-4 py-2 rounded-lg text-xs font-bold shadow-md z-10">
+                          {product.badge}
+                        </span>
+                      )}
+                      {product.discount > 0 && (
+                        <span className="absolute top-5 right-5 bg-red-600 text-white px-4 py-2 rounded-lg text-xs font-bold shadow-md z-10">
+                          {product.discount}% خصم
+                        </span>
+                      )}
+                      <div
+                        className={`w-full h-full transition-transform duration-500 ${
+                          index === currentSlide ? "scale-[1.02]" : "scale-100"
+                        }`}
+                      >
+                        <Image
+                          src={product.image}
+                          alt={product.name}
+                          width={400}
+                          height={400}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
                     </div>
-                  </div>
-                  <div className="p-8">
-                    <span className="sm:text-sm text-xs font-semibold text-[#7c760f] uppercase tracking-wider">
-                      {product.category}
-                    </span>
-                    <h3 className="sm:text-2xl text-xl font-bold text-[#393405] mt-2 mb-4">
-                      {product.name}
-                    </h3>
-                    <ul className="space-y-1 mb-4">
-                      {product.specs.map((spec, i) => (
-                        <li key={i} className="flex items-start">
-                          <span className="text-green-600 ml-2"> ✓ </span>
-                          <span className="text-[#3b3934] text-xs sm:text-sm">
-                            {spec}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="flex flex-wrap gap-1 mb-2">
-                      {product.ports &&
-                        product.ports.map((port, i) => (
-                          <span
-                            key={i}
-                            className="bg-gray-100 text-gray-700 px-1 py-[2px] rounded text-xs"
-                          >
-                            {port}
-                          </span>
+                    <div className="p-8">
+                      <span className="sm:text-sm text-xs font-semibold text-[#7c760f] uppercase tracking-wider">
+                        {product.category}
+                      </span>
+                      <h3 className="sm:text-2xl text-xl font-bold text-[#393405] mt-2 mb-4">
+                        {product.name}
+                      </h3>
+                      <ul className="space-y-1 mb-4">
+                        {product.specs.map((spec, i) => (
+                          <li key={i} className="flex items-start">
+                            <span className="text-green-600 ml-2"> ✓ </span>
+                            <span className="text-[#3b3934] text-xs sm:text-sm">
+                              {spec}
+                            </span>
+                          </li>
                         ))}
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="sm:text-2xl text-xl font-bold text-[#393405]">
-                        {product.price}
-                      </span>
-                      <button className="bg-[#fdf407] hover:bg-[#dfd93e] text-[#393405] font-semibold py-2 px-6 rounded-lg cursor-pointer flex items-center gap-2 transition-all duration-300">
-                        أضف إلى السلة
-                        <span className="sm:text-lg text-base">🛒</span>
-                      </button>
+                      </ul>
+                      <div className="flex flex-wrap gap-1 mb-2">
+                        {product.ports &&
+                          product.ports.map((port, i) => (
+                            <span
+                              key={i}
+                              className="bg-gray-100 text-gray-700 px-1 py-[2px] rounded text-xs"
+                            >
+                              {port}
+                            </span>
+                          ))}
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="sm:text-2xl text-xl font-bold text-[#393405]">
+                          {product.price}
+                        </span>
+                        {isInCart ? (
+                          <div className="flex items-center justify-between bg-[#fdf407] rounded-lg overflow-hidden shadow-md">
+                            <button
+                              onClick={() => addToCart(product.id)}
+                              className="px-2 py-1 hover:text-gray-700 transition-colors duration-200 font-bold text-black cursor-pointer"
+                              aria-label="أضف كمية أخرى"
+                            >
+                              +
+                            </button>
+                            <span className="px-4 py-2 text-[#393405] font-semibold text-lg select-none">
+                              {getProductQuantity(product.id)}
+                            </span>
+                            <button
+                              onClick={() => removeFromCart(product.id)}
+                              className="px-4 py-2 text-[#393405] transition-colors duration-200 cursor-pointer"
+                              aria-label="حذف المنتج من السلة"
+                            >
+                              <Trash2 size={20} className="hover:text-red-500"  />
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => addToCart(product.id)}
+                            className="bg-[#fdf407] hover:bg-[#dfd93e] text-[#393405] font-semibold py-2 px-6 rounded-lg cursor-pointer flex items-center gap-2 transition-all duration-300"
+                          >
+                            أضف إلى السلة
+                            <span className="sm:text-lg text-base">🛒</span>
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <button

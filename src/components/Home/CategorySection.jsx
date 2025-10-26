@@ -43,7 +43,7 @@ const CategorySection = () => {
   ];
 
   return (
-    <section className="w-full py-20 bg-white">
+    <section className="w-full py-20 bg-white mt-20">
       <div className="w-full lg:w-[80%] mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#393405] mb-4 leading-[120%] tracking-tight relative inline-block">

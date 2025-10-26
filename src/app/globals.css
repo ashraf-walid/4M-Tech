@@ -2,19 +2,30 @@
 
 :root {
   /* Color Variables */
-  --color-lemon: #fdf407;
+  --color-lemon: #ffde59;
   --color-cod-gray: #1813137e;
   --color-dark-ebony: #393405;
   --color-quill-gray: #d9d8d4;
   --color-merlin: #3b3934;
   --color-olivetone: #7c760f;
   --color-wattle: #dfd93e;
-  
+  --color-blue: #5170ff;
+
   /* Category Section Specific Variables */
-  --category-section-bg: linear-gradient(135deg, var(--color-quill-gray) 0%, #ffffff 100%);
-  --category-card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 20px rgba(0, 0, 0, 0.08);
-  --category-card-hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.12), 0 20px 40px rgba(0, 0, 0, 0.15);
-  --category-overlay-bg: linear-gradient(180deg, transparent 0%, rgba(57, 52, 5, 0.3) 100%);
+  --category-section-bg: linear-gradient(
+    135deg,
+    var(--color-quill-gray) 0%,
+    #ffffff 100%
+  );
+  --category-card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05),
+    0 10px 20px rgba(0, 0, 0, 0.08);
+  --category-card-hover-shadow: 0 12px 24px rgba(0, 0, 0, 0.12),
+    0 20px 40px rgba(0, 0, 0, 0.15);
+  --category-overlay-bg: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(57, 52, 5, 0.3) 100%
+  );
   --button-hover-shadow: 0 4px 16px rgba(253, 244, 7, 0.5);
 }
 
@@ -32,8 +43,8 @@
 
 .animated-border {
   position: relative;
-  border-radius: 9999px; 
-  padding: 3px; 
+  border-radius: 9999px;
+  padding: 3px;
   background: conic-gradient(
     from var(--angle),
     var(--color-lemon),
@@ -47,7 +58,7 @@
 
 .animated-border > .inner {
   border-radius: inherit;
-  background: white; 
+  background: white;
 }
 
 @keyframes rotate {

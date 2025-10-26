@@ -9,7 +9,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="w-full shadow-lg border-b-2 border-[var(--color-lemon)]">
+    <header className="w-full shadow-lg border-b-2 border-[var(--color-lemon)] mb-20">
       <TopBar />
       <MainHeader setIsMenuOpen={setIsMenuOpen} />
       <MobileSidebar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />

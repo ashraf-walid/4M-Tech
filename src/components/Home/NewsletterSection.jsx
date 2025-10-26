@@ -50,7 +50,7 @@ export default function NewsletterSection() {
           اشترك في <span className="text-red-600">النشرة البريدية</span>
         </h2>
         <p className="text-gray-600 mb-12">
-          كن أول من يحصل على أحدث العروض والمنتجات من 4M Technology.
+          كن أول من يحصل على أحدث العروض والمنتجات من 2M Technology.
         </p>
 
         {/* Form */}
@@ -73,9 +73,7 @@ export default function NewsletterSection() {
             placeholder="Enter your email"
             className="z-20 w-full bg-gray-50 sm:w-96 py-3 pr-10 pl-4 text-black border border-gray-300 rounded-l-full focus:ring-2 focus:ring-red-500 focus:outline-none transition"
           />
-          <Mail
-            className="z-0 text-gray-100 absolute -top-12 left-0 lg:-top-16 lg:left-20 -rotate-12 lg:h-[200px] lg:w-[200px] h-[100px] w-[100px]"
-          />
+          <Mail className="z-0 text-gray-100 absolute -top-12 left-0 lg:-top-16 lg:left-20 -rotate-12 lg:h-[200px] lg:w-[200px] h-[100px] w-[100px]" />
         </form>
 
         {/* Messages */}

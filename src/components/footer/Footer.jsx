@@ -13,7 +13,7 @@ import {
 export default function Footer() {
   return (
     <footer className="bg-[#1f1b1a] text-white border-t-2 border-[var(--color-lemon)] mt-20">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-10">
           {/* Company Info */}
           <div className="space-y-4">
@@ -24,7 +24,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-3 rtl:gap-3 items-center">
               <Link
-                href="https://www.facebook.com/4m.technology.eg"
+                href="https://www.facebook.com/2M.technology.eg"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-full bg-gray-800 hover:bg-blue-500 p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--color-lemon)]"
@@ -33,7 +33,7 @@ export default function Footer() {
                 <FacebookIcon className="w-5 h-5" />
               </Link>
               <Link
-                href="https://wa.me/201000208026"
+                href="https://wa.me/201000980788"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-full bg-gray-800 hover:bg-green-500 p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-green-400"
@@ -42,7 +42,7 @@ export default function Footer() {
                 <WhatsAppIcon className="w-5 h-5" />
               </Link>
               <Link
-                href="https://www.instagram.com/4m.technology.eg/"
+                href="https://www.instagram.com/2M.technology.eg/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-full bg-gray-800 hover:bg-pink-500 p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-pink-400"
@@ -51,7 +51,7 @@ export default function Footer() {
                 <InstagramIcon className="w-5 h-5" />
               </Link>
               <Link
-                href="https://www.tiktok.com/@4m.technology.eg"
+                href="https://www.tiktok.com/@2M.technology.eg"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-full bg-gray-800 hover:bg-black p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500"
@@ -60,7 +60,7 @@ export default function Footer() {
                 <TikTokIcon className="w-5 h-5" />
               </Link>
               <Link
-                href="mailto:4m.technology.eg@gmail.com"
+                href="mailto:2m.technology.eg@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-full bg-gray-800 hover:bg-blue-500 p-2 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -166,10 +166,10 @@ export default function Footer() {
                   aria-label="رقم الهاتف"
                 />
                 <a
-                  href="tel:01000208026"
+                  href="tel:01000980788"
                   className="text-gray-300 hover:text-[var(--color-lemon)] transition-colors focus:outline-none focus:underline"
                 >
-                  01000208026
+                  01000980788
                 </a>
               </div>
               <div className="flex items-center gap-2 rtl:gap-2">
@@ -179,10 +179,10 @@ export default function Footer() {
                   aria-label="البريد الإلكتروني"
                 />
                 <a
-                  href="mailto:4m.technology.eg@gmail.com"
+                  href="mailto:2m.technology.eg@gmail.com"
                   className="text-gray-300 hover:text-[var(--color-lemon)] transition-colors focus:outline-none focus:underline"
                 >
-                  4m.technology.eg@gmail.com
+                  2m.technology.eg@gmail.com
                 </a>
               </div>
               <div className="flex items-center gap-2 rtl:gap-2">
@@ -192,7 +192,7 @@ export default function Footer() {
                   aria-label="العنوان"
                 />
                 <span className="text-gray-300">
-                  دمياط - مول الصفوة - الدور الثانى
+                  دمياط الجديدة - مول الحمد - الدور الثانى
                 </span>
               </div>
             </div>
@@ -202,7 +202,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 pt-3 text-center">
           <p className="text-gray-400 text-sm">
-            © 2025 4M Technology. All rights reserved
+            © 2025 2M Technology. All rights reserved
           </p>
         </div>
       </div>

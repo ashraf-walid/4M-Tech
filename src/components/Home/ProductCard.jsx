@@ -1,16 +1,12 @@
 import React from "react";
 import Image from "next/image";
 import { formatPrice } from "@/utils/formatPrice";
+import useCartStore from "@/store/cartStore";
+import { Trash2 } from "lucide-react";
 
-const ProductCard = ({
-  name,
-  brand,
-  image,
-  price,
-  discount,
-  badge,
-  condition,
-}) => {
+const ProductCard = ({ product, isInCart, getProductQuantity }) => {
+  const { id, name, brand, image, price, discount, badge, condition } = product;
+  const { addToCart, removeFromCart } = useCartStore();
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full">
       <div className="relative aspect-[3/4] w-full">
@@ -38,14 +34,39 @@ const ProductCard = ({
 
           <p className="text-gray-600 text-sm mb-2 line-clamp-2">&nbsp;</p>
         </div>
-        <div className="flex items-center gap-2 mt-auto">
+        <div className="flex items-center justify-between">
           <span className="text-lg font-bold text-[#393405]">
             {formatPrice(price)}
           </span>
-          <button className="bg-[#fdf407] hover:bg-[#dfd93e] text-sm text-[#393405] font-semibold py-2 px-1 rounded-lg cursor-pointer flex items-center gap-2 transition-all duration-300">
-            أضف إلى السلة
-            <span className="sm:text-lg text-base">🛒</span>
-          </button>
+          {isInCart ? (
+            <div className="flex items-center justify-between bg-[#fdf407] rounded-lg overflow-hidden shadow-md">
+              <button
+                onClick={() => addToCart(id)}
+                className="px-2 py-1 hover:text-gray-700 transition-colors duration-200 font-bold text-black cursor-pointer"
+                aria-label="أضف كمية أخرى"
+              >
+                +
+              </button>
+              <span className="px-4 py-2 text-[#393405] font-semibold text-lg select-none">
+                {getProductQuantity(id)}
+              </span>
+              <button
+                onClick={() => removeFromCart(id)}
+                className="px-4 py-2 text-[#393405] transition-colors duration-200 cursor-pointer"
+                aria-label="حذف المنتج من السلة"
+              >
+                <Trash2 size={20} className="hover:text-red-500" />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => addToCart(id)}
+              className="bg-[#fdf407] hover:bg-[#dfd93e] text-[#393405] font-semibold py-2 px-6 rounded-lg cursor-pointer flex items-center gap-2 transition-all duration-300"
+            >
+              أضف إلى السلة
+              <span className="sm:text-lg text-base">🛒</span>
+            </button>
+          )}
         </div>
       </div>
     </div>
