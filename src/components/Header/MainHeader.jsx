@@ -5,12 +5,14 @@ import Image from "next/image";
 import SearchComponent from "@/components/search/Search";
 import { LogIn, ShoppingCart, Heart } from "lucide-react";
 import UnderDevelopmentModal from "@/components/common/UnderDevelopmentModal";
+import useCartStore from '@/store/cartStore';
 
 const MainHeader = ({ setIsMenuOpen }) => {
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [open, setOpen] = useState(false);
   const [scrolledEnough, setScrolledEnough] = useState(false);
+  const { cartItemCount } = useCartStore();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -69,10 +71,15 @@ const MainHeader = ({ setIsMenuOpen }) => {
             />
             <Link
               href="/CartPage"
-              className="flex flex-col items-center hover:text-[var(--color-wattle)] transition"
+              className="flex flex-col items-center relative hover:text-[var(--color-wattle)] transition"
             >
               <ShoppingCart size={30} />
               <span className="text-xs">السلة</span>
+              {cartItemCount > 0 && (
+                <span className="absolute -top-2 left-4 bg-red-500 text-white text-[10px] w-3 h-3 max-sm:w-3 max-sm:h-3 max-sm:top-0 max-sm:left-2 max-sm:text-[9px] rounded-full flex items-center justify-center">
+                  {cartItemCount}
+                </span>
+              )} 
             </Link>
             <Link
               href="#"
