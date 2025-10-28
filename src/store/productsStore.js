@@ -18,15 +18,9 @@ const useProductsStore = create((set, get) => ({
   //     set({ error: 'No products available.' });
   //     return null;
   //   }
-  //   const product = state.products.find((product) => product.id === productId);
-  //   if (product) {
-  //     return { ...product, collection: product.collection || 'unknown', productId };
-  //   }
+  //   
   //   set({ error: 'Product not found.' });
   //   return null;
-  // },
-
-  // fetchTrendingProducts: async () => {
   // },
 }));
 

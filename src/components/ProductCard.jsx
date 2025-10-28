@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { formatPrice } from "@/utils/formatPrice";
 import useCartStore from "@/store/cartStore";
-import { Trash2 } from "lucide-react";
+import { Trash2, ShoppingCart } from "lucide-react";
 
 const ProductCard = ({ product, isInCart, getProductQuantity }) => {
   const { id, name, brand, image, price, discount, badge, condition } = product;
@@ -61,10 +61,10 @@ const ProductCard = ({ product, isInCart, getProductQuantity }) => {
           ) : (
             <button
               onClick={() => addToCart(id)}
-              className="bg-[#fdf407] hover:bg-[#dfd93e] text-[#393405] font-semibold py-2 px-6 rounded-lg cursor-pointer flex items-center gap-2 transition-all duration-300"
+              className="bg-[#fdf407] text-sm hover:bg-[#dfd93e] text-[#393405] font-semibold py-2 px-3 rounded-lg cursor-pointer flex items-center gap-2 transition-all duration-300"
             >
               أضف إلى السلة
-              <span className="sm:text-lg text-base">🛒</span>
+              <ShoppingCart size={20} />
             </button>
           )}
         </div>

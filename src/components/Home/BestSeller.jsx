@@ -1,8 +1,7 @@
-
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import ProductCard from "./ProductCard";
+import ProductCard from "@/components/ProductCard";
 import * as BestSellerModule from "@/data/BestSeller";
 import { useMemo, useRef, useState, useEffect } from "react";
 import useCartStore from "@/store/cartStore";
@@ -17,9 +16,13 @@ const BestSeller = () => {
 
   // Memoize product extraction
   const products = useMemo(() => {
-    if (Array.isArray(BestSellerModule.BestSellerProducts)) return BestSellerModule.BestSellerProducts;
-    if (Array.isArray(BestSellerModule.default)) return BestSellerModule.default;
-    return Object.values(BestSellerModule).flat().filter((x) => typeof x === "object" && x !== null && x.id);
+    if (Array.isArray(BestSellerModule.BestSellerProducts))
+      return BestSellerModule.BestSellerProducts;
+    if (Array.isArray(BestSellerModule.default))
+      return BestSellerModule.default;
+    return Object.values(BestSellerModule)
+      .flat()
+      .filter((x) => typeof x === "object" && x !== null && x.id);
   }, []);
 
   // Responsive scroll amount
@@ -41,7 +44,8 @@ const BestSeller = () => {
       if (!sliderRef.current) return;
       setCanScrollLeft(sliderRef.current.scrollLeft > 0);
       setCanScrollRight(
-        sliderRef.current.scrollLeft + sliderRef.current.offsetWidth < sliderRef.current.scrollWidth - 1
+        sliderRef.current.scrollLeft + sliderRef.current.offsetWidth <
+          sliderRef.current.scrollWidth - 1
       );
     }
     checkScroll();
@@ -57,7 +61,10 @@ const BestSeller = () => {
     if (!sliderRef.current) return;
     const { scrollLeft } = sliderRef.current;
     sliderRef.current.scrollTo({
-      left: direction === "left" ? scrollLeft - scrollAmount : scrollLeft + scrollAmount,
+      left:
+        direction === "left"
+          ? scrollLeft - scrollAmount
+          : scrollLeft + scrollAmount,
       behavior: "smooth",
     });
   };
@@ -86,11 +93,11 @@ const BestSeller = () => {
           <div
             ref={sliderRef}
             className="flex gap-6 overflow-x-auto scroll-smooth px-2 py-6"
-            style={{ 
-              scrollSnapType: "x mandatory", 
+            style={{
+              scrollSnapType: "x mandatory",
               willChange: "scroll-position",
-              scrollbarWidth: "none", /* Firefox */
-              msOverflowStyle: "none", /* IE and Edge */
+              scrollbarWidth: "none" /* Firefox */,
+              msOverflowStyle: "none" /* IE and Edge */,
             }}
           >
             <style jsx>{`
@@ -98,19 +105,26 @@ const BestSeller = () => {
                 display: none; /* Chrome, Safari and Opera */
               }
             `}</style>
-            {Array.isArray(products) ? products.map((product, index) => {
-              const quantity = cartItem[product.id] || 0;
-              const isInCart = quantity > 0;
-              const getProductQuantity = (id) => cartItem[id] || 0;
-              return (
-                <div
-                  key={product.id}
-                  className="min-w-[280px] max-w-[320px] flex-shrink-0 transition-shadow duration-300 hover:shadow-2xl hover:-translate-y-1.5"
-                  style={{ scrollSnapAlign: "start" }}
-                >
-                  <ProductCard product={product} isInCart={isInCart} getProductQuantity={getProductQuantity} />
-                </div>
-            )}) : null}
+            {Array.isArray(products)
+              ? products.map((product, index) => {
+                  const quantity = cartItem[product.id] || 0;
+                  const isInCart = quantity > 0;
+                  const getProductQuantity = (id) => cartItem[id] || 0;
+                  return (
+                    <div
+                      key={product.id}
+                      className="min-w-[280px] max-w-[320px] flex-shrink-0 transition-shadow duration-300 hover:shadow-2xl hover:-translate-y-1.5"
+                      style={{ scrollSnapAlign: "start" }}
+                    >
+                      <ProductCard
+                        product={product}
+                        isInCart={isInCart}
+                        getProductQuantity={getProductQuantity}
+                      />
+                    </div>
+                  );
+                })
+              : null}
           </div>
           <button
             aria-label="Scroll right"

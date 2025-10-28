@@ -7,7 +7,7 @@ import { formatPrice } from "@/utils/formatPrice";
 import useCartStore from "@/store/cartStore";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
-import ProductCard from "./ProductCard";
+import ProductCard from "@/components/ProductCard";
 
 const NewProductSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -257,7 +257,10 @@ const NewProductSection = () => {
                               className="px-4 py-2 text-[#393405] transition-colors duration-200 cursor-pointer"
                               aria-label="حذف المنتج من السلة"
                             >
-                              <Trash2 size={20} className="hover:text-red-500"  />
+                              <Trash2
+                                size={20}
+                                className="hover:text-red-500"
+                              />
                             </button>
                           </div>
                         ) : (

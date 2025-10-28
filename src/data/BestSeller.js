@@ -8,8 +8,8 @@ export const BestSellerProducts = [
     subCategory: "business / mainstream",
     description:
       "لابتوب من Dell فئة Latitude 5430 بشاشة ‎14″‎ FHD، معالج Intel الجيل الـ12، RAM ‎16GB‎، SSD ‎512GB‎، مناسب للأعمال والتنقل.",
-    image: "/BestSeller/DELL9.webp", // أضف رابط صورتك
-    images: ["/BestSeller/DELL9.webp"], // صور متعددة إن متوفرة
+    image: "/BestSeller/DELL9.webp", 
+    images: ["/BestSeller/DELL9.webp"], 
     price: 22999,
     discount: 3,
     stock: null,
