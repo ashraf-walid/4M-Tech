@@ -13,8 +13,8 @@ export default function FilterSection({ filters, setFilters, products }) {
     search: true,
     category: true,
     brand: true,
-    price: true,
-    condition: true,
+    price: false,
+    condition: false,
   });
 
   // Toggle section

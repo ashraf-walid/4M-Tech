@@ -2,3 +2,6 @@ email : revenue@dchc-egdam.com
 
 Password:   
 gVRfLRoHvTbv
+
+
+{"SessionId":"3a92b53a-9f72-7648-b1a6-f0c73c528bf7","Timestamp":1761132689251,"Error":"INTERACTIONREQUIRED"}

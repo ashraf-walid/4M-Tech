@@ -1,15 +1,17 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import ProductCard from "@/components/ProductCard";
 import FilterSection from "@/components/FilterSection";
 import { X } from "lucide-react";
 import useCartStore from "@/store/cartStore";
 import useProductsStore from "@/store/productsStore";
+import { useSearchParams } from "next/navigation";
 
 export default function ProductsPage() {
   const { cartItem } = useCartStore();
   const { products } = useProductsStore();
+  const searchParams = useSearchParams();
   const [filters, setFilters] = useState({
     category: [],
     brand: [],
@@ -18,6 +20,16 @@ export default function ProductsPage() {
     search: "",
   });
   const [showFilters, setShowFilters] = useState(false);
+
+  useEffect(() => {
+    const categoryFromURL = searchParams.get("category");
+    if (categoryFromURL) {
+      setFilters((prev) => ({
+        ...prev,
+        category: [categoryFromURL],
+      }));
+    }
+  }, [searchParams]);
 
   const isInCart = (productId) => {
     return !!cartItem[productId];

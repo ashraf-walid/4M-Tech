@@ -166,7 +166,6 @@ export const NewProducts = [
       audio: "Stereo Speakers"
     }
   },
-
   {
     id: "HP-Z240-Tower-Base",
     name: "HP Z240 Workstation (Tower)",

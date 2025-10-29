@@ -1,8 +1,11 @@
+"use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 
 const CategorySection = () => {
+  const router = useRouter();
   const categories = [
     {
       id: 1,
@@ -10,6 +13,7 @@ const CategorySection = () => {
       icon: "💻",
       description: "قوة الحوسبة المحمولة",
       image: "/categories/laptop.jpg",
+      filter: "laptop",
     },
     {
       id: 2,
@@ -17,6 +21,7 @@ const CategorySection = () => {
       icon: "🖥️",
       description: "محطات عمل عالية الأداء",
       image: "/categories/desktop.jpg",
+      filter: "desktop",
     },
     {
       id: 3,
@@ -24,6 +29,7 @@ const CategorySection = () => {
       icon: "🖨️",
       description: "حلول طباعة احترافية",
       image: "/categories/printer.jpg",
+      filter: "printer",
     },
     {
       id: 4,
@@ -31,16 +37,21 @@ const CategorySection = () => {
       icon: "🖥️",
       description: "عروض بجودة عالية ووضوح",
       image: "/categories/monitor.jpg",
+      filter: "monitor",
     },
-
     {
       id: 5,
       name: "الاكسسوارات",
       icon: "⌨️",
       description: "ملحقات تقنية أساسية",
       image: "/categories/accessories.jpg",
+      filter: "accessory",
     },
   ];
+
+  const handleDiscover = (categoryName) => {
+    router.push(`/productsPage?category=${encodeURIComponent(categoryName)}`);
+  };
 
   return (
     <section className="w-full py-20 bg-white mt-20">
@@ -79,7 +90,9 @@ const CategorySection = () => {
                 <p className="text-[15px] text-[#3b3934] mb-6 leading-[150%] flex-grow">
                   {category.description}
                 </p>
-                <button className="bg-[#fdf407] hover:bg-[#dfd93e] text-[#393405] border-none py-3 px-7 rounded-lg text-base font-semibold cursor-pointer inline-flex items-center gap-2 transition-all duration-300 shadow-md mt-auto w-full justify-center">
+                <button 
+                  onClick={() => handleDiscover(category.filter)}
+                  className="bg-[#fdf407] hover:bg-[#dfd93e] text-[#393405] border-none py-3 px-7 rounded-lg text-base font-semibold cursor-pointer inline-flex items-center gap-2 transition-all duration-300 shadow-md mt-auto w-full justify-center">
                   اكتشف
                   <ChevronLeft className="w-5 h-5" />
                 </button>
