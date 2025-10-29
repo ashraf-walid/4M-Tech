@@ -1,0 +1,152 @@
+"use client";
+import { ChevronDown, Info } from "lucide-react";
+import { useState } from "react";
+
+export default function SpecificationTable({ specifications }) {
+  if (!specifications?.length) return null;
+
+  const [openKeys, setOpenKeys] = useState({});
+
+  const toggleOpen = (key) => {
+    setOpenKeys((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  // 🧠 ترجمة المفاتيح إلى أسماء عربية واضحة
+  const translateKey = (key) => {
+    const map = {
+      cpu: "المعالج",
+      gpu: "كرت الشاشة",
+      ram: "الذاكرة (RAM)",
+      storage: "التخزين",
+      screen: "الشاشة",
+      battery: "البطارية",
+      os: "نظام التشغيل",
+      ports: "المنافذ",
+      connectivity: "الاتصال",
+      weight: "الوزن",
+      dimensions: "الأبعاد",
+      color: "اللون",
+      audio: "الصوت",
+      camera: "الكاميرا",
+      bodyMaterial: "الخامة",
+      maxMemory: "الحد الأقصى للذاكرة",
+      keyboardLanguage: "لغة لوحة المفاتيح",
+    };
+    return map[key] || key;
+  };
+
+  // 🎨 تنسيق القيم الرقمية بوحدات وألوان مختلفة
+  const formatValue = (key, value) => {
+    if (typeof value === "number") {
+      if (key.toLowerCase().includes("clock")) return `${value} GHz`;
+      if (key.toLowerCase().includes("speed")) return `${value} MHz`;
+      if (key.toLowerCase().includes("capacity")) return `${value} Wh`;
+      if (key.toLowerCase().includes("size")) return `${value} GB`;
+      if (key.toLowerCase().includes("weight")) return `${value} كجم`;
+      if (key.toLowerCase().includes("width") || key.toLowerCase().includes("depth") || key.toLowerCase().includes("height"))
+        return `${value} سم`;
+      return value;
+    }
+    return value;
+  };
+
+  // 💡 عرض القيم بناءً على نوعها
+  const renderValue = (value) => {
+    if (Array.isArray(value)) {
+      return (
+        <ul className="list-disc pr-6 text-gray-700 text-sm space-y-1">
+          {value.map((v, i) => (
+            <li key={i}>{v}</li>
+          ))}
+        </ul>
+      );
+    }
+
+    if (typeof value === "object" && value !== null) {
+      return (
+        <div className="space-y-1 text-gray-700 text-sm">
+          {Object.entries(value).map(([subKey, subVal], i) => (
+            <div
+              key={i}
+              className="flex justify-between border-b border-gray-100 py-1"
+            >
+              <span className="font-medium text-gray-800">{translateKey(subKey)}</span>
+              <span
+                className={`text-sm ${
+                  typeof subVal === "number"
+                    ? "text-sky-600 font-semibold"
+                    : "text-gray-600"
+                }`}
+              >
+                {formatValue(subKey, subVal) || "غير متوفر"}
+              </span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <span
+        className={`text-sm ${
+          typeof value === "number"
+            ? "text-sky-600 font-semibold"
+            : "text-gray-700"
+        }`}
+      >
+        {formatValue("", value) || "غير متوفر"}
+      </span>
+    );
+  };
+
+  return (
+    <div
+      dir="rtl"
+      className="mt-8 bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden"
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between bg-gradient-to-r from-sky-600 to-cyan-500 text-white px-5 py-3 rounded-t-2xl">
+        <h3 className="text-lg font-semibold flex items-center gap-2">
+          <Info className="w-5 h-5" />
+          مواصفات المنتج
+        </h3>
+        <span className="text-sm opacity-90">التفاصيل الفنية الكاملة</span>
+      </div>
+
+      {/* Content */}
+      <div className="divide-y divide-gray-100">
+        {specifications.map(({ placeholder, value }, idx) => (
+          <div
+            key={idx}
+            className="px-5 py-4 hover:bg-gray-50 transition-all duration-200"
+          >
+            <button
+              onClick={() => toggleOpen(placeholder)}
+              className="w-full flex justify-between items-center text-gray-800 font-semibold text-right"
+            >
+              <span>{translateKey(placeholder)}</span>
+              <ChevronDown
+                className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${
+                  openKeys[placeholder] ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            <div
+              className={`overflow-hidden transition-all duration-300 ${
+                openKeys[placeholder] ? "max-h-[700px] mt-3" : "max-h-0"
+              }`}
+            >
+              {renderValue(value)}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Footer */}
+      <div className="bg-gray-50 text-gray-500 text-sm px-5 py-2 rounded-b-2xl text-center">
+        آخر تحديث لمواصفات المنتج
+      </div>
+    </div>
+  );
+}
