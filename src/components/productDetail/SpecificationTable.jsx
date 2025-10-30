@@ -11,7 +11,7 @@ export default function SpecificationTable({ specifications }) {
     setOpenKeys((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // 🧠 ترجمة المفاتيح إلى أسماء عربية واضحة
+  // 🧠 ترجمة المفاتيح لأسماء عربية
   const translateKey = (key) => {
     const map = {
       cpu: "المعالج",
@@ -19,6 +19,7 @@ export default function SpecificationTable({ specifications }) {
       ram: "الذاكرة (RAM)",
       storage: "التخزين",
       screen: "الشاشة",
+      display: "العرض",
       battery: "البطارية",
       os: "نظام التشغيل",
       ports: "المنافذ",
@@ -31,46 +32,59 @@ export default function SpecificationTable({ specifications }) {
       bodyMaterial: "الخامة",
       maxMemory: "الحد الأقصى للذاكرة",
       keyboardLanguage: "لغة لوحة المفاتيح",
+      resolutionPerEye: "دقة كل عين",
+      refreshRate: "معدل التحديث",
+      panelType: "نوع الشاشة",
+      fov: "زاوية الرؤية (FOV)",
+      width: "العرض",
+      height: "الارتفاع",
     };
     return map[key] || key;
   };
 
-  // 🎨 تنسيق القيم الرقمية بوحدات وألوان مختلفة
+  // 🎨 تنسيق القيم الرقمية بالوحدات والألوان
   const formatValue = (key, value) => {
     if (typeof value === "number") {
       if (key.toLowerCase().includes("clock")) return `${value} GHz`;
       if (key.toLowerCase().includes("speed")) return `${value} MHz`;
       if (key.toLowerCase().includes("capacity")) return `${value} Wh`;
+      if (key.toLowerCase().includes("refresh")) return `${value} Hz`;
+      if (key.toLowerCase().includes("fov")) return `${value}°`;
       if (key.toLowerCase().includes("size")) return `${value} GB`;
       if (key.toLowerCase().includes("weight")) return `${value} كجم`;
-      if (key.toLowerCase().includes("width") || key.toLowerCase().includes("depth") || key.toLowerCase().includes("height"))
-        return `${value} سم`;
+      if (["width", "height", "depth"].some((k) => key.toLowerCase().includes(k)))
+        return `${value} px`;
       return value;
     }
     return value;
   };
 
-  // 💡 عرض القيم بناءً على نوعها
-  const renderValue = (value) => {
+  // 🪄 دالة عرض ديناميكية تدعم التداخل
+  const renderValue = (value, level = 0) => {
+    // مصفوفة
     if (Array.isArray(value)) {
       return (
         <ul className="list-disc pr-6 text-gray-700 text-sm space-y-1">
           {value.map((v, i) => (
-            <li key={i}>{v}</li>
+            <li key={i}>{renderValue(v, level + 1)}</li>
           ))}
         </ul>
       );
     }
 
+    // كائن متداخل
     if (typeof value === "object" && value !== null) {
       return (
-        <div className="space-y-1 text-gray-700 text-sm">
+        <div
+          className={`space-y-1 text-gray-700 text-sm ${
+            level > 0 ? "pl-4 border-r-2 border-sky-100" : ""
+          }`}
+        >
           {Object.entries(value).map(([subKey, subVal], i) => (
-            <div
-              key={i}
-              className="flex justify-between border-b border-gray-100 py-1"
-            >
-              <span className="font-medium text-gray-800">{translateKey(subKey)}</span>
+            <div key={i} className="flex justify-between border-b border-gray-100 py-1">
+              <span className="font-medium text-gray-800">
+                {translateKey(subKey)}
+              </span>
               <span
                 className={`text-sm ${
                   typeof subVal === "number"
@@ -78,7 +92,9 @@ export default function SpecificationTable({ specifications }) {
                     : "text-gray-600"
                 }`}
               >
-                {formatValue(subKey, subVal) || "غير متوفر"}
+                {typeof subVal === "object"
+                  ? renderValue(subVal, level + 1)
+                  : formatValue(subKey, subVal) || "غير متوفر"}
               </span>
             </div>
           ))}
@@ -86,6 +102,7 @@ export default function SpecificationTable({ specifications }) {
       );
     }
 
+    // قيمة عادية
     return (
       <span
         className={`text-sm ${
@@ -116,10 +133,7 @@ export default function SpecificationTable({ specifications }) {
       {/* Content */}
       <div className="divide-y divide-gray-100">
         {specifications.map(({ placeholder, value }, idx) => (
-          <div
-            key={idx}
-            className="px-5 py-4 hover:bg-gray-50 transition-all duration-200"
-          >
+          <div key={idx} className="px-5 py-4 hover:bg-gray-50 transition-all duration-200">
             <button
               onClick={() => toggleOpen(placeholder)}
               className="w-full flex justify-between items-center text-gray-800 font-semibold text-right"

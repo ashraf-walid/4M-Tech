@@ -1,6 +1,6 @@
-export const BestSellerProducts = [
+export const LaptopsProducts = [
     {
-      id: "EliteBook 840 G8 52U42UP",
+      id: "EliteBook-840-G8-52U42UP",
       name: "EliteBook 840 G8",
       brand: "HP",
       model: "EliteBook 840",
@@ -8,8 +8,8 @@ export const BestSellerProducts = [
       subCategory: "business",
       description:
         "لاب توب اتش بي EliteBook 840 G8 انتل® كور™ i5 الجيل الحادي عشر 11 هارد 256 جيجا بايت SSD رامات 16 جيجا بايت شاشة 14 بوصة FHD ويندوز11 برو - فضيIntel UHD كارت الشاشة",
-      image: "/BestSeller/DELL9.webp", 
-      images: ["/BestSeller/DELL9.webp"], 
+      // image: "/laptops/EliteBook-840-G8/EliteBook1.jpg", 
+      images: ["/laptops/EliteBook-840-G8/EliteBook2.jpg" , "/laptops/EliteBook-840-G8/EliteBook3.jpg"], 
       price: 14000,
       discount: null,
       stock: null,

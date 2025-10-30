@@ -1,10 +1,11 @@
 import { create } from 'zustand';
 import { NewProducts } from '@/data/NewProducts';
 import { BestSellerProducts } from '@/data/BestSeller'; 
+import { LaptopsProducts } from '@/data/Laptops'
 
 const useProductsStore = create((set, get) => ({
   // State
-  products: [...NewProducts, ...BestSellerProducts],
+  products: [...NewProducts, ...BestSellerProducts, ...LaptopsProducts],
   laptopsList: [],
   accessoriesList: [],
   trending: [],

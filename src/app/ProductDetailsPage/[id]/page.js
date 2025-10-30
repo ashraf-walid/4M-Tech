@@ -3,11 +3,9 @@
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
-import { BestSellerProducts } from "@/data/BestSeller";
-import { NewProducts } from "@/data/NewProducts";
 import { ChevronRight, Home } from "lucide-react";
 import useCartStore from "@/store/cartStore";
-// import useProductsStore from "@/store/productsStore";
+import useProductsStore from "@/store/productsStore";
 
 import ImageGallery from "@/components/productDetail/ImageGallery";
 import ProductInfo from "@/components/productDetail/ProductInfo";
@@ -26,7 +24,7 @@ export default function ProductDetails() {
   const router = useRouter();
 
   const { addToCart, cartItem } = useCartStore();
-  // const { getProductDetails } = useProductsStore();
+  const { products } = useProductsStore();
 
   // get product details
   useEffect(() => {
@@ -40,8 +38,7 @@ export default function ProductDetails() {
       setIsLoading(true);
       setErrorMsg("");
       let localProduct = null;
-      const allLaptops = [...BestSellerProducts, ...NewProducts];
-      localProduct = allLaptops.find((p) => p.id === id);
+      localProduct = products.find((p) => p.id === id);
       if (localProduct) {
         setProduct(localProduct);
       } else {

@@ -212,14 +212,14 @@ const NewProductSection = () => {
                       <span className="sm:text-sm text-xs font-semibold text-[#7c760f] uppercase tracking-wider">
                         {product.category}
                       </span>
-                      <h3 className="sm:text-2xl text-xl font-bold text-[#393405] mt-2 mb-4">
+                      <h3 className="sm:text-2xl text-xl font-bold text-[#393405] mt-2 mb-3">
                         {product.name}
                       </h3>
-                      <ul className="space-y-1 mb-4">
+                      <ul className="space-y-1 mb-3">
                         {product.specs.map((spec, i) => (
-                          <li key={i} className="flex items-start">
+                          <li key={i} className="flex items-start leading-4">
                             <span className="text-green-600 ml-2"> ✓ </span>
-                            <span className="text-[#3b3934] text-xs sm:text-sm">
+                            <span className="text-[#3b3934] text-xs sm:text-sm leading-4">
                               {spec}
                             </span>
                           </li>
