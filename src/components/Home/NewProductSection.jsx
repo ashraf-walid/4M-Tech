@@ -7,7 +7,6 @@ import { formatPrice } from "@/utils/formatPrice";
 import useCartStore from "@/store/cartStore";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
-import ProductCard from "@/components/ProductCard";
 
 const NewProductSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -16,6 +15,9 @@ const NewProductSection = () => {
   const { cartItem, addToCart, removeFromCart } = useCartStore();
   const timerRef = useRef(null);
 
+  useEffect(()=>{
+    console.log("NewProductSection mount")
+  },[])
   // Transform NewProducts data to match new structure
   const products = useMemo(
     () =>
@@ -182,7 +184,6 @@ const NewProductSection = () => {
                       index === currentSlide ? "shadow-2xl" : ""
                     }`}
                   >
-                    {/* <ProductCard product={product} isInCart={isInCart} getProductQuantity={getProductQuantity} /> */}
                     <div className="relative h-60 md:h-80 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
                       {product.badge && (
                         <span className="absolute top-5 left-5 bg-[#fdf407] text-[#393405] px-4 py-2 rounded-lg text-xs font-bold shadow-md z-10">

@@ -3,9 +3,13 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
+import { useEffect } from "react";
 
 const CategorySection = () => {
   const router = useRouter();
+  useEffect(()=>{
+    console.log("CategorySection mount")
+  },[])
   const categories = [
     {
       id: 1,

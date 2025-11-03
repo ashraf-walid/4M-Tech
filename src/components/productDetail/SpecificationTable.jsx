@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function SpecificationTable({ specifications }) {
   if (!specifications?.length) return null;
 
-  const [openKeys, setOpenKeys] = useState({});
+  const [openKeys, setOpenKeys] = useState({ display: true, cpu: true,});
 
   const toggleOpen = (key) => {
     setOpenKeys((prev) => ({ ...prev, [key]: !prev[key] }));

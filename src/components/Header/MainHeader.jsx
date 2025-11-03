@@ -97,7 +97,7 @@ const MainHeader = ({ setIsMenuOpen }) => {
           <Link href="/" className="flex-shrink-0" aria-label="header logo">
             <Image
               src="/Logo/logo.png"
-              alt="2M-Tech"
+              alt="Buy-Tech"
               priority
               width={124}
               height={124}

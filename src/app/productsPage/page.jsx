@@ -10,7 +10,7 @@ import { useSearchParams } from "next/navigation";
 
 export default function ProductsPage() {
   const { cartItem } = useCartStore();
-  const { products } = useProductsStore();
+  const { products, ensureProductsLoaded, loading, error } = useProductsStore();
   const searchParams = useSearchParams();
   const [filters, setFilters] = useState({
     category: [],
@@ -20,6 +20,8 @@ export default function ProductsPage() {
     search: "",
   });
   const [showFilters, setShowFilters] = useState(false);
+
+  ensureProductsLoaded();
 
   useEffect(() => {
     const categoryFromURL = searchParams.get("category");
@@ -89,6 +91,9 @@ export default function ProductsPage() {
       search: "",
     });
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">

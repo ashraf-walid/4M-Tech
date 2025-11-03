@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-import * as BestSellerModule from "@/data/BestSeller";
+import { BestSellerProducts } from "@/data/BestSeller";
 import { useMemo, useRef, useState, useEffect } from "react";
 import useCartStore from "@/store/cartStore";
 
@@ -14,10 +14,14 @@ const BestSeller = () => {
 
   const { cartItem } = useCartStore();
 
+  useEffect(()=>{
+    console.log("BestSeller mount")
+  },[])
+
   // Memoize product extraction
   const products = useMemo(() => {
-    if (Array.isArray(BestSellerModule.BestSellerProducts))
-      return BestSellerModule.BestSellerProducts;
+    if (Array.isArray(BestSellerProducts))
+      return BestSellerProducts;
     if (Array.isArray(BestSellerModule.default))
       return BestSellerModule.default;
     return Object.values(BestSellerModule)

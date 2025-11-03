@@ -12,7 +12,7 @@ const ProductCard = ({ product, isInCart, getProductQuantity }) => {
     <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full">
       <Link href={`/ProductDetailsPage/${id}`}> 
         <div className="relative aspect-[3/4] w-full">
-          <Image src={image} alt={name} fill className="object-contain" />
+          <Image src={image} alt={name} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" fill className="object-contain" />
           {badge && (
             <span className="absolute top-2 left-2 bg-yellow-400 text-xs font-bold px-2 py-1 rounded z-20">
               {badge}

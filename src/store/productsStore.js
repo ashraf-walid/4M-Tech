@@ -1,30 +1,29 @@
-import { create } from 'zustand';
-import { NewProducts } from '@/data/NewProducts';
-import { BestSellerProducts } from '@/data/BestSeller'; 
-import { LaptopsProducts } from '@/data/Laptops'
+"use client";
+
+import { create } from "zustand";
 
 const useProductsStore = create((set, get) => ({
-  // State
-  products: [...NewProducts, ...BestSellerProducts, ...LaptopsProducts],
-  laptopsList: [],
-  accessoriesList: [],
-  trending: [],
-  trendingLoading: true,
+  products: [],
+  loading: true,
   error: null,
 
-  // Actions
-  // getProductDetails: (productId) => {
-  //   const state = get();
-  //   if (state.products.length === 0) {
-  //     set({ error: 'No products available.' });
-  //     return null;
-  //   }
-  //   
-  //   set({ error: 'Product not found.' });
-  //   return null;
-  // },
+  fetchProducts: async () => {
+    try {
+      const res = await fetch("/api/products");
+      if (!res.ok) throw new Error("Failed to fetch products");
+      const data = await res.json();
+      set({ products: data, loading: false, error: null });
+    } catch (error) {
+      set({ loading: false, error: error.message });
+    }
+  },
+
+  ensureProductsLoaded: async () => {
+    const { products, fetchProducts, loading } = get();
+    if (products.length === 0 && loading) {
+      await fetchProducts();
+    }
+  },
 }));
 
 export default useProductsStore;
-
-

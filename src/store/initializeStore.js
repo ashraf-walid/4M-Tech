@@ -5,32 +5,28 @@ import useCartStore from './cartStore';
 import useProductsStore from './productsStore';
 
 function StoreInitializer() {
-  useEffect(() => {
-    // Initialize cart first
-    useCartStore.getState().initializeCart();
+useEffect(() => {
+  const cartStore = useCartStore.getState();
+  const productsStore = useProductsStore.getState();
 
-    // Initialize products
-    // const unsubscribeProducts = useProductsStore.getState().initializeProducts();
+  cartStore.initializeCart();
+  productsStore.ensureProductsLoaded();
 
-    // Subscribe to cart and products changes
-    const unsubscribeCart = useCartStore.subscribe(
-      (state) => [state.cartItem, useProductsStore.getState().products],
-      () => {
-        useCartStore.getState().updateCartDetails(useProductsStore.getState().products);
-      }
-    );
+  const unsubscribeCart = useCartStore.subscribe(
+    (state) => state.cartItem,
+    () => cartStore.updateCartDetails(productsStore.products)
+  );
 
-    // Combine cleanup functions
-    const cleanup = () => {
-      if (typeof unsubscribeCart === 'function') unsubscribeCart();
-      // if (typeof unsubscribeProducts === 'function') unsubscribeProducts();
-    };
+  const unsubscribeProducts = useProductsStore.subscribe(
+    (state) => state.products,
+    () => console.log('Products updated')
+  );
 
-    // Return cleanup function
-    return () => {
-      if (typeof cleanup === 'function') cleanup();
-    };
-  }, []);
+  return () => {
+    unsubscribeCart?.();
+    unsubscribeProducts?.();
+  };
+}, []);
 
   return null;
 }

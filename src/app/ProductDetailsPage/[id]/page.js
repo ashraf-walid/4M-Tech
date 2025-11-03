@@ -11,61 +11,63 @@ import ImageGallery from "@/components/productDetail/ImageGallery";
 import ProductInfo from "@/components/productDetail/ProductInfo";
 import ProductActions from "@/components/productDetail/ProductActions";
 import SpecificationTable from "@/components/productDetail/SpecificationTable";
-// import CheckoutModal from "@/components/checkout/CheckoutModal";
 
 export default function ProductDetails() {
+  const router = useRouter();
   const params = useParams();
   const id = params.id;
+
   const [product, setProduct] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  // const [isProcessing, setIsProcessing] = useState(false);
-  // const [isBuying, setIsBuying] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-  const router = useRouter();
 
   const { addToCart, cartItem } = useCartStore();
-  const { products } = useProductsStore();
+  const { products, loading, ensureProductsLoaded, error } = useProductsStore();
 
-  // get product details
   useEffect(() => {
-    const fetchProduct = () => {
+    const loadProduct = async () => {
+
+      await ensureProductsLoaded();
+
       if (!id) {
         setErrorMsg("معرف المنتج غير صحيح");
-        setIsLoading(false);
         setTimeout(() => router.push("/"), 2000);
         return;
       }
-      setIsLoading(true);
-      setErrorMsg("");
-      let localProduct = null;
-      localProduct = products.find((p) => p.id === id);
-      if (localProduct) {
-        setProduct(localProduct);
+
+      if (loading) return;
+
+      if (!products || products.length === 0) {
+        setErrorMsg("تعذر تحميل المنتج");
+        return;
+      }
+
+      const foundProduct = products.find((p) => String(p.id) === String(id));
+
+      if (foundProduct) {
+        setProduct(foundProduct);
+        setErrorMsg("");
       } else {
         setErrorMsg("المنتج غير موجود");
-        setTimeout(() => router.push(config.path), 2000);
+        setTimeout(() => router.push("/"), 2000);
       }
-      setIsLoading(false);
     };
 
-    fetchProduct();
-  }, [id, router]);
-
-  // const handleBuyNow = () => {
-  //   setIsBuying(true);
-  // };
+    loadProduct();
+  }, [id, products, router, ensureProductsLoaded, loading]);
 
   const handleAddToCart = () => {
     addToCart(id);
   };
 
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500" />
       </div>
     );
   }
+
+  if (error) return <p className="text-center text-red-500 my-20">{error}</p>;
 
   if (!product) {
     return (
@@ -149,12 +151,7 @@ export default function ProductDetails() {
               <div className="border-t border-gray-100 pt-6">
                 <ProductActions
                   onAddToCart={handleAddToCart}
-                  // onToggleFavorite={handleToggleFavorite}
-                  // onBuyNow={handleBuyNow}
                   cartItemCount={cartItem[product.id] || 0}
-                  // isFavorite={isFavoriteProduct}
-                  // isProcessing={isProcessing}
-                  // isInBuyingProcess={isBuying}
                 />
               </div>
             </div>
@@ -175,10 +172,6 @@ export default function ProductDetails() {
           </div>
         </div>
       </div>
-
-      {/* {isBuying && (
-        <CheckoutModal onClose={() => setIsBuying(false)} product={product} />
-      )} */}
     </div>
   );
 }

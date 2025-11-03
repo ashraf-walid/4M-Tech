@@ -15,6 +15,10 @@ export default function SaleSection() {
     seconds: 0,
   });
 
+  useEffect(()=>{
+    console.log("SaleSection mount")
+  },[])
+
   // Countdown logic
   useEffect(() => {
     const timer = setInterval(() => {
