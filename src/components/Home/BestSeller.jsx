@@ -2,9 +2,11 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-import { BestSellerProducts } from "@/data/BestSeller";
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import useCartStore from "@/store/cartStore";
+import useProductsStore from "@/store/productsStore";
+import Loading from "@/components/feedback/Loading";
+import ErrorState from "@/components/feedback/ErrorState";
 
 const BestSeller = () => {
   const sliderRef = useRef(null);
@@ -12,22 +14,13 @@ const BestSeller = () => {
   const [canScrollRight, setCanScrollRight] = useState(false);
   const [scrollAmount, setScrollAmount] = useState(320);
 
+  const { filterProducts, ensureProductsLoaded, loading, error } = useProductsStore();
+
+  ensureProductsLoaded();
+
   const { cartItem } = useCartStore();
-
-  useEffect(()=>{
-    console.log("BestSeller mount")
-  },[])
-
-  // Memoize product extraction
-  const products = useMemo(() => {
-    if (Array.isArray(BestSellerProducts))
-      return BestSellerProducts;
-    if (Array.isArray(BestSellerModule.default))
-      return BestSellerModule.default;
-    return Object.values(BestSellerModule)
-      .flat()
-      .filter((x) => typeof x === "object" && x !== null && x.id);
-  }, []);
+    
+  const filteredProducts = filterProducts(["bestSeller"]);
 
   // Responsive scroll amount
   useEffect(() => {
@@ -73,6 +66,9 @@ const BestSeller = () => {
     });
   };
 
+  if (loading) return <Loading />;
+  if (error) return <ErrorState message={error} />;
+
   return (
     <section className="w-full py-20 bg-white">
       <div className="w-full lg:w-[82%] mx-auto px-4 py-10">
@@ -89,7 +85,6 @@ const BestSeller = () => {
             aria-label="Scroll left"
             className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 shadow hover:bg-yellow-100 rounded-full p-2 transition"
             onClick={() => scroll("left")}
-            // style={{ display: canScrollLeft ? "block" : "none" }}
           >
             <ChevronLeft className="text-xl text-[#393405]" />
           </button>
@@ -109,8 +104,8 @@ const BestSeller = () => {
                 display: none; /* Chrome, Safari and Opera */
               }
             `}</style>
-            {Array.isArray(products)
-              ? products.map((product, index) => {
+            {Array.isArray(filteredProducts)
+              ? filteredProducts.map((product, index) => {
                   const quantity = cartItem[product.id] || 0;
                   const isInCart = quantity > 0;
                   const getProductQuantity = (id) => cartItem[id] || 0;

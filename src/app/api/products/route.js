@@ -1,28 +1,24 @@
-import fs from "fs";
-import path from "path";
+// src/app/api/products/route.js
+
+import { connectDB } from "@/lib/mongoose";
+import Product from "@/models/Product";
 
 export async function GET() {
-  try {
-    const basePath = path.join(process.cwd(), "src/data");
-    const file = "products.json";
-    let allProducts = [];
-
-    const filePath = path.join(basePath, file);
-    allProducts = JSON.parse(fs.readFileSync(filePath, "utf8"));
-
-    return new Response(JSON.stringify(allProducts), { status: 200 });
-  } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
-  }
+  await connectDB();
+  const products = await Product.find(); 
+  return new Response(JSON.stringify(products), { status: 200 });
 }
 
+export async function POST(req) {
+  try {
+    await connectDB();
+    const data = await req.json();
 
-// src/app/api/products/route.js
-// import { connectDB } from "@/lib/mongoose";
-// import Product from "@/models/Product";
+    await Product.create(data);
 
-// export async function GET() {
-//   await connectDB();
-//   const products = await Product.find(); // جلب جميع المنتجات
-//   return new Response(JSON.stringify(products), { status: 200 });
-// }
+    return Response.json({ message: "Product added successfully" }, { status: 201 });
+  } catch (error) {
+    console.error("POST error:", error);
+    return Response.json({ error: "Failed to create product" }, { status: 500 });
+  }
+}

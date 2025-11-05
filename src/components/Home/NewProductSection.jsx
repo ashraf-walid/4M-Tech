@@ -1,27 +1,33 @@
 "use client";
 
 import { useState, useEffect, useRef, useMemo } from "react";
-import { NewProducts } from "@/data/NewProducts";
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import { formatPrice } from "@/utils/formatPrice";
 import useCartStore from "@/store/cartStore";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
+import useProductsStore from "@/store/productsStore";
+import Loading from "@/components/feedback/Loading";
+import ErrorState from "@/components/feedback/ErrorState";
 
 const NewProductSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const { filterProducts, ensureProductsLoaded, loading, error } = useProductsStore();
 
   const { cartItem, addToCart, removeFromCart } = useCartStore();
   const timerRef = useRef(null);
 
-  useEffect(()=>{
-    console.log("NewProductSection mount")
-  },[])
+  useEffect(() => {
+    ensureProductsLoaded();
+  }, [ensureProductsLoaded]);
+  
+  const filteredProducts = filterProducts(["new"]);
+
   // Transform NewProducts data to match new structure
   const products = useMemo(
     () =>
-      NewProducts.map((p, index) => {
+      filteredProducts.map((p, index) => {
         // Compose specs for display (flatten nested specs object)
         const specs = [];
         if (p.specs) {
@@ -62,7 +68,7 @@ const NewProductSection = () => {
           color: p.specs && p.specs.color ? p.specs.color : undefined,
         };
       }),
-    []
+    [filteredProducts]
   );
 
   const nextSlide = () => {
@@ -119,6 +125,9 @@ const NewProductSection = () => {
     resetTimer();
   };
 
+  if (loading) return <Loading />;
+  if (error) return <ErrorState message={error} />;
+
   return (
     <section className="w-full py-8 bg-white overflow-hidden">
       <div className="max-w-[1400px] mx-auto">
@@ -138,7 +147,7 @@ const NewProductSection = () => {
           </button>
           {/* Product Card */}
           <div className="relative h-[600px] flex items-center justify-center">
-            {products.map((product, index) => {
+            {filteredProducts.map((product, index) => {
               const quantity = cartItem[product.id] || 0;
               const isInCart = quantity > 0;
               const getProductQuantity = (id) => cartItem[id] || 0;
@@ -216,16 +225,44 @@ const NewProductSection = () => {
                       <h3 className="sm:text-2xl text-xl font-bold text-[#393405] mt-2 mb-3">
                         {product.name}
                       </h3>
-                      <ul className="space-y-1 mb-3">
-                        {product.specs.map((spec, i) => (
-                          <li key={i} className="flex items-start leading-4">
-                            <span className="text-green-600 ml-2"> ✓ </span>
-                            <span className="text-[#3b3934] text-xs sm:text-sm leading-4">
-                              {spec}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
+                      {(() => {
+                        const s = product?.specs;
+                        let specsList = Array.isArray(s) ? s : [];
+                        if (!Array.isArray(s)) {
+                          const gpu = s?.gpu;
+                          const ram = s?.ram;
+                          const storage = s?.storage;
+                          const screen = s?.screen;
+                          if (gpu?.brand || gpu?.model) {
+                            specsList.push(`${gpu?.brand ?? ""} ${gpu?.model ?? ""}`.trim());
+                          }
+                          if (ram?.size || ram?.type) {
+                            specsList.push(`${ram?.size ?? ""}${ram?.unit ?? ""} ${ram?.type ?? ""}`.trim());
+                          }
+                          if (storage?.capacity || storage?.type) {
+                            specsList.push(`${storage?.capacity ?? ""}${storage?.unit ?? ""} ${storage?.type ?? ""}`.trim());
+                          }
+                          if (screen?.size || screen?.resolution) {
+                            specsList.push(`${screen?.size ?? ""}${screen?.unit ?? ""} ${screen?.resolution ?? ""}`.trim());
+                          }
+                        }
+                        if (Array.isArray(product?.extraFeatures)) {
+                          specsList = [...specsList, ...product.extraFeatures];
+                        }
+                        if (specsList.length === 0) return null;
+                        return (
+                          <ul className="space-y-1 mb-3">
+                            {specsList.map((spec, i) => (
+                              <li key={i} className="flex items-start leading-4">
+                                <span className="text-green-600 ml-2"> ✓ </span>
+                                <span className="text-[#3b3934] text-xs sm:text-sm leading-4">
+                                  {spec}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        );
+                      })()}
                       <div className="flex flex-wrap gap-1 mb-2">
                         {product.ports &&
                           product.ports.map((port, i) => (

@@ -6,6 +6,7 @@ const useProductsStore = create((set, get) => ({
   products: [],
   loading: true,
   error: null,
+  filterProducts: [],
 
   fetchProducts: async () => {
     try {
@@ -16,6 +17,14 @@ const useProductsStore = create((set, get) => ({
     } catch (error) {
       set({ loading: false, error: error.message });
     }
+  },
+
+  filterProducts: (tags = []) => {
+    const { products } = get();
+    if (tags.length === 0) return products;
+    return products.filter((product) =>
+      product.tags.some((tag) => tags.includes(tag))
+    );
   },
 
   ensureProductsLoaded: async () => {

@@ -7,6 +7,8 @@ import { X } from "lucide-react";
 import useCartStore from "@/store/cartStore";
 import useProductsStore from "@/store/productsStore";
 import { useSearchParams } from "next/navigation";
+import Loading from "@/components/feedback/Loading";
+import ErrorState from "@/components/feedback/ErrorState";
 
 export default function ProductsPage() {
   const { cartItem } = useCartStore();
@@ -92,8 +94,8 @@ export default function ProductsPage() {
     });
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (loading) return <Loading />;
+  if (error) return <ErrorState message={error} />;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
