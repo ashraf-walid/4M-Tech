@@ -106,12 +106,12 @@ const BestSeller = () => {
             `}</style>
             {Array.isArray(filteredProducts)
               ? filteredProducts.map((product, index) => {
-                  const quantity = cartItem[product.id] || 0;
+                  const quantity = cartItem[product._id] || 0;
                   const isInCart = quantity > 0;
-                  const getProductQuantity = (id) => cartItem[id] || 0;
+                  const getProductQuantity = (_id) => cartItem[_id] || 0;
                   return (
                     <div
-                      key={product.id}
+                      key={product._id}
                       className="min-w-[280px] max-w-[320px] flex-shrink-0 transition-shadow duration-300 hover:shadow-2xl hover:-translate-y-1.5"
                       style={{ scrollSnapAlign: "start" }}
                     >

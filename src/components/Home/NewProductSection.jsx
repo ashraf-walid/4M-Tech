@@ -9,6 +9,7 @@ import Image from "next/image";
 import useProductsStore from "@/store/productsStore";
 import Loading from "@/components/feedback/Loading";
 import ErrorState from "@/components/feedback/ErrorState";
+import Link from "next/link";
 
 const NewProductSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -47,7 +48,7 @@ const NewProductSection = () => {
         if (Array.isArray(p.extraFeatures)) specs.push(...p.extraFeatures);
 
         return {
-          id: p.id,
+          _id: p._id,
           name: p.name,
           brand: p.brand,
           model: p.model,
@@ -148,12 +149,12 @@ const NewProductSection = () => {
           {/* Product Card */}
           <div className="relative h-[600px] flex items-center justify-center">
             {filteredProducts.map((product, index) => {
-              const quantity = cartItem[product.id] || 0;
+              const quantity = cartItem[product._id] || 0;
               const isInCart = quantity > 0;
-              const getProductQuantity = (id) => cartItem[id] || 0;
+              const getProductQuantity = (_id) => cartItem[_id] || 0;
               return (
                 <div
-                  key={product.id}
+                  key={product._id}
                   className={`absolute top-1/2 left-1/2 transition-all duration-700 ease-in-out`}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
@@ -193,31 +194,33 @@ const NewProductSection = () => {
                       index === currentSlide ? "shadow-2xl" : ""
                     }`}
                   >
-                    <div className="relative h-60 md:h-80 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
-                      {product.badge && (
-                        <span className="absolute top-5 left-5 bg-[#fdf407] text-[#393405] px-4 py-2 rounded-lg text-xs font-bold shadow-md z-10">
-                          {product.badge}
-                        </span>
-                      )}
-                      {product.discount > 0 && (
-                        <span className="absolute top-5 right-5 bg-red-600 text-white px-4 py-2 rounded-lg text-xs font-bold shadow-md z-10">
-                          {product.discount}% خصم
-                        </span>
-                      )}
-                      <div
-                        className={`w-full h-full transition-transform duration-500 ${
-                          index === currentSlide ? "scale-[1.02]" : "scale-100"
-                        }`}
-                      >
-                        <Image
-                          src={product.image}
-                          alt={product.name}
-                          width={400}
-                          height={400}
-                          className="w-full h-full object-contain"
-                        />
+                    <Link href={`/ProductDetailsPage/${product._id}`}> 
+                      <div className="relative h-60 md:h-80 bg-gradient-to-br from-gray-100 to-gray-200 overflow-hidden">
+                        {product.badge && (
+                          <span className="absolute top-5 left-5 bg-[#fdf407] text-[#393405] px-4 py-2 rounded-lg text-xs font-bold shadow-md z-10">
+                            {product.badge}
+                          </span>
+                        )}
+                        {product.discount > 0 && (
+                          <span className="absolute top-5 right-5 bg-red-600 text-white px-4 py-2 rounded-lg text-xs font-bold shadow-md z-10">
+                            {product.discount}% خصم
+                          </span>
+                        )}
+                        <div
+                          className={`w-full h-full transition-transform duration-500 ${
+                            index === currentSlide ? "scale-[1.02]" : "scale-100"
+                          }`}
+                        >
+                          <Image
+                            src={product.image}
+                            alt={product.name}
+                            width={400}
+                            height={400}
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
                       </div>
-                    </div>
+                    </Link>
                     <div className="p-8">
                       <span className="sm:text-sm text-xs font-semibold text-[#7c760f] uppercase tracking-wider">
                         {product.category}
@@ -281,17 +284,17 @@ const NewProductSection = () => {
                         {isInCart ? (
                           <div className="flex items-center justify-between bg-[#fdf407] rounded-lg overflow-hidden shadow-md">
                             <button
-                              onClick={() => addToCart(product.id)}
+                              onClick={() => addToCart(product._id)}
                               className="px-2 py-1 hover:text-gray-700 transition-colors duration-200 font-bold text-black cursor-pointer"
                               aria-label="أضف كمية أخرى"
                             >
                               +
                             </button>
                             <span className="px-4 py-2 text-[#393405] font-semibold text-lg select-none">
-                              {getProductQuantity(product.id)}
+                              {getProductQuantity(product._id)}
                             </span>
                             <button
-                              onClick={() => removeFromCart(product.id)}
+                              onClick={() => removeFromCart(product._id)}
                               className="px-4 py-2 text-[#393405] transition-colors duration-200 cursor-pointer"
                               aria-label="حذف المنتج من السلة"
                             >
@@ -303,7 +306,7 @@ const NewProductSection = () => {
                           </div>
                         ) : (
                           <button
-                            onClick={() => addToCart(product.id)}
+                            onClick={() => addToCart(product._id)}
                             className="bg-[#fdf407] hover:bg-[#dfd93e] text-[#393405] font-semibold py-2 px-6 rounded-lg cursor-pointer flex items-center gap-2 transition-all duration-300"
                           >
                             أضف إلى السلة

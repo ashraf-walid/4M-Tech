@@ -15,7 +15,7 @@ import SpecificationTable from "@/components/productDetail/SpecificationTable";
 export default function ProductDetails() {
   const router = useRouter();
   const params = useParams();
-  const id = params.id;
+  const _id = params.id;
 
   const [product, setProduct] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
@@ -28,7 +28,7 @@ export default function ProductDetails() {
 
       await ensureProductsLoaded();
 
-      if (!id) {
+      if (!_id) {
         setErrorMsg("معرف المنتج غير صحيح");
         setTimeout(() => router.push("/"), 2000);
         return;
@@ -41,7 +41,7 @@ export default function ProductDetails() {
         return;
       }
 
-      const foundProduct = products.find((p) => String(p.id) === String(id));
+      const foundProduct = products.find((p) => String(p._id) === String(_id));
 
       if (foundProduct) {
         setProduct(foundProduct);
@@ -53,10 +53,10 @@ export default function ProductDetails() {
     };
 
     loadProduct();
-  }, [id, products, router, ensureProductsLoaded, loading]);
+  }, [_id, products, router, ensureProductsLoaded, loading]);
 
   const handleAddToCart = () => {
-    addToCart(id);
+    addToCart(_id);
   };
 
   if (loading) {
@@ -151,7 +151,7 @@ export default function ProductDetails() {
               <div className="border-t border-gray-100 pt-6">
                 <ProductActions
                   onAddToCart={handleAddToCart}
-                  cartItemCount={cartItem[product.id] || 0}
+                  cartItemCount={cartItem[product._id] || 0}
                 />
               </div>
             </div>

@@ -3,7 +3,6 @@
 import { useState } from "react";
 import SmartSection from "@/components/SmartFields";
 
-
 const initialState = {
     id: "",
     name: "",
@@ -90,80 +89,6 @@ export default function AddProduct() {
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
 
-    const toNumberOrNull = (value) => {
-        if (value === "" || value === null || value === undefined) return null;
-        const num = Number(value);
-        return Number.isNaN(num) ? null : num;
-    };
-
-    const splitToArray = (value) => {
-        if (!value) return [];
-        return value
-            .split(",")
-            .map((s) => s.trim())
-            .filter((s) => s.length > 0);
-    };
-
-    const handleChange = (field) => (e) => {
-        const { value } = e.target;
-        setProductData((prev) => ({ ...prev, [field]: value }));
-    };
-
-    const handleNumberChange = (field) => (e) => {
-        const { value } = e.target;
-        setProductData((prev) => ({ ...prev, [field]: toNumberOrNull(value) }));
-    };
-
-    const handleArrayChange = (field) => (e) => {
-        const { value } = e.target;
-        setProductData((prev) => ({ ...prev, [field]: splitToArray(value) }));
-    };
-
-    const handleNestedChange = (path) => (e) => {
-        const { value } = e.target;
-        setProductData((prev) => {
-            const draft = { ...prev };
-            const keys = path.split(".");
-            let ref = draft;
-            for (let i = 0; i < keys.length - 1; i++) {
-                ref[keys[i]] = { ...ref[keys[i]] };
-                ref = ref[keys[i]];
-            }
-            ref[keys[keys.length - 1]] = value;
-            return draft;
-        });
-    };
-
-    const handleNestedNumberChange = (path) => (e) => {
-        const { value } = e.target;
-        setProductData((prev) => {
-            const draft = { ...prev };
-            const keys = path.split(".");
-            let ref = draft;
-            for (let i = 0; i < keys.length - 1; i++) {
-                ref[keys[i]] = { ...ref[keys[i]] };
-                ref = ref[keys[i]];
-            }
-            ref[keys[keys.length - 1]] = toNumberOrNull(value);
-            return draft;
-        });
-    };
-
-    const handleBooleanChange = (path) => (e) => {
-        const { checked } = e.target;
-        setProductData((prev) => {
-            const draft = { ...prev };
-            const keys = path.split(".");
-            let ref = draft;
-            for (let i = 0; i < keys.length - 1; i++) {
-                ref[keys[i]] = { ...ref[keys[i]] };
-                ref = ref[keys[i]];
-            }
-            ref[keys[keys.length - 1]] = !!checked;
-            return draft;
-        });
-    };
-
     const sendData = async (e) => {
         e.preventDefault();
         setMessage("");
@@ -205,10 +130,9 @@ export default function AddProduct() {
         finally { setIsDataSending(false); }
     };
 
-    const joinArray = (arr) => (Array.isArray(arr) ? arr.join(", ") : "");
-
     // Field definitions
     const fieldsBasic = [
+        { label: "ID", path: "id", type: "text", required: true, placeholder: "ID (e.g., Dell-Lati-55-i7-1U-16-51)", colSpan: 1 },
         { label: "Name", path: "name", type: "text", required: true, placeholder: "Name", colSpan: 1 },
         { label: "Brand", path: "brand", type: "text", required: true, placeholder: "Brand", colSpan: 1 },
         { label: "Model", path: "model", type: "text", placeholder: "Model" },
@@ -229,8 +153,8 @@ export default function AddProduct() {
     ];
 
     const fieldsPricing = [
-        { label: "Price", path: "price", type: "number", placeholder: "Price", required: true, inputProps: { min: 0, step: 0.01 } },
-        { label: "Discount %", path: "discount", type: "number", placeholder: "Discount %", inputProps: { min: 0, max: 100, step: 0.01 } },
+        { label: "Price", path: "price", type: "number", placeholder: "Price", required: true, inputProps: { min: 0, step: 1 } },
+        { label: "Discount %", path: "discount", type: "number", placeholder: "Discount %", inputProps: { min: 0, max: 100, step: 1 } },
         { label: "Stock", path: "stock", type: "number", placeholder: "Stock (leave blank for null)", inputProps: { min: 0, step: 1 } },
         { label: "Warranty", path: "warranty", type: "text", placeholder: "Warranty" },
         { label: "Condition", path: "condition", type: "text", placeholder: "Condition", colSpan: 2 },
@@ -240,8 +164,8 @@ export default function AddProduct() {
         { label: "CPU Brand", path: "specs.cpu.brand", type: "text", placeholder: "CPU Brand" },
         { label: "CPU Model", path: "specs.cpu.model", type: "text", placeholder: "CPU Model" },
         { label: "CPU Generation", path: "specs.cpu.generation", type: "number", placeholder: "CPU Generation" },
-        { label: "Base Clock (GHz)", path: "specs.cpu.baseClock", type: "number", placeholder: "Base Clock (GHz)", inputProps: { step: 0.1 } },
-        { label: "Boost Clock (GHz)", path: "specs.cpu.boostClock", type: "number", placeholder: "Boost Clock (GHz)", inputProps: { step: 0.1 } },
+        { label: "Base Clock (GHz)", path: "specs.cpu.baseClock", type: "number", placeholder: "Base Clock (GHz)", inputProps: { step: 1 } },
+        { label: "Boost Clock (GHz)", path: "specs.cpu.boostClock", type: "number", placeholder: "Boost Clock (GHz)", inputProps: { step: 1 } },
         { label: "Cores", path: "specs.cpu.cores", type: "number", placeholder: "Cores" },
         { label: "Threads", path: "specs.cpu.threads", type: "number", placeholder: "Threads" },
 
@@ -257,7 +181,7 @@ export default function AddProduct() {
         { label: "Storage Type", path: "specs.storage.type", type: "text", placeholder: "Storage Type (e.g., SSD/HDD)" },
         { label: "Storage Interface", path: "specs.storage.interface", type: "text", placeholder: "Storage Interface (e.g., NVMe)" },
 
-        { label: "Screen Size (inch)", path: "specs.screen.size", type: "number", placeholder: "Screen Size (inch)", inputProps: { step: 0.1 } },
+        { label: "Screen Size (inch)", path: "specs.screen.size", type: "number", placeholder: "Screen Size (inch)", inputProps: { step: 1 } },
         { label: "Screen Resolution", path: "specs.screen.resolution", type: "text", placeholder: "Screen Resolution" },
         { label: "Refresh Rate (Hz)", path: "specs.screen.refreshRate", type: "number", placeholder: "Refresh Rate (Hz)" },
         { label: "Anti-Glare", path: "specs.screen.antiGlare", type: "checkbox", placeholder: "Anti-Glare" },
@@ -269,11 +193,11 @@ export default function AddProduct() {
         { label: "Ports", path: "specs.ports", type: "array", placeholder: "Ports (comma separated)", colSpan: 3 },
         { label: "Connectivity", path: "specs.connectivity", type: "array", placeholder: "Connectivity (comma separated)", colSpan: 3 },
 
-        { label: "Weight (kg)", path: "specs.weight", type: "number", placeholder: "Weight (kg)", inputProps: { step: 0.01 } },
+        { label: "Weight (kg)", path: "specs.weight", type: "number", placeholder: "Weight (kg)", inputProps: { step: 1 } },
 
-        { label: "Width (cm)", path: "specs.dimensions.width", type: "number", placeholder: "Width (cm)", inputProps: { step: 0.01 } },
-        { label: "Depth (cm)", path: "specs.dimensions.depth", type: "number", placeholder: "Depth (cm)", inputProps: { step: 0.01 } },
-        { label: "Height (cm)", path: "specs.dimensions.height", type: "number", placeholder: "Height (cm)", inputProps: { step: 0.01 } },
+        { label: "Width (cm)", path: "specs.dimensions.width", type: "number", placeholder: "Width (cm)", inputProps: { step: 1 } },
+        { label: "Depth (cm)", path: "specs.dimensions.depth", type: "number", placeholder: "Depth (cm)", inputProps: { step: 1 } },
+        { label: "Height (cm)", path: "specs.dimensions.height", type: "number", placeholder: "Height (cm)", inputProps: { step: 1 } },
 
         { label: "Keyboard Language", path: "specs.keyboardLanguage", type: "text", placeholder: "Keyboard Language" },
         { label: "Body Material", path: "specs.bodyMaterial", type: "text", placeholder: "Body Material" },
@@ -307,7 +231,7 @@ export default function AddProduct() {
                 <div className="flex gap-3 justify-end">
                     <button
                         type="button"
-                        className="px-4 py-2 border rounded"
+                        className="px-4 py-2 border rounded cursor-pointer"
                         disabled={isDataSending}
                         onClick={() => { setProductData(initialState); setMessage(""); setError(""); }}
                     >
@@ -316,7 +240,7 @@ export default function AddProduct() {
                     <button
                         type="submit"
                         disabled={isDataSending}
-                        className="px-4 py-2 rounded text-white bg-blue-600 disabled:opacity-60"
+                        className="px-4 py-2 rounded text-white bg-blue-600 disabled:opacity-60 cursor-pointer"
                     >
                         {isDataSending ? "Sending..." : "Submit Product"}
                 </button>

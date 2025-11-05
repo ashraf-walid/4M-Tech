@@ -6,11 +6,11 @@ import { Trash2, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 
 const ProductCard = ({ product, isInCart, getProductQuantity }) => {
-  const { id, name, brand, image, price, discount, badge, condition } = product;
+  const { name, brand, image, price, discount, badge, condition, _id } = product;
   const { addToCart, removeFromCart } = useCartStore();
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full">
-      <Link href={`/ProductDetailsPage/${id}`}> 
+      <Link href={`/ProductDetailsPage/${_id}`}> 
         <div className="relative aspect-[3/4] w-full">
           {image && ( <Image src={image} alt={name} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" fill className="object-contain" />)}
           {badge && (
@@ -44,17 +44,17 @@ const ProductCard = ({ product, isInCart, getProductQuantity }) => {
           {isInCart ? (
             <div className="flex items-center justify-between bg-[#fdf407] rounded-lg overflow-hidden shadow-md">
               <button
-                onClick={() => addToCart(id)}
+                onClick={() => addToCart(_id)}
                 className="px-2 py-1 hover:text-gray-700 transition-colors duration-200 font-bold text-black cursor-pointer"
                 aria-label="أضف كمية أخرى"
               >
                 +
               </button>
               <span className="px-4 py-2 text-[#393405] font-semibold text-lg select-none">
-                {getProductQuantity(id)}
+                {getProductQuantity(_id)}
               </span>
               <button
-                onClick={() => removeFromCart(id)}
+                onClick={() => removeFromCart(_id)}
                 className="px-4 py-2 text-[#393405] transition-colors duration-200 cursor-pointer"
                 aria-label="حذف المنتج من السلة"
               >
@@ -63,7 +63,7 @@ const ProductCard = ({ product, isInCart, getProductQuantity }) => {
             </div>
           ) : (
             <button
-              onClick={() => addToCart(id)}
+              onClick={() => addToCart(_id)}
               className="bg-[#fdf407] text-sm hover:bg-[#dfd93e] text-[#393405] font-semibold py-2 px-3 rounded-lg cursor-pointer flex items-center gap-2 transition-all duration-300"
             >
               أضف إلى السلة
