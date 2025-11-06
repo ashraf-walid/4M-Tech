@@ -132,10 +132,9 @@ export default function AddProduct() {
 
     // Field definitions
     const fieldsBasic = [
-        { label: "ID", path: "id", type: "text", required: true, placeholder: "ID (e.g., Dell-Lati-55-i7-1U-16-51)", colSpan: 1 },
         { label: "Name", path: "name", type: "text", required: true, placeholder: "Name", colSpan: 1 },
-        { label: "Brand", path: "brand", type: "text", required: true, placeholder: "Brand", colSpan: 1 },
-        { label: "Model", path: "model", type: "text", placeholder: "Model" },
+        { label: "Brand", path: "brand", type: "text", required: true, placeholder: "Brand (e.g., Dell)", colSpan: 1 },
+        { label: "Model", path: "model", type: "text", placeholder: "Model (e.g., Latitude 5430)" },
         { label: "Category", path: "category", type: "text", placeholder: "Category (e.g., laptop)" },
         { label: "Sub Category", path: "subCategory", type: "text", placeholder: "Sub Category" },
         { label: "SKU", path: "sku", type: "text", placeholder: "SKU" },

@@ -128,6 +128,7 @@ const NewProductSection = () => {
 
   if (loading) return <Loading />;
   if (error) return <ErrorState message={error} />;
+  if (!filteredProducts || filteredProducts.length === 0) return null;
 
   return (
     <section className="w-full py-8 bg-white overflow-hidden">
