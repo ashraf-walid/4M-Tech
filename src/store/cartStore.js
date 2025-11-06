@@ -89,10 +89,10 @@ const useCartStore = create((set, get) => ({
   updateCartDetails: (products) => {
     const { cartItem } = get();
     const productsInCart = products
-      .filter((product) => cartItem[product.id] > 0)
+      .filter((product) => cartItem[product._id] > 0)
       .map((product) => ({
         ...product,
-        quantity: cartItem[product.id],
+        quantity: cartItem[product._id],
       }));
     const total = productsInCart.reduce(
       (sum, product) => sum + product.price * product.quantity,

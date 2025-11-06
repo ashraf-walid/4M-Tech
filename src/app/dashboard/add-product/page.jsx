@@ -136,8 +136,8 @@ export default function AddProduct() {
         { label: "Brand", path: "brand", type: "text", required: true, placeholder: "Brand (e.g., Dell)", colSpan: 1 },
         { label: "Model", path: "model", type: "text", placeholder: "Model (e.g., Latitude 5430)" },
         { label: "Category", path: "category", type: "text", placeholder: "Category (e.g., laptop)" },
-        { label: "Sub Category", path: "subCategory", type: "text", placeholder: "Sub Category" },
-        { label: "SKU", path: "sku", type: "text", placeholder: "SKU" },
+        { label: "Sub Category", path: "subCategory", type: "text", placeholder: "Sub Category (e.g., business)" },
+        { label: "SKU", path: "sku", type: "text", placeholder: "SKU (e.g., Latit-5-i7-1U-6-2)" },
         { label: "Barcode", path: "barcode", type: "text", placeholder: "Barcode" },
         { label: "Badge", path: "badge", type: "text", placeholder: "Badge (e.g., featured, trending)" },
         { label: "Release Year", path: "releaseYear", type: "number", placeholder: "Release Year" },
@@ -145,32 +145,32 @@ export default function AddProduct() {
     ];
 
     const fieldsMedia = [
-        { label: "Main Image URL", path: "image", type: "text", placeholder: "Main Image URL" },
-        { label: "Images", path: "images", type: "array", placeholder: "Images (comma separated URLs)" },
-        { label: "Tags", path: "tags", type: "array", placeholder: "Tags (comma separated)", colSpan: 2 },
-        { label: "Extra Features", path: "extraFeatures", type: "array", placeholder: "Extra Features (comma separated)", colSpan: 2 },
+        { label: "Main Image URL", path: "image", type: "text", placeholder: "Main /Image/URL.webp" },
+        { label: "Images", path: "images", type: "array", placeholder: "Images [ URL.webp , ] (comma separated URLs) ", colSpan: 2  },
+        { label: "Tags", path: "tags", type: "array", placeholder: "Tags [new, featured, trending]", colSpan: 2 },
+        { label: "Extra Features", path: "extraFeatures", type: "array", placeholder: "[ , , , ] Extra Features", colSpan: 2 },
     ];
 
     const fieldsPricing = [
         { label: "Price", path: "price", type: "number", placeholder: "Price", required: true, inputProps: { min: 0, step: 1 } },
         { label: "Discount %", path: "discount", type: "number", placeholder: "Discount %", inputProps: { min: 0, max: 100, step: 1 } },
         { label: "Stock", path: "stock", type: "number", placeholder: "Stock (leave blank for null)", inputProps: { min: 0, step: 1 } },
-        { label: "Warranty", path: "warranty", type: "text", placeholder: "Warranty" },
-        { label: "Condition", path: "condition", type: "text", placeholder: "Condition", colSpan: 2 },
+        { label: "Warranty", path: "warranty", type: "text", placeholder: "warranty 1 year" },
+        { label: "Condition", path: "condition", type: "text", placeholder: "جديد / استيراد", colSpan: 2 },
     ];
 
     const fieldsSpecs = [
-        { label: "CPU Brand", path: "specs.cpu.brand", type: "text", placeholder: "CPU Brand" },
-        { label: "CPU Model", path: "specs.cpu.model", type: "text", placeholder: "CPU Model" },
-        { label: "CPU Generation", path: "specs.cpu.generation", type: "number", placeholder: "CPU Generation" },
-        { label: "Base Clock (GHz)", path: "specs.cpu.baseClock", type: "number", placeholder: "Base Clock (GHz)", inputProps: { step: 1 } },
-        { label: "Boost Clock (GHz)", path: "specs.cpu.boostClock", type: "number", placeholder: "Boost Clock (GHz)", inputProps: { step: 1 } },
-        { label: "Cores", path: "specs.cpu.cores", type: "number", placeholder: "Cores" },
-        { label: "Threads", path: "specs.cpu.threads", type: "number", placeholder: "Threads" },
+        { label: "CPU Brand", path: "specs.cpu.brand", type: "text", placeholder: "CPU Brand Intel" },
+        { label: "CPU Model", path: "specs.cpu.model", type: "text", placeholder: "CPU Model Core i7-1255U" },
+        { label: "CPU Generation", path: "specs.cpu.generation", type: "number", placeholder: "CPU Generation 12" },
+        { label: "Base Clock (GHz)", path: "specs.cpu.baseClock", type: "number", placeholder: "Base Clock 1.7 (GHz)", inputProps: { step: 1 } },
+        { label: "Boost Clock (GHz)", path: "specs.cpu.boostClock", type: "number", placeholder: "Boost Clock 4.7 (GHz)", inputProps: { step: 1 } },
+        { label: "Cores", path: "specs.cpu.cores", type: "number", placeholder: "Cores 10" },
+        { label: "Threads", path: "specs.cpu.threads", type: "number", placeholder: "Threads 12" },
 
-        { label: "GPU Brand", path: "specs.gpu.brand", type: "text", placeholder: "GPU Brand" },
-        { label: "GPU Model", path: "specs.gpu.model", type: "text", placeholder: "GPU Model" },
-        { label: "Dedicated GPU", path: "specs.gpu.dedicated", type: "checkbox", placeholder: "Dedicated GPU" },
+        { label: "GPU Brand", path: "specs.gpu.brand", type: "text", placeholder: "GPU Brand Intel" },
+        { label: "GPU Model", path: "specs.gpu.model", type: "text", placeholder: "GPU Model Iris Xe" },
+        { label: "Dedicated GPU", path: "specs.gpu.dedicated", type: "checkbox", placeholder: "Dedicated GPU true / false" },
 
         { label: "RAM Size", path: "specs.ram.size", type: "number", placeholder: "RAM Size" },
         { label: "RAM Type", path: "specs.ram.type", type: "text", placeholder: "RAM Type" },

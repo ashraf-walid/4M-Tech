@@ -14,14 +14,14 @@ const BestSeller = () => {
   const [canScrollRight, setCanScrollRight] = useState(false);
   const [scrollAmount, setScrollAmount] = useState(320);
 
-  const { filterProducts, ensureProductsLoaded, loading, error } = useProductsStore();
+  const { getBestSellerProducts, ensureProductsLoaded, loading, error } = useProductsStore();
 
   ensureProductsLoaded();
 
+  const products = getBestSellerProducts();
+
   const { cartItem } = useCartStore();
     
-  const filteredProducts = filterProducts(["bestSeller"]);
-
   // Responsive scroll amount
   useEffect(() => {
     function updateScrollAmount() {
@@ -104,8 +104,8 @@ const BestSeller = () => {
                 display: none; /* Chrome, Safari and Opera */
               }
             `}</style>
-            {Array.isArray(filteredProducts)
-              ? filteredProducts.map((product, index) => {
+            {Array.isArray(products)
+              ? products.map((product, index) => {
                   const quantity = cartItem[product._id] || 0;
                   const isInCart = quantity > 0;
                   const getProductQuantity = (_id) => cartItem[_id] || 0;

@@ -23,15 +23,15 @@ export default function CartPage() {
   useEffect(() => {
     // Update cart products and subtotal when cart or products change
     const updateCartDetails = () => {
-      const productsInCart = products
-        .filter((product) => cartItem[product.id] > 0)
+      const productsInCart = (products || [])
+        .filter((product) => cartItem[product?._id] > 0)
         .map(product => ({
           ...product,
-          quantity: cartItem[product.id]
+          quantity: cartItem[product._id]
         }));
-      
+
       const newSubtotal = productsInCart.reduce(
-        (total, product) => total + product.price * product.quantity,
+        (total, product) => total + (product.price || 0) * (product.quantity || 0),
         0
       );
 
@@ -59,9 +59,13 @@ export default function CartPage() {
         <div className="lg:col-span-2 space-y-6">
           {cartProducts.map((product) => (
             <CartItem
-              key={product.id}
-              {...product}
-              category={product.collection}
+              key={product._id}
+              id={product._id}
+              name={product.name}
+              price={product.price}
+              images={product.images || product.image}
+              quantity={product.quantity}
+              category={product.category || product.collection}
             />
           ))}
         </div>
