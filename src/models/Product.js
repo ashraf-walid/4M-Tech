@@ -1,5 +1,11 @@
 import mongoose from "mongoose";
 
+
+const imageSchema = new Schema({
+  url: { type: String, required: true },
+  public_id: { type: String, required: true },
+});
+
 // Define nested sub-schemas for clarity and type safety
 const cpuSchema = new mongoose.Schema({
   brand: String,

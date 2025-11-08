@@ -9,6 +9,8 @@ import useProductsStore from "@/store/productsStore";
 import { useSearchParams } from "next/navigation";
 import Loading from "@/components/feedback/Loading";
 import ErrorState from "@/components/feedback/ErrorState";
+import Header from "@/components/Header/index";
+import Footer from "@/components/footer/Footer";
 
 export default function ProductsPage() {
   const { cartItem } = useCartStore();
@@ -98,6 +100,9 @@ export default function ProductsPage() {
   if (error) return <ErrorState message={error} />;
 
   return (
+    <>
+      <Header/>
+    
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
@@ -218,5 +223,8 @@ export default function ProductsPage() {
         </div>
       </div>
     </div>
+
+      <Footer/>
+    </>
   );
 }

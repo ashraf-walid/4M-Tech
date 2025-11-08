@@ -23,16 +23,18 @@ export default function ImageGallery({ images, productName }) {
                 displayImage === imgUrl ? 'ring-2 ring-blue-500' : ''
               }`}
             >
-              <Image
-                src={imgUrl}
-                onClick={() => setDisplayImage(imgUrl)}
-                className="object-cover cursor-pointer hover:opacity-80 transition-opacity"
-                alt={`${productName} thumbnail ${i + 1}`}
-                width={64}
-                height={64}
-                sizes="(max-width: 640px) 40px, 64px"
-                priority={i === 0}
-              />
+              {imgUrl && typeof imgUrl === "string" && imgUrl.trim() !== "" && (
+                <Image
+                  src={imgUrl}
+                  onClick={() => setDisplayImage(imgUrl)}
+                  className="object-cover cursor-pointer hover:opacity-80 transition-opacity"
+                  alt={`${productName} thumbnail ${i + 1}`}
+                  width={64}
+                  height={64}
+                  sizes="(max-width: 640px) 40px, 64px"
+                  priority={i === 0}
+                />
+              )}
               {displayImage === imgUrl && (
                 <div className="absolute inset-0 bg-blue-500/10" />
               )}

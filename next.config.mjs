@@ -2,6 +2,7 @@
 const nextConfig = {
   images: {
     qualities: [75, 85, 90, 100], 
+    domains: ['res.cloudinary.com'],
   },
   experimental: {
     allowedDevOrigins: ['http://192.168.1.4:3000'],
@@ -10,3 +11,4 @@ const nextConfig = {
 };
 
 export default nextConfig;
+

@@ -9,6 +9,28 @@ const useProductsStore = create((set, get) => ({
   loading: true,
   error: null,
 
+
+
+  deleteProduct: async (_id) => {
+    const res = await fetch(`/api/products/${_id}`, { method: "DELETE" });
+    if (res.ok) {
+      set((state) => ({
+        products: state.products.filter((p) => p._id !== _id),
+      }));
+    }
+  },
+  
+
+
+
+  updateProduct: async (_id, updatedData) => {
+    const res = await fetch(`/api/products/${_id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedData),
+    });
+  },
+
   // --- Fetch products from API ---
   fetchProducts: async () => {
     try {
