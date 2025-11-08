@@ -10,7 +10,7 @@ const ProductCard = ({ product, isInCart, getProductQuantity }) => {
   const { addToCart, removeFromCart } = useCartStore();
   return (
     <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full">
-      <Link href={`/ProductDetailsPage/${_id}`}> 
+      <Link href={`/ProductDetails/${_id}`}> 
         <div className="relative aspect-[3/4] w-full">
         {image && image.url &&  ( 
           <Image src={image.url} alt={name} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" fill className="object-contain" />
