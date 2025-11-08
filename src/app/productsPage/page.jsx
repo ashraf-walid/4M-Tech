@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
@@ -17,6 +19,7 @@ export default function ProductsPage() {
   const { cartItem } = useCartStore();
   const { products, ensureProductsLoaded, loading, error } = useProductsStore();
   const searchParams = useSearchParams();
+  const query = searchParams.get("q");
   const [filters, setFilters] = useState({
     category: [],
     brand: [],
@@ -116,6 +119,7 @@ export default function ProductsPage() {
             </p>
           </div>
           {/* FilterSection & Products */}
+          {query && 
           <div className="flex flex-col lg:flex-row gap-8">
             <aside
               className={`lg:w-80 ${showFilters
@@ -221,7 +225,7 @@ export default function ProductsPage() {
                 </div>
               )}
             </main>
-          </div>
+          </div>}
         </div>
       </div>
 
