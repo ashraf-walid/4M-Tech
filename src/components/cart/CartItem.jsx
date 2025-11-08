@@ -52,7 +52,7 @@ export default function CartItem({
     >
       <Link href={`/products/${category}/${id}`} className="shrink-0 relative group">
         <Image 
-          src={Array.isArray(images) ? images[0] : images || "https://via.placeholder.com/100x100?text=No+Image"} 
+          src={Array.isArray(images) ? images[0].url : images || "https://via.placeholder.com/100x100?text=No+Image"} 
           alt={name} 
           width={100}
           height={100}

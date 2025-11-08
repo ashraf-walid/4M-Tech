@@ -23,13 +23,13 @@ const useProductsStore = create((set, get) => ({
 
 
 
-  updateProduct: async (_id, updatedData) => {
-    const res = await fetch(`/api/products/${_id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedData),
-    });
-  },
+  // updateProduct: async (_id, updatedData) => {
+  //   const res = await fetch(`/api/products/${_id}`, {
+  //     method: "PUT",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify(updatedData),
+  //   });
+  // },
 
   // --- Fetch products from API ---
   fetchProducts: async () => {

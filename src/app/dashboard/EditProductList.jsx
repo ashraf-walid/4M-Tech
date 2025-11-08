@@ -1,13 +1,15 @@
-'use client';
+"use client";
 
 import { useState, useEffect } from "react";
 import useProductsStore from "@/store/productsStore";
+import EditProductModal from "./EditProductModal";
 
 export default function EditProductList() {
   const { products, deleteProduct, updateProduct } = useProductsStore();
   const [search, setSearch] = useState("");
   const [filtered, setFiltered] = useState([]);
-
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // --- Filter when search changes ---
   useEffect(() => {
@@ -31,9 +33,14 @@ export default function EditProductList() {
     await deleteProduct(_id);
   };
 
-  const handleEdit = (p) => {
-    // You can later open a modal or form here
-    alert(`Edit ${p.name} - Feature coming soon`);
+  const handleEdit = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+
+  const handleSave = (updated) => {
+    // يمكن تحديث المنتجات في المخزن هنا
+    console.log("Updated product:", updated);
   };
 
   return (
@@ -69,11 +76,13 @@ export default function EditProductList() {
                 <tr key={p._id || i} className="hover:bg-gray-50">
                   <td className="border p-2">{i + 1}</td>
                   <td className="border p-2">
-                    <img
-                      src={p.image || "/placeholder.png"}
-                      alt={p.name}
-                      className="w-12 h-12 object-cover rounded"
-                    />
+                    {p?.image?.url && (
+                      <img
+                        src={p.image.url || "/placeholder.png"}
+                        alt={p.name}
+                        className="w-12 h-12 object-cover rounded"
+                      />
+                    )}
                   </td>
                   <td className="border p-2 font-medium">{p.name}</td>
                   <td className="border p-2">{p.brand}</td>
@@ -82,7 +91,7 @@ export default function EditProductList() {
                   <td className="border p-2 flex gap-2">
                     <button
                       onClick={() => handleEdit(p)}
-                      className="px-2 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+                      className="px-3 py-1 bg-blue-600 text-white rounded"
                     >
                       Edit
                     </button>
@@ -97,7 +106,10 @@ export default function EditProductList() {
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="border p-4 text-center text-gray-500">
+                <td
+                  colSpan="7"
+                  className="border p-4 text-center text-gray-500"
+                >
                   No products found.
                 </td>
               </tr>
@@ -105,6 +117,14 @@ export default function EditProductList() {
           </tbody>
         </table>
       </div>
+      {isModalOpen && (
+        <EditProductModal
+          product={selectedProduct}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSave={handleSave}
+        />
+      )}
     </div>
   );
 }

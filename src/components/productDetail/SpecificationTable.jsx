@@ -52,8 +52,7 @@ export default function SpecificationTable({ specifications }) {
       if (key.toLowerCase().includes("fov")) return `${value}°`;
       if (key.toLowerCase().includes("size")) return `${value} GB`;
       if (key.toLowerCase().includes("weight")) return `${value} كجم`;
-      if (["width", "height", "depth"].some((k) => key.toLowerCase().includes(k)))
-        return `${value} px`;
+
       return value;
     }
     return value;

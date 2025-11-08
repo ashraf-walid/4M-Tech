@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+const { Schema } = mongoose;
 
 const imageSchema = new Schema({
   url: { type: String, required: true },
@@ -52,13 +53,6 @@ const batterySchema = new mongoose.Schema({
   cells: Number,
 }, { _id: false });
 
-const dimensionsSchema = new mongoose.Schema({
-  width: Number,
-  depth: Number,
-  height: Number,
-  unit: String,
-}, { _id: false });
-
 const specsSchema = new mongoose.Schema({
   cpu: cpuSchema,
   gpu: gpuSchema,
@@ -70,7 +64,6 @@ const specsSchema = new mongoose.Schema({
   ports: [String],
   connectivity: [String],
   weight: Number,
-  dimensions: dimensionsSchema,
   keyboardLanguage: String,
   bodyMaterial: String,
   color: String,
@@ -88,8 +81,8 @@ const productSchema = new mongoose.Schema({
   subCategory: String,
   tags: [String],
   description: String,
-  image: String,
-  images: [String],
+  image: imageSchema,
+  images: [imageSchema],
   price: Number,
   discount: Number,
   stock: mongoose.Schema.Types.Mixed,
@@ -97,8 +90,6 @@ const productSchema = new mongoose.Schema({
   condition: String,
   badge: String,
   releaseYear: Number,
-  sku: String,
-  barcode: String,
   extraFeatures: [String],
   specs: specsSchema, // ✅ The correct way to embed nested schemas
 }, { timestamps: true });

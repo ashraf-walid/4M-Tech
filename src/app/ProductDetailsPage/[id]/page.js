@@ -135,7 +135,7 @@ export default function ProductDetails() {
           <div>
             <ImageGallery
               images={product.images || []}
-              productName={product.name || "غير معروف"}
+              productName={product.name || "Product image"}
             />
           </div>
 

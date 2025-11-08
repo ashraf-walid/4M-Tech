@@ -6,8 +6,8 @@ export default function ImageGallery({ images, productName }) {
   const [isZoomed, setIsZoomed] = useState(false);
 
   useEffect(() => {
-    if (images?.length > 0) {
-      setDisplayImage(images[0]);
+    if (Array.isArray(images) && images.length > 0) {
+      setDisplayImage(images[0]); 
     }
   }, [images]);
 
@@ -16,42 +16,44 @@ export default function ImageGallery({ images, productName }) {
       {/* Thumbnails */}
       <div className="self-start">
         <div className="bg-white p-4 max-sm:p-2 rounded-xl shadow-sm border border-gray-100 space-y-3">
-          {images?.map((imgUrl, i) => (
+          {images?.map((img, i) => (
             <div
-              key={i}
-              className={`relative rounded-lg overflow-hidden ${
-                displayImage === imgUrl ? 'ring-2 ring-blue-500' : ''
+              key={img.public_id || i}
+              className={`relative rounded-lg overflow-hidden cursor-pointer ${
+                displayImage?.public_id === img.public_id ? 'ring-2 ring-blue-500' : ''
               }`}
+              onClick={() => setDisplayImage(img)}
             >
-              {imgUrl && typeof imgUrl === "string" && imgUrl.trim() !== "" && (
+              {img?.url && (
                 <Image
-                  src={imgUrl}
-                  onClick={() => setDisplayImage(imgUrl)}
-                  className="object-cover cursor-pointer hover:opacity-80 transition-opacity"
+                  src={img.url}
                   alt={`${productName} thumbnail ${i + 1}`}
                   width={64}
                   height={64}
                   sizes="(max-width: 640px) 40px, 64px"
+                  className="object-cover hover:opacity-80 transition-opacity"
                   priority={i === 0}
                 />
               )}
-              {displayImage === imgUrl && (
+              {displayImage?.public_id === img.public_id && (
                 <div className="absolute inset-0 bg-blue-500/10" />
               )}
             </div>
           ))}
         </div>
       </div>
+
+      {/* Main image */}
       <div className="flex-1 self-start">
-        <div 
+        <div
           className="relative bg-white rounded-xl p-8 shadow-sm border border-gray-100"
           onMouseEnter={() => setIsZoomed(true)}
           onMouseLeave={() => setIsZoomed(false)}
         >
-          {displayImage ? (
+          {displayImage?.url ? (
             <div className="relative w-full max-w-xl mx-auto aspect-square">
               <Image
-                src={displayImage}
+                src={displayImage.url}
                 alt={productName}
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
