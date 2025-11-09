@@ -6,15 +6,25 @@ import { Trash2, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 
 const ProductCard = ({ product, isInCart, getProductQuantity }) => {
-  const { name, brand, image, price, discount, badge, condition, _id } = product;
+  const { name, brand, image, price, discount, badge, condition, _id } =
+    product;
   const { addToCart, removeFromCart } = useCartStore();
   return (
-    <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full">
-      <Link href={`/ProductDetails/${_id}`}> 
-        <div className="relative aspect-[3/4] w-full">
-        {image && image.url &&  ( 
-          <Image src={image.url} alt={name} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" fill className="object-contain" />
-        )}
+    <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col h-full w-[300px]">
+      <Link href={`/ProductDetails/${_id}`} className="group">
+        <div className="relative w-full h-72 bg-gray-50 flex items-center justify-center">
+          {image && image.url && (
+            <Image
+              src={image.url}
+              alt={name || "Product image"}
+              fill
+              quality={75}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
+              className="object-contain transition-transform duration-700 group-hover:scale-105"
+              priority={false}
+              fetchPriority="auto"
+            />
+          )}
           {badge && (
             <span className="absolute top-2 left-2 bg-yellow-400 text-xs font-bold px-2 py-1 rounded z-20">
               {badge}

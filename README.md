@@ -40,7 +40,7 @@ and deployed on **Netlify**.
    
    git clone https://github.com/ashraf-walid/Buy-Tech-Store.git
 
-   cd buy-tech-store
+   cd Buy-Tech-Store
 
    MONGODB_URI="your_mongodb_connection_string"
 

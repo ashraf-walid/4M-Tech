@@ -184,6 +184,7 @@ const NewProductSection = () => {
                   className={`absolute top-1/2 left-1/2 transition-all duration-700 ease-in-out`}
                   onMouseEnter={handleMouseEnter}
                   onMouseLeave={handleMouseLeave}
+                  // style
                   style={{
                     transform:
                       index === currentSlide

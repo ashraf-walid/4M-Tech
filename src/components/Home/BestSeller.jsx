@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import useCartStore from "@/store/cartStore";
 import useProductsStore from "@/store/productsStore";
 import Loading from "@/components/feedback/Loading";
@@ -15,53 +15,64 @@ const BestSeller = () => {
   const [scrollAmount, setScrollAmount] = useState(320);
 
   const { getBestSellerProducts, ensureProductsLoaded, loading, error } = useProductsStore();
+  const { cartItem } = useCartStore();
 
-  ensureProductsLoaded();
+  useEffect(() => {
+    ensureProductsLoaded();
+  }, [ensureProductsLoaded]);
 
   const products = getBestSellerProducts();
 
-  const { cartItem } = useCartStore();
-    
-  // Responsive scroll amount
   useEffect(() => {
+    let resizeTimeout;
+
     function updateScrollAmount() {
-      if (sliderRef.current) {
-        const width = sliderRef.current.offsetWidth;
-        setScrollAmount(width < 500 ? width * 0.8 : 320);
-      }
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        if (sliderRef.current) {
+          const width = sliderRef.current.offsetWidth;
+          // هذا السطر يسبب reflow لذا نؤجله عبر timeout
+          setScrollAmount(width < 500 ? width * 0.8 : 320);
+        }
+      }, 200);
     }
+
     updateScrollAmount();
     window.addEventListener("resize", updateScrollAmount);
-    return () => window.removeEventListener("resize", updateScrollAmount);
-  }, []);
-
-  // Smart scroll button logic
-  useEffect(() => {
-    function checkScroll() {
-      if (!sliderRef.current) return;
-      setCanScrollLeft(sliderRef.current.scrollLeft > 0);
-      setCanScrollRight(
-        sliderRef.current.scrollLeft + sliderRef.current.offsetWidth <
-          sliderRef.current.scrollWidth - 1
-      );
-    }
-    checkScroll();
-    sliderRef.current?.addEventListener("scroll", checkScroll);
-    window.addEventListener("resize", checkScroll);
     return () => {
-      sliderRef.current?.removeEventListener("scroll", checkScroll);
-      window.removeEventListener("resize", checkScroll);
+      clearTimeout(resizeTimeout);
+      window.removeEventListener("resize", updateScrollAmount);
     };
   }, []);
+
+  const checkScroll = useCallback(() => {
+    if (!sliderRef.current) return;
+    const el = sliderRef.current;
+    // قراءة خصائص DOM أقل عدد ممكن لتفادي layout thrashing
+    const scrollLeft = el.scrollLeft;
+    const visibleWidth = el.offsetWidth;
+    const totalWidth = el.scrollWidth;
+    setCanScrollLeft(scrollLeft > 0);
+    setCanScrollRight(scrollLeft + visibleWidth < totalWidth - 1);
+  }, []);
+
+  useEffect(() => {
+    const el = sliderRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", checkScroll);
+    window.addEventListener("resize", checkScroll);
+    checkScroll();
+    return () => {
+      el.removeEventListener("scroll", checkScroll);
+      window.removeEventListener("resize", checkScroll);
+    };
+  }, [checkScroll]);
 
   const scroll = (direction) => {
     if (!sliderRef.current) return;
     const { scrollLeft } = sliderRef.current;
     sliderRef.current.scrollTo({
-      left:
-        direction === "left"
-          ? scrollLeft - scrollAmount
-          : scrollLeft + scrollAmount,
+      left: direction === "left" ? scrollLeft - scrollAmount : scrollLeft + scrollAmount,
       behavior: "smooth",
     });
   };
