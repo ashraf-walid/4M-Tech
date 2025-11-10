@@ -11,7 +11,6 @@ export default function SpecificationTable({ specifications }) {
     setOpenKeys((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // 🧠 ترجمة المفاتيح لأسماء عربية
   const translateKey = (key) => {
     const map = {
       cpu: "المعالج",
@@ -21,7 +20,7 @@ export default function SpecificationTable({ specifications }) {
       screen: "الشاشة",
       display: "العرض",
       battery: "البطارية",
-      os: "نظام التشغيل",
+      OperatingSystem: "نظام التشغيل",
       ports: "المنافذ",
       connectivity: "الاتصال",
       weight: "الوزن",
@@ -42,7 +41,6 @@ export default function SpecificationTable({ specifications }) {
     return map[key] || key;
   };
 
-  // 🎨 تنسيق القيم الرقمية بالوحدات والألوان
   const formatValue = (key, value) => {
     if (typeof value === "number") {
       if (key.toLowerCase().includes("clock")) return `${value} GHz`;
@@ -58,10 +56,9 @@ export default function SpecificationTable({ specifications }) {
     return value;
   };
 
-  // 🪄 دالة عرض ديناميكية تدعم التداخل
   const renderValue = (value, level = 0) => {
-    // مصفوفة
     if (Array.isArray(value)) {
+      if(!value) return;
       return (
         <ul className="list-disc pr-6 text-gray-700 text-sm space-y-1">
           {value.map((v, i) => (
@@ -71,37 +68,38 @@ export default function SpecificationTable({ specifications }) {
       );
     }
 
-    // كائن متداخل
     if (typeof value === "object" && value !== null) {
+      if(!value) return;
       return (
         <div
           className={`space-y-1 text-gray-700 text-sm ${
             level > 0 ? "pl-4 border-r-2 border-sky-100" : ""
           }`}
         >
-          {Object.entries(value).map(([subKey, subVal], i) => (
-            <div key={i} className="flex justify-between border-b border-gray-100 py-1">
-              <span className="font-medium text-gray-800">
-                {translateKey(subKey)}
-              </span>
-              <span
-                className={`text-sm ${
-                  typeof subVal === "number"
-                    ? "text-sky-600 font-semibold"
-                    : "text-gray-600"
-                }`}
-              >
-                {typeof subVal === "object"
-                  ? renderValue(subVal, level + 1)
-                  : formatValue(subKey, subVal) || "غير متوفر"}
-              </span>
-            </div>
-          ))}
+          {Object.entries(value).map(([subKey, subVal], i) => {
+            if (!subVal) return;
+            return(
+              <div key={i} className="flex justify-between border-b border-gray-100 py-1">
+                <span className="font-medium text-gray-800">
+                  {translateKey(subKey)}
+                </span>
+                <span
+                  className={`text-sm ${
+                    typeof subVal === "number"
+                      ? "text-sky-600 font-semibold"
+                      : "text-gray-600"
+                  }`}
+                >
+                  {typeof subVal === "object"
+                    ? renderValue(subVal, level + 1)
+                    : formatValue(subKey, subVal) || "غير متوفر"}
+                </span>
+              </div>
+            )})}
         </div>
       );
     }
 
-    // قيمة عادية
     return (
       <span
         className={`text-sm ${

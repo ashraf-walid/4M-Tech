@@ -9,8 +9,6 @@ const useProductsStore = create((set, get) => ({
   loading: true,
   error: null,
 
-
-
   deleteProduct: async (_id) => {
     const res = await fetch(`/api/products/${_id}`, { method: "DELETE" });
     if (res.ok) {
@@ -20,17 +18,6 @@ const useProductsStore = create((set, get) => ({
     }
   },
   
-
-
-
-  // updateProduct: async (_id, updatedData) => {
-  //   const res = await fetch(`/api/products/${_id}`, {
-  //     method: "PUT",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(updatedData),
-  //   });
-  // },
-
   // --- Fetch products from API ---
   fetchProducts: async () => {
     try {
@@ -43,7 +30,7 @@ const useProductsStore = create((set, get) => ({
         p.tags?.some((tag) => tag.includes("new"))
       );
       const bestSellerProducts = data.filter((p) =>
-        p.tags?.some((tag) => tag.includes("bestSeller"))
+        p.tags?.some((tag) => tag.includes("bestseller"))
       );
 
       set({

@@ -60,7 +60,7 @@ const specsSchema = new mongoose.Schema({
   storage: storageSchema,
   screen: screenSchema,
   battery: batterySchema,
-  os: String,
+  OperatingSystem: String,
   ports: [String],
   connectivity: [String],
   weight: Number,

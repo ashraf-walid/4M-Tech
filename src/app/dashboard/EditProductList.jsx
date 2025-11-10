@@ -109,11 +109,11 @@ export default function EditProductList() {
           </div>
 
           <div className="flex gap-4">
-            <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white px-6 py-3 rounded-xl shadow-md">
+            <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white flex justify-center items-center gap-3 px-6 py-3 rounded-xl shadow-md">
               <div className="text-sm opacity-90">Total Products</div>
               <div className="text-2xl font-bold">{products.length}</div>
             </div>
-            <div className="bg-gradient-to-br from-green-500 to-green-600 text-white px-6 py-3 rounded-xl shadow-md">
+            <div className="bg-gradient-to-br from-green-500 to-green-600 text-white flex justify-center items-center gap-3 px-6 py-3 rounded-xl shadow-md">
               <div className="text-sm opacity-90">In Stock</div>
               <div className="text-2xl font-bold">{filtered.length}</div>
             </div>

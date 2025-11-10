@@ -76,7 +76,7 @@
         { label: "Battery Capacity (Wh)", path: "specs.battery.capacity", type: "number", placeholder: "Battery Capacity (Wh)" },
         { label: "Battery Cells", path: "specs.battery.cells", type: "number", placeholder: "Battery Cells" },
 
-        { label: "OS", path: "specs.os", type: "text", placeholder: "OS", colSpan: 3 },
+        { label: "Operating System", path: "specs.OperatingSystem", type: "text", placeholder: "Operating System", colSpan: 3 },
         { label: "Ports", path: "specs.ports", type: "tags", placeholder: "Add available ports (press Enter to add)", colSpan: 3 },
         { label: "Connectivity", path: "specs.connectivity", type: "tags", placeholder: "Add available Connectivity (press Enter to add)", colSpan: 3 },
 
