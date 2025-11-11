@@ -181,7 +181,7 @@ export default function EditProductList() {
                       {i + 1}
                     </td>
                     <td className="px-6 py-4">
-                      {p?.image?.url && (
+                      {p?.image?.url ? (
                         <div className="relative w-16 h-16 rounded-xl overflow-hidden shadow-md group-hover:shadow-xl transition-shadow">
                           <img
                             src={p.image.url}
@@ -189,6 +189,7 @@ export default function EditProductList() {
                             className="w-full h-full object-cover"
                           />
                         </div>
+                      ) : ( <span>🖼️ Add New Image</span>
                       )}
                     </td>
                     <td className="px-6 py-4">

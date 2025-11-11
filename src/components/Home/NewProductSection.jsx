@@ -156,7 +156,7 @@ const NewProductSection = () => {
       onKeyDown={handleKeyDown}
     >
       <div className="max-w-[1400px] mx-auto">
-        <div className="text-center mb-16">
+        <div className="text-center">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#393405] mb-2 sm:mb-6 md:mb-8 lg:mb-10 leading-[120%] tracking-tight relative inline-block">
             <span className="relative z-10">احدث المنتجات</span>
             <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[90%] h-3 bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-100 rounded-lg opacity-70 -z-0"></span>
@@ -173,7 +173,7 @@ const NewProductSection = () => {
             <ChevronLeft className=" button-icon" />
           </button>
           {/* Product Card */}
-          <div className="relative h-[600px] flex items-center justify-center">
+          <div className="relative h-[550px] flex items-center justify-center">
             {newProducts.map((product, index) => {
               const quantity = cartItem[product._id] || 0;
               const isInCart = quantity > 0;
@@ -237,7 +237,7 @@ const NewProductSection = () => {
         </div>
 
         {/* Pagination indicators */}
-        <div className="flex justify-center mt-10 sm:mt-20 space-x-2">
+        <div className="flex justify-center space-x-2">
           {newProducts.map((_, index) => (
             <button
               key={index}

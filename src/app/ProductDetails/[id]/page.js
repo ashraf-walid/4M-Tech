@@ -138,6 +138,7 @@ export default function ProductDetails() {
             <div>
               <ImageGallery
                 images={product.images || []}
+                mainImage={product.image || null}
                 productName={product.name || "Product image"}
               />
             </div>

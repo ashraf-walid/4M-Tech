@@ -3,13 +3,11 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
-import { useEffect } from "react";
 
 const CategorySection = () => {
+
   const router = useRouter();
-  useEffect(()=>{
-    console.log("CategorySection mount")
-  },[])
+
   const categories = [
     {
       id: 1,
@@ -97,7 +95,7 @@ const CategorySection = () => {
                 <button 
                   onClick={() => handleDiscover(category.filter)}
                   className="bg-[#fdf407] hover:bg-[#dfd93e] text-[#393405] border-none py-3 px-7 rounded-lg text-base font-semibold cursor-pointer inline-flex items-center gap-2 transition-all duration-300 shadow-md mt-auto w-full justify-center">
-                  اكتشف
+                    اكتشف
                   <ChevronLeft className="w-5 h-5" />
                 </button>
               </div>

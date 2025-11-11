@@ -54,15 +54,42 @@ export async function DELETE(request, { params }) {
 
 
 export async function PUT(req, { params }) {
-  await connectDB();
-  const { _id } = params;
-  const data = await req.json();
-
   try {
+    await connectDB();
+    const { _id } = params;
+    
+    let data;
+    try {
+      data = await req.json();
+    } catch (parseError) {
+      return NextResponse.json(
+        { error: "Invalid JSON in request body", message: parseError.message },
+        { status: 400 }
+      );
+    }
+
+    if (!_id) {
+      return NextResponse.json(
+        { error: "Product ID is required" },
+        { status: 400 }
+      );
+    }
+
     const updated = await Product.findByIdAndUpdate(_id, data, { new: true });
-    if (!updated) return NextResponse.json({ error: "Product not found" }, { status: 404 });
-    return NextResponse.json(updated);
+    
+    if (!updated) {
+      return NextResponse.json(
+        { error: "Product not found" },
+        { status: 404 }
+      );
+    }
+    
+    return NextResponse.json(updated, { status: 200 });
   } catch (err) {
-    return NextResponse.json({ error: "Failed to update product" }, { status: 500 });
+    console.error("Error updating product:", err);
+    return NextResponse.json(
+      { error: "Failed to update product", message: err.message },
+      { status: 500 }
+    );
   }
 }

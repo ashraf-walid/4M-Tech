@@ -1,22 +1,47 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 
-export default function ImageGallery({ images, productName }) {
+export default function ImageGallery({ mainImage, images = [], productName }) {
   const [displayImage, setDisplayImage] = useState(null);
   const [isZoomed, setIsZoomed] = useState(false);
 
-  useEffect(() => {
-    if (Array.isArray(images) && images.length > 0) {
-      setDisplayImage(images[0]); 
+  const allImages = useMemo(() => {
+    const imgs = Array.isArray(images) ? [...images] : [];
+    
+    if (mainImage?.url && !imgs.some(img => img.public_id === mainImage.public_id)) {
+      imgs.unshift(mainImage); 
     }
-  }, [images]);
+
+    return imgs;
+  }, [images, mainImage]);
+
+  useEffect(() => {
+    if (allImages.length > 0) {
+      setDisplayImage(allImages[0]);
+    } else {
+      setDisplayImage(null);
+    }
+  }, [allImages]);
+
+  if (!allImages.length) {
+    return (
+      <div className="flex gap-x-8 sticky top-24 self-start">
+        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+          <div className="w-16 h-16 bg-gray-200 border-2 border-dashed rounded-lg" />
+        </div>
+        <div className="flex-1 bg-gray-100 rounded-xl min-h-96 flex items-center justify-center">
+          <p className="text-gray-500">لا تتوفر صور للمنتج</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex gap-x-8 sticky top-24 self-start">
       {/* Thumbnails */}
       <div className="self-start">
         <div className="bg-white p-4 max-sm:p-2 rounded-xl shadow-sm border border-gray-100 space-y-3">
-          {images?.map((img, i) => (
+          {allImages?.map((img, i) => (
             <div
               key={img.public_id || i}
               className={`relative rounded-lg overflow-hidden cursor-pointer ${

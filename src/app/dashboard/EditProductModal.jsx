@@ -1,21 +1,27 @@
-'use client';
-import { useState, useEffect } from 'react';
-import SmartSection from '@/app/dashboard/SmartFields';
-import Image from 'next/image';
-import { fieldsBasic, fieldsMedia, fieldsPricing, fieldsSpecs } from "@/app/dashboard/FieldDefinitions";
+"use client";
+import { useState, useEffect } from "react";
+import SmartSection from "@/app/dashboard/SmartFields";
+import Image from "next/image";
+import {
+  fieldsBasic,
+  fieldsMedia,
+  fieldsPricing,
+  fieldsSpecs,
+} from "@/app/dashboard/FieldDefinitions";
 
 export default function EditProductModal({ product, isOpen, onClose, onSave }) {
   const [productData, setProductData] = useState(product || {});
   const [isSaving, setIsSaving] = useState(false);
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
   const [mainImageFile, setMainImageFile] = useState(null);
   const [galleryFiles, setGalleryFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [imagesToRemove, setImagesToRemove] = useState([]);
+  const [publicIdsToDelete, setPublicIdsToDelete] = useState([]);
   const [mainImagePreview, setMainImagePreview] = useState(null);
   const [galleryPreviews, setGalleryPreviews] = useState([]);
-  const [activeTab, setActiveTab] = useState('basic');
+  const [activeTab, setActiveTab] = useState("basic");
 
   // Reset state when product changes
   useEffect(() => {
@@ -24,13 +30,19 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
       setMainImageFile(null);
       setGalleryFiles([]);
       setImagesToRemove([]);
-      setError('');
-      setMessage('');
+      setError("");
+      setMessage("");
       setMainImagePreview(null);
       setGalleryPreviews([]);
-      setActiveTab('basic');
+      setActiveTab("basic");
     }
   }, [product]);
+
+  useEffect(() => {
+    return () => {
+      galleryPreviews.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, [galleryPreviews]);
 
   // Create preview URLs when files change
   useEffect(() => {
@@ -44,12 +56,19 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
   }, [mainImageFile]);
 
   useEffect(() => {
-    const urls = galleryFiles.map(file => URL.createObjectURL(file));
+    const urls = galleryFiles.map((file) => URL.createObjectURL(file));
     setGalleryPreviews(urls);
     return () => {
-      urls.forEach(url => URL.revokeObjectURL(url));
+      urls.forEach((url) => URL.revokeObjectURL(url));
     };
   }, [galleryFiles]);
+
+  useEffect(() => {
+    return () => {
+      galleryPreviews.forEach(url => URL.revokeObjectURL(url));
+      if (mainImagePreview) URL.revokeObjectURL(mainImagePreview);
+    };
+  }, [galleryPreviews, mainImagePreview]);
 
   if (!isOpen) return null;
 
@@ -64,20 +83,28 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
         const formData = new FormData();
         formData.append("file", mainImageFile);
 
-        const res = await fetch("/api/uploadImages", { method: "POST", body: formData });
+        const res = await fetch("/api/uploadImages", {
+          method: "POST",
+          body: formData,
+        });
         const data = await res.json();
 
-        if (data.url) mainImageUrl = { url: data.url, public_id: data.public_id };
+        if (data.url)
+          mainImageUrl = { url: data.url, public_id: data.public_id };
       }
 
       for (const file of galleryFiles) {
         const formData = new FormData();
         formData.append("file", file);
 
-        const res = await fetch("/api/uploadImages", { method: "POST", body: formData });
+        const res = await fetch("/api/uploadImages", {
+          method: "POST",
+          body: formData,
+        });
         const data = await res.json();
 
-        if (data.url) galleryUrls.push({ url: data.url, public_id: data.public_id });
+        if (data.url)
+          galleryUrls.push({ url: data.url, public_id: data.public_id });
       }
 
       return { mainImageUrl, galleryUrls };
@@ -90,12 +117,40 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
   };
 
   const handleSubmit = async () => {
-    setError('');
-    setMessage('');
+    setError("");
+    setMessage("");
 
     try {
       setIsSaving(true);
       setUploading(true);
+
+      if (publicIdsToDelete.length) {
+        const deleteRes = await fetch("/api/cloudinary/delete", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ publicIds: publicIdsToDelete }),
+        });
+
+        if (!deleteRes.ok) {
+          let errorMessage = "Failed to delete images from Cloudinary";
+          try {
+            const text = await deleteRes.text();
+            if (text) {
+              const err = JSON.parse(text);
+              errorMessage = err.error || err.message || errorMessage;
+            } else {
+              errorMessage = deleteRes.statusText || errorMessage;
+            }
+          } catch (parseError) {
+            // If response is not JSON, use status text
+            errorMessage = deleteRes.statusText || errorMessage;
+          }
+          throw new Error(errorMessage);
+        }
+
+        // Response is OK, clear the public IDs to delete
+        setPublicIdsToDelete([]);
+      }
 
       // Upload new images if any
       const { mainImageUrl, galleryUrls } = await uploadImages();
@@ -106,31 +161,60 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
       // Update main image
       if (mainImageUrl) {
         updatedData.image = mainImageUrl;
-      } else if (imagesToRemove.some(url => productData.image?.url === url)) {
+      } else if (imagesToRemove.some((url) => productData.image?.url === url)) {
         updatedData.image = null;
       }
 
       // Update gallery images - filter out removed ones and add new ones
-      const existingGallery = Array.isArray(productData.images) 
-        ? productData.images.filter(img => {
-            const imageUrl = typeof img === 'string' ? img : img?.url;
+      const existingGallery = Array.isArray(productData.images)
+        ? productData.images.filter((img) => {
+            const imageUrl = typeof img === "string" ? img : img?.url;
             return imageUrl && !imagesToRemove.includes(imageUrl);
           })
         : [];
-      
+
       updatedData.images = [...existingGallery, ...galleryUrls];
 
       // Send update request
       const res = await fetch(`/api/products/${productData._id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedData),
       });
 
-      if (!res.ok) throw new Error('Update failed');
-      const updated = await res.json();
-      setMessage('✅ Product updated successfully!');
-      onSave(updated); 
+      // Read response as text first to avoid JSON parsing errors
+      const responseText = await res.text();
+
+      if (!res.ok) {
+        let errorMessage = "Update failed";
+        try {
+          if (responseText) {
+            const errorData = JSON.parse(responseText);
+            errorMessage = errorData.error || errorData.message || errorMessage;
+          } else {
+            errorMessage = res.statusText || errorMessage;
+          }
+        } catch (parseError) {
+          errorMessage = res.statusText || errorMessage || "Update failed";
+        }
+        throw new Error(errorMessage);
+      }
+
+      // Parse successful response
+      let updated;
+      try {
+        if (!responseText) {
+          throw new Error("Empty response from server");
+        }
+        updated = JSON.parse(responseText);
+      } catch (parseError) {
+        throw new Error(
+          `Failed to parse response from server: ${parseError.message}`
+        );
+      }
+
+      setMessage("✅ Product updated successfully!");
+      onSave(updated);
       setTimeout(() => {
         setMainImageFile(null);
         setGalleryFiles([]);
@@ -138,7 +222,9 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
         onClose();
       }, 1500);
     } catch (err) {
-      setError('❌ Error while updating product: ' + (err.message || 'Unknown error'));
+      setError(
+        "❌ Error while updating product: " + (err.message || "Unknown error")
+      );
     } finally {
       setIsSaving(false);
       setUploading(false);
@@ -146,38 +232,55 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
   };
 
   const handleRemoveMainImage = () => {
-    setProductData(prev => ({ ...prev, image: null }));
-    setMainImageFile(null);
-    if (productData.image?.url) {
-      setImagesToRemove(prev => [...prev, productData.image.url]);
+    if (productData.image?.public_id) {
+      setPublicIdsToDelete((prev) => [...prev, productData.image.public_id]);
     }
+    if (productData.image?.url) {
+      setImagesToRemove((prev) => [...prev, productData.image.url]);
+    }
+    setProductData((prev) => ({ ...prev, image: null }));
+    setMainImageFile(null);
+    setMainImagePreview(null);
   };
 
   const handleRemoveGalleryImage = (imageUrl) => {
-    setProductData(prev => ({
+    const img = productData.images.find(
+      (i) => (typeof i === "string" ? i : i.url) === imageUrl
+    );
+    if (img?.public_id) setPublicIdsToDelete((p) => [...p, img.public_id]);
+
+    setProductData((prev) => ({
       ...prev,
-      images: prev.images?.filter(img => 
-        (typeof img === 'string' ? img : img.url) !== imageUrl
-      ) || []
+      images:
+        prev.images?.filter(
+          (img) => (typeof img === "string" ? img : img.url) !== imageUrl
+        ) || [],
     }));
-    setImagesToRemove(prev => [...prev, imageUrl]);
+    setImagesToRemove((prev) => [...prev, imageUrl]);
   };
 
   const handleGalleryFileChange = (e) => {
     const files = Array.from(e.target.files || []);
-    setGalleryFiles(prev => [...prev, ...files]);
+    const previews = files.map((file) => URL.createObjectURL(file));
+    setGalleryFiles((prev) => [...prev, ...files]);
+    setGalleryPreviews((prev) => [...prev, ...previews]);
   };
 
   const handleRemoveGalleryFile = (index) => {
-    setGalleryFiles(prev => prev.filter((_, i) => i !== index));
+    setGalleryFiles((prev) => prev.filter((_, i) => i !== index));
+    setGalleryPreviews((prev) => {
+      const url = prev[index];
+      URL.revokeObjectURL(url);
+      return prev.filter((_, i) => i !== index);
+    });
   };
 
   const tabs = [
-    { id: 'basic', label: '📝 Basic Info', icon: '📝' },
-    { id: 'media', label: '🏷️ Media & Tags', icon: '🏷️' },
-    { id: 'pricing', label: '💰 Pricing', icon: '💰' },
-    { id: 'specs', label: '⚙️ Specs', icon: '⚙️' },
-    { id: 'images', label: '🖼️ Images', icon: '🖼️' }
+    { id: "basic", label: "📝 Basic Info", icon: "📝" },
+    { id: "media", label: "🏷️ Media & Tags", icon: "🏷️" },
+    { id: "pricing", label: "💰 Pricing", icon: "💰" },
+    { id: "specs", label: "⚙️ Specs", icon: "⚙️" },
+    { id: "images", label: "🖼️ Images", icon: "🖼️" },
   ];
 
   return (
@@ -187,7 +290,9 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 flex justify-between items-center">
           <div>
             <h2 className="text-2xl font-bold">✏️ Edit Product</h2>
-            <p className="text-blue-100 text-sm mt-1">Update product information</p>
+            <p className="text-blue-100 text-sm mt-1">
+              Update product information
+            </p>
           </div>
           <button
             onClick={onClose}
@@ -200,14 +305,14 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
         {/* Tabs Navigation */}
         <div className="border-b border-gray-200 bg-gray-50 px-6">
           <div className="flex gap-1 min-w-max">
-            {tabs.map(tab => (
+            {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-6 py-3 font-medium transition-all relative whitespace-nowrap ${
                   activeTab === tab.id
-                    ? 'text-blue-600 bg-white'
-                    : 'text-gray-600 hover:text-gray-800 hover:bg-gray-100'
+                    ? "text-blue-600 bg-white"
+                    : "text-gray-600 hover:text-gray-800 hover:bg-gray-100"
                 }`}
               >
                 {tab.label}
@@ -239,7 +344,7 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
 
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6">
-          {activeTab === 'basic' && (
+          {activeTab === "basic" && (
             <div className="animate-fadeIn">
               <SmartSection
                 legend="Basic Information"
@@ -251,7 +356,7 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
             </div>
           )}
 
-          {activeTab === 'media' && (
+          {activeTab === "media" && (
             <div className="animate-fadeIn">
               <SmartSection
                 legend="Media & Tags"
@@ -263,7 +368,7 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
             </div>
           )}
 
-          {activeTab === 'pricing' && (
+          {activeTab === "pricing" && (
             <div className="animate-fadeIn">
               <SmartSection
                 legend="Pricing & Stock"
@@ -275,7 +380,7 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
             </div>
           )}
 
-          {activeTab === 'specs' && (
+          {activeTab === "specs" && (
             <div className="animate-fadeIn">
               <SmartSection
                 legend="Specifications"
@@ -287,7 +392,7 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
             </div>
           )}
 
-          {activeTab === 'images' && (
+          {activeTab === "images" && (
             <div className="space-y-6 animate-fadeIn">
               {/* Main Image Section */}
               <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border-2 border-blue-200 shadow-sm">
@@ -315,7 +420,7 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
                         ×
                       </button>
                       <span className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/70 text-white px-3 py-1 rounded-full text-xs font-medium">
-                        {mainImagePreview ? 'New' : 'Current'}
+                        {mainImagePreview ? "New" : "Current"}
                       </span>
                     </div>
                   )}
@@ -324,14 +429,27 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
                       <div className="border-3 border-dashed border-blue-300 rounded-xl p-8 hover:border-blue-500 hover:bg-blue-50 transition-all text-center">
                         <div className="text-5xl mb-3">📤</div>
                         <p className="text-blue-600 font-semibold mb-1">
-                          {productData.image?.url ? 'Change Main Image' : 'Upload Main Image'}
+                          {productData.image?.url
+                            ? "Change Main Image"
+                            : "Upload Main Image"}
                         </p>
-                        <p className="text-gray-500 text-sm">PNG, JPG, WebP up to 5MB</p>
+                        <p className="text-gray-500 text-sm">
+                          PNG, JPG, WebP up to 5MB
+                        </p>
                       </div>
                       <input
                         type="file"
                         accept="image/*"
-                        onChange={(e) => setMainImageFile(e.target.files[0] || null)}
+                        onChange={(e) => {
+                          const file = e.target.files[0];
+                          if (file) {
+                            setMainImageFile(file);
+                            setMainImagePreview(URL.createObjectURL(file));
+                          } else {
+                            setMainImageFile(null);
+                            setMainImagePreview(null);
+                          }
+                        }}
                         className="hidden"
                         disabled={isSaving || uploading}
                       />
@@ -345,16 +463,20 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
                 <h3 className="font-semibold text-lg mb-4 flex items-center gap-2">
                   <span>🎨</span> Product Gallery
                 </h3>
-                
+
                 {/* Existing Gallery Images */}
                 {productData.images && productData.images.length > 0 && (
                   <div className="mb-4">
-                    <p className="text-sm text-gray-600 mb-3 font-medium">Current Images:</p>
+                    <p className="text-sm text-gray-600 mb-3 font-medium">
+                      Current Images:
+                    </p>
                     <div className="flex flex-wrap gap-3">
                       {productData.images.map((img, index) => {
-                        const imageUrl = typeof img === 'string' ? img : img?.url;
-                        if (!imageUrl || imagesToRemove.includes(imageUrl)) return null;
-                        
+                        const imageUrl =
+                          typeof img === "string" ? img : img?.url;
+                        if (!imageUrl || imagesToRemove.includes(imageUrl))
+                          return null;
+
                         return (
                           <div key={index} className="relative group">
                             <div className="w-28 h-28 rounded-lg overflow-hidden shadow-md border-2 border-white bg-white">
@@ -384,7 +506,9 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
                 {/* New Gallery Images Preview */}
                 {galleryPreviews.length > 0 && (
                   <div className="mb-4">
-                    <p className="text-sm text-blue-600 mb-3 font-medium">New Images to Add:</p>
+                    <p className="text-sm text-blue-600 mb-3 font-medium">
+                      New Images to Add:
+                    </p>
                     <div className="flex flex-wrap gap-3">
                       {galleryPreviews.map((previewUrl, index) => (
                         <div key={index} className="relative group">
@@ -415,8 +539,12 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
                 <label className="inline-block cursor-pointer">
                   <div className="border-2 border-dashed border-green-300 rounded-xl p-6 hover:border-green-500 hover:bg-green-50 transition-all text-center">
                     <div className="text-4xl mb-2">🖼️</div>
-                    <p className="text-green-600 font-semibold mb-1">Add Gallery Images</p>
-                    <p className="text-gray-500 text-sm">Select multiple images at once</p>
+                    <p className="text-green-600 font-semibold mb-1">
+                      Add Gallery Images
+                    </p>
+                    <p className="text-gray-500 text-sm">
+                      Select multiple images at once
+                    </p>
                   </div>
                   <input
                     type="file"
@@ -450,16 +578,40 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
             {uploading ? (
               <>
                 <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
                 </svg>
                 Uploading images...
               </>
             ) : isSaving ? (
               <>
                 <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
                 </svg>
                 Saving...
               </>
@@ -472,16 +624,32 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
 
       <style jsx>{`
         @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
         }
         @keyframes slideUp {
-          from { transform: translateY(20px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
+          from {
+            transform: translateY(20px);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
+          }
         }
         @keyframes slideDown {
-          from { transform: translateY(-10px); opacity: 0; }
-          to { transform: translateY(0); opacity: 1; }
+          from {
+            transform: translateY(-10px);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
+          }
         }
         .animate-fadeIn {
           animation: fadeIn 0.3s ease-out;
@@ -496,4 +664,3 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
     </div>
   );
 }
-
