@@ -18,7 +18,7 @@ function ProductsPageContent() {
   const { cartItem } = useCartStore();
   const { products, ensureProductsLoaded, loading, error } = useProductsStore();
   const searchParams = useSearchParams();
-  const query = searchParams.get("q");
+  const query = searchParams.get("category");
 
   const [filters, setFilters] = useState({
     category: [],

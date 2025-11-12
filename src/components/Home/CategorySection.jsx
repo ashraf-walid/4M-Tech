@@ -30,7 +30,7 @@ const CategorySection = () => {
       name: "الطابعات",
       icon: "🖨️",
       description: "حلول طباعة احترافية",
-      image: "/categories/printer.jpg",
+      image: "/categories/printer.webp",
       filter: "printer",
     },
     {
@@ -38,7 +38,7 @@ const CategorySection = () => {
       name: "الشاشات",
       icon: "🖥️",
       description: "عروض بجودة عالية ووضوح",
-      image: "/categories/monitor.jpg",
+      image: "/categories/monitor.webp",
       filter: "monitor",
     },
     {

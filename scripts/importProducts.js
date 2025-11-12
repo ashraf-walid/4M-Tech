@@ -8,6 +8,12 @@ dotenv.config({ path: ".env.local" });
 
 async function importData() {
   try {
+    
+    if (!process.env.MONGODB_URI) {
+      console.error("❌ لم يتم العثور على MONGODB_URI في ملف .env.local");
+      process.exit(1);
+    }
+    
     await mongoose.connect(process.env.MONGODB_URI, {
       dbName: "buy-tech-db",
       useNewUrlParser: true,
