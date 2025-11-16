@@ -2,7 +2,7 @@
 
 **Buy Tech Store** is a modern e-commerce web app for selling laptops and computer devices.  
 It is built with **Next.js (App Router)**, **MongoDB**, **Zustand**, and **Tailwind CSS**,  
-and deployed on **Netlify**.
+and deployed on **Railway**.
 
 ---
 
@@ -30,7 +30,7 @@ and deployed on **Netlify**.
 | **Tailwind CSS** | Styling and responsive design |
 | **Cloudinary** | Image hosting & optimization |
 | **NextAuth (planned)** | Authentication system |
-| **Netlify** | Hosting and deployment |
+| **Railway** | Hosting and deployment |
 
 ---
 
@@ -63,9 +63,9 @@ and deployed on **Netlify**.
 
   📦 Deployment
 
-    Hosted on Netlify
+    Hosted on Railway
 
-    Environment variables managed via Netlify dashboard
+    Environment variables managed via Railway dashboard
 
 
   👨‍💻 Developer

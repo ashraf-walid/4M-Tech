@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongoose";
 import Product from "@/models/Product";
 import cloudinary from "@/lib/cloudinary";
+import { getCache, setCache, deleteCache } from "@/lib/cache";
 
 export async function DELETE(request, { params }) {
   try {
@@ -38,6 +39,9 @@ export async function DELETE(request, { params }) {
         { status: 404 }
       );
     }
+    
+    deleteCache(`product_${_id}`);
+    deleteCache("all_products");
 
     return NextResponse.json(
       { message: "Product and images deleted successfully" },
@@ -51,7 +55,6 @@ export async function DELETE(request, { params }) {
     );
   }
 }
-
 
 export async function PUT(req, { params }) {
   try {
@@ -83,6 +86,10 @@ export async function PUT(req, { params }) {
         { status: 404 }
       );
     }
+
+    // Clear caches
+    deleteCache(`product_${_id}`);
+    deleteCache("all_products");
     
     return NextResponse.json(updated, { status: 200 });
   } catch (err) {
@@ -92,4 +99,26 @@ export async function PUT(req, { params }) {
       { status: 500 }
     );
   }
+}
+
+export async function GET(request, { params }) {
+  const { _id } = params;
+
+  // Try cache
+  const cached = getCache(`product_${_id}`);
+  if (cached) {
+    return NextResponse.json(cached, { status: 200 });
+  }
+
+  await connectDB();
+  const product = await Product.findById(_id);
+
+  if (!product) {
+    return NextResponse.json({ message: "Product not found" }, { status: 404 });
+  }
+
+  // Save to cache
+  setCache(`product_${_id}`, product);
+
+  return NextResponse.json(product, { status: 200 });
 }
