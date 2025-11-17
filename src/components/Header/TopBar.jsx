@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   EmailIcon,
@@ -9,8 +11,8 @@ import {
 import Link from "next/link";
 import { MapPin } from "lucide-react";
 
-const TopBar = () => (
-  <div className="w-full bg-[#2b2626] py-1.5">
+const TopBar = ({ scrolledEnough }) => (
+  <div className="w-full bg-[#2b2626] py-1.5 transition-all duration-300">
     <div className="mx-auto w-full lg:w-[80%] px-4 flex flex-wrap items-center justify-center lg:justify-between gap-7 sm:gap-5 md:gap-3 lg:gap-2 text-center">
       {/* Email */}
       <a

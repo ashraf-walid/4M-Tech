@@ -1,10 +1,13 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { Search, X, ShoppingCart, Heart, BarChart2 } from "lucide-react";
 import Image from "next/image";
 import AnimatedBorder from "@/components/AnimatedBorder";
 import { formatPrice } from "@/utils/formatPrice";
+import useProductsStore from "@/store/productsStore";
+
 
 const useOutsideClick = (ref, callback) => {
   useEffect(() => {
@@ -21,28 +24,22 @@ const useOutsideClick = (ref, callback) => {
 };
 
 export default function SearchComponent() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const searchRef = useRef(null);
+  const { products, ensureProductsLoaded, } = useProductsStore();
 
-  const [selectedLaptop, setSelectedLaptop] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // const allOurProducts = [
-  //   ...laptopsAll,
-  //   ...GraphicsCards,
-  //   ...desktopPCs,
-  //   ...GamingPCs,
-  // ];
-
+  useEffect(()=>{ ensureProductsLoaded();},[])
+    
   const handleLaptopClick = (laptop) => {
-    setSelectedLaptop(laptop);
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedLaptop(null);
+    // Navigate to product details page
+    const productId = laptop._id || laptop.id;
+    if (productId) {
+      setIsFocused(false);
+      setSearchQuery("");
+      router.push(`/ProductDetails/${productId}`);
+    }
   };
 
   useOutsideClick(searchRef, () => {
@@ -50,7 +47,7 @@ export default function SearchComponent() {
   });
 
   const filteredLaptops = searchQuery
-    ? allOurProducts.filter((laptop) => {
+    ? products.filter((laptop) => {
       return (
         laptop.brand?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         laptop.model?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -70,7 +67,7 @@ export default function SearchComponent() {
 
   return (
     <>
-      <div className="relative mx-2 md:mx-4" ref={searchRef}>
+      <div className="relative sm:mx-2 md:mx-4" ref={searchRef}>
         <AnimatedBorder isActive={isFocused}>
           <div className="relative">
             <input
@@ -82,7 +79,7 @@ export default function SearchComponent() {
               className="w-full py-2.5 pr-2 md:pr-4 text-xs sm:text-sm md:text-base rounded-full focus:outline-none bg-gray-50 text-right transition-all duration-300"
             />
             <Search
-              size={22}
+              size={20}
               cursor="pointer"
               className={`absolute left-2 md:left-3 top-1/2 transform -translate-y-1/2 transition-colors duration-300 ${isFocused ? "text-blue-500" : "text-gray-400"
                 }`}
@@ -91,7 +88,7 @@ export default function SearchComponent() {
         </AnimatedBorder>
 
         {isFocused && searchQuery && (
-          <div className="absolute left-1/2 -translate-x-1/2 top-full ml-[23px] md:ml-0 mt-2 w-screen max-w-sm sm:max-w-md md:left-0 md:translate-x-0 md:w-full bg-white rounded-none md:rounded-lg shadow-2xl border border-gray-100 overflow-hidden z-50">
+          <div className="absolute left-0 sm:left-1/2 -translate-x-1/2 top-full ml-[23px] md:ml-0 mt-2 w-screen max-w-sm sm:max-w-md md:left-0 md:translate-x-0 md:w-full bg-white rounded-none md:rounded-lg shadow-2xl border border-gray-100 overflow-hidden z-[60]">
             {/* number of results  */}
             <div className="px-4 py-2 text-sm text-gray-600 border-b">
               تم العثور على {filteredLaptops.length} منتج
@@ -162,13 +159,6 @@ export default function SearchComponent() {
           </div>
         )}
       </div>
-      {isModalOpen && (
-        <LaptopDetailsModal
-          laptop={selectedLaptop}
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-        />
-      )}
     </>
   );
 }

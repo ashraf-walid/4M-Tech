@@ -27,7 +27,7 @@ export default function ProductDetails() {
 
   useEffect(() => {
     const loadProduct = async () => {
-      // await ensureProductsLoaded();
+      await ensureProductsLoaded();
 
       if (!_id) {
         setErrorMsg("معرف المنتج غير صحيح");

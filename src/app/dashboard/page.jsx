@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import AddProduct from '@/app/dashboard/AddProduct';
 import EditProductList from '@/app/dashboard/EditProductList';
+import ContactMessages from '@/app/dashboard/ContactMessages';
 
 
 // import { useRouter } from 'next/navigation';
@@ -16,7 +17,8 @@ import {
   Users,
   Ticket,
   User, 
-  Logs
+  Logs,
+  Mail
 } from 'lucide-react';
 
 export default function Dashboard() {
@@ -74,6 +76,7 @@ export default function Dashboard() {
     ManageOrders: 'إدارة الطلبات',
     addProduct: 'إضافة منتج جديد',
     productManagement: 'إدارة المنتجات',
+    contactMessages: 'إدارة الرسائل',
     addaccessory: 'إضافة ملحق جديد',
     MangeAccessories: 'إدارة الملحقات',
     CouponManagement: 'إدارة الكوبونات',
@@ -96,6 +99,11 @@ export default function Dashboard() {
       id: 'productManagement',
       label: 'إدارة المنتجات',
       icon: <PackageSearch className="w-5 h-5 text-blue-600" />
+    },
+    {
+      id: 'contactMessages',
+      label: 'إدارة الرسائل',
+      icon: <Mail className="w-5 h-5 text-blue-600" />
     },
     {
       id: 'addaccessory',
@@ -132,6 +140,8 @@ export default function Dashboard() {
         return <AddProduct />;
       case 'productManagement':
         return <EditProductList />;
+      case 'contactMessages':
+        return <ContactMessages />;
       // case 'addaccessory':
       //   return <AddAccessory />;
       // case 'MangeAccessories':

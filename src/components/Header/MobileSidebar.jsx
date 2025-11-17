@@ -50,7 +50,7 @@ const MobileSidebar = ({ isMenuOpen, setIsMenuOpen }) => {
             <span>الرئيسية</span>
           </Link>
           <Link
-            href="/products"
+            href="/productsPage"
             className="flex items-center gap-3 p-3 text-gray-200 hover:bg-[#2b2626] rounded-lg transition"
             onClick={() => setIsMenuOpen(false)}
           >
@@ -58,7 +58,7 @@ const MobileSidebar = ({ isMenuOpen, setIsMenuOpen }) => {
             <span>المنتجات</span>
           </Link>
           <Link
-            href="/cart"
+            href="/CartPage"
             className="flex items-center gap-3 p-3 text-gray-200 hover:bg-[#2b2626] rounded-lg transition"
             onClick={() => setIsMenuOpen(false)}
           >
@@ -66,7 +66,7 @@ const MobileSidebar = ({ isMenuOpen, setIsMenuOpen }) => {
             <span>سلة التسوق</span>
           </Link>
           <Link
-            href="/wishlist"
+            href="/"
             className="flex items-center gap-3 p-3 text-gray-200 hover:bg-[#2b2626] rounded-lg transition"
             onClick={() => setIsMenuOpen(false)}
           >

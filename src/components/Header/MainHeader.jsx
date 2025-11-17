@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import SearchComponent from "@/components/search/Search";
@@ -8,48 +8,15 @@ import UnderDevelopmentModal from "@/components/common/UnderDevelopmentModal";
 import useCartStore from '@/store/cartStore';
 
 const MainHeader = ({ setIsMenuOpen }) => {
-  const [showHeader, setShowHeader] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const [open, setOpen] = useState(false);
-  const [scrolledEnough, setScrolledEnough] = useState(false);
   const { cartItemCount } = useCartStore();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > lastScrollY) {
-        setShowHeader(false);
-      } else {
-        setShowHeader(true);
-      }
-      setLastScrollY(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
-  
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 40) {
-        setScrolledEnough(true);
-      } else {
-        setScrolledEnough(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <>
-      <div className={`fixed ${scrolledEnough ? "top-0" : "top-8"} left-0 z-50 w-full bg-[#1f1b1a] transition-transform duration-300
-      ${showHeader ? "translate-y-0" : "-translate-y-44"}
-      `}>
-        <div className="mx-auto px-4 py-3 flex items-center justify-between w-full lg:w-[80%] transition-all duration-300">
+    <div className="w-full bg-[#1f1b1a]">
+      <div className="mx-auto px-4 py-3 flex items-center justify-between w-full lg:w-[80%] transition-all duration-300">
           {/* Mobile Menu Button (Hamburger) */}
           <button
-            className="visible text-gray-200 text-2xl sm:text-3xl md:hidden"
+            className="visible text-gray-200 text-2xl sm:text-3xl md:hidden cursor-pointer" 
             onClick={() => setIsMenuOpen(true)}
             aria-label="Open menu"
           >
@@ -101,12 +68,11 @@ const MainHeader = ({ setIsMenuOpen }) => {
               priority
               width={124}
               height={124}
-              className="h-12 sm:h-14 md:h-16 lg:h-20 w-auto hover:opacity-90 transition-opacity duration-300"
+              className="h-10 sm:h-14 md:h-16 lg:h-20 w-auto hover:opacity-90 transition-opacity duration-300"
             />
           </Link>
         </div>
       </div>
-    </>
   );
 };
 
