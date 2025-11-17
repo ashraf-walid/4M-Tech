@@ -68,14 +68,28 @@ const BestSeller = () => {
     };
   }, [checkScroll]);
 
-  const scroll = (direction) => {
-    if (!sliderRef.current) return;
-    const { scrollLeft } = sliderRef.current;
-    sliderRef.current.scrollTo({
-      left: direction === "left" ? scrollLeft - scrollAmount : scrollLeft + scrollAmount,
-      behavior: "smooth",
-    });
-  };
+  const scroll = useCallback(
+    (direction) => {
+      if (!sliderRef.current) return;
+      const { scrollLeft } = sliderRef.current;
+      sliderRef.current.scrollTo({
+        left: direction === "left" ? scrollLeft - scrollAmount : scrollLeft + scrollAmount,
+        behavior: "smooth",
+      });
+      // ensure state reflects the new scroll position even before the smooth scroll ends
+      requestAnimationFrame(checkScroll);
+    },
+    [checkScroll, scrollAmount]
+  );
+
+  useEffect(() => {
+    if (!Array.isArray(products) || products.length === 0) {
+      setCanScrollLeft(false);
+      setCanScrollRight(false);
+      return;
+    }
+    requestAnimationFrame(checkScroll);
+  }, [products, checkScroll]);
 
   if (loading) return <Loading />;
   if (error) return <ErrorState message={error} />;
@@ -94,8 +108,9 @@ const BestSeller = () => {
         <div className="relative">
           <button
             aria-label="Scroll left"
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 shadow hover:bg-yellow-100 rounded-full p-2 transition"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 shadow hover:bg-yellow-100 rounded-full p-2 transition disabled:opacity-0 disabled:pointer-events-none"
             onClick={() => scroll("left")}
+            disabled={!canScrollLeft}
           >
             <ChevronLeft className="text-xl text-[#393405]" />
           </button>
@@ -138,9 +153,9 @@ const BestSeller = () => {
           </div>
           <button
             aria-label="Scroll right"
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 shadow hover:bg-yellow-100 rounded-full p-2 transition"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 shadow hover:bg-yellow-100 rounded-full p-2 transition disabled:opacity-0 disabled:pointer-events-none"
             onClick={() => scroll("right")}
-            style={{ display: canScrollRight ? "block" : "none" }}
+            disabled={!canScrollRight}
           >
             <ChevronRight className="text-xl text-[#393405]" />
           </button>

@@ -20,8 +20,6 @@ export async function connectDB() {
     cached.promise = mongoose
       .connect(MONGODB_URI, {
         dbName: "buy-tech-db",     
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
       })
       .then((mongoose) => mongoose);
   }

@@ -14,7 +14,7 @@ const CategorySection = () => {
       name: "اللابتوبات",
       icon: "💻",
       description: "قوة الحوسبة المحمولة",
-      image: "/categories/laptop.jpg",
+      image: "/categories/laptop.webp",
       filter: "laptop",
     },
     {
@@ -22,7 +22,7 @@ const CategorySection = () => {
       name: "أجهزة الكمبيوتر",
       icon: "🖥️",
       description: "محطات عمل عالية الأداء",
-      image: "/categories/desktop.jpg",
+      image: "/categories/desktop.webp",
       filter: "desktop",
     },
     {
@@ -46,7 +46,7 @@ const CategorySection = () => {
       name: "الاكسسوارات",
       icon: "⌨️",
       description: "ملحقات تقنية أساسية",
-      image: "/categories/accessories.jpg",
+      image: "/categories/accessories.webp",
       filter: "accessory",
     },
   ];
