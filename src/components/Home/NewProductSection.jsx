@@ -32,7 +32,7 @@ const NewProductSection = () => {
     resetTimer();
   };
 
-  const SLIDE_INTERVAL = 2000;
+  const SLIDE_INTERVAL = 3000;
 
   const resetTimer = () => {
     if (timerRef.current) {
@@ -164,7 +164,7 @@ const NewProductSection = () => {
         </div>
         <div className="relative px-3 sm:px-8 py-1 md:py-4 lg:py-8">
           <button
-            className="absolute left-4 top-1/2 bg-[#fdf407] cursor-pointer -translate-y-1/2 z-10 w-12 h-12 rounded-full  shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+            className="absolute left-1 md:left-4 top-1/2 bg-[#fdf407] cursor-pointer -translate-y-1/2 z-10 w-12 h-12 rounded-full  shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors duration-200"
             onClick={prevSlide}
             disabled={newProducts.length < 2}
             aria-disabled={newProducts.length < 2}
@@ -226,7 +226,7 @@ const NewProductSection = () => {
             })}
           </div>
           <button
-            className="absolute right-4 top-1/2 bg-[#fdf407] cursor-pointer -translate-y-1/2 z-10 w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+            className="absolute right-1 md:right-4 top-1/2 bg-[#fdf407] cursor-pointer -translate-y-1/2 z-10 w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors duration-200"
             onClick={nextSlide}
             disabled={newProducts.length < 2}
             aria-disabled={newProducts.length < 2}

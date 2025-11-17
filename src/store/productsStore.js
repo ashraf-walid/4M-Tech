@@ -6,15 +6,26 @@ const useProductsStore = create((set, get) => ({
   products: [],
   newProducts: [],          
   bestSellerProducts: [],   
-  loading: true,
+  loading: false,
   error: null,
 
+  // Delete product
   deleteProduct: async (_id) => {
     const res = await fetch(`/api/products/${_id}`, { method: "DELETE" });
     if (res.ok) {
-      set((state) => ({
-        products: state.products.filter((p) => p._id !== _id),
-      }));
+      set((state) => {
+        const updatedProducts = state.products.filter((p) => p._id !== _id);
+
+        return {
+          products: updatedProducts,
+          newProducts: updatedProducts.filter((p) =>
+            p.tags?.some((tag) => tag.includes("new"))
+          ),
+          bestSellerProducts: updatedProducts.filter((p) =>
+            p.tags?.some((tag) => tag.includes("bestseller"))
+          ),
+        };
+      });
     }
   },
   
@@ -45,13 +56,17 @@ const useProductsStore = create((set, get) => ({
     }
   },
 
+  // Ensure loaded only once
   ensureProductsLoaded: async () => {
-    const { products, fetchProducts } = get();
-    if (products.length === 0) {
-      await fetchProducts();
-    }
-  },
+    const { products, loading, fetchProducts } = get();
 
+    if (products.length > 0) return;   // already loaded
+    if (loading) return;              // prevent double fetch
+
+    set({ loading: true });
+    await fetchProducts();
+  },
+  
   getBestSellerProducts: () => get().bestSellerProducts,
   getNewProducts: () => get().newProducts,
 }));

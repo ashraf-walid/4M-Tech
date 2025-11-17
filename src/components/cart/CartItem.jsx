@@ -8,12 +8,11 @@ import useCartStore from '@/store/cartStore';
 import Image from 'next/image';
 
 export default function CartItem({
-  id,
+  _id,
   name,
   price,
   image,
   quantity,
-  category,
 }) {
   const { updateQuantityCartItem, addToCart, removeFromCart, DecreaseTheQuantityOfProduct } = useCartStore();
   const [inputValue, setInputValue] = useState(quantity);
@@ -50,7 +49,7 @@ export default function CartItem({
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <Link href={`/products/${category}/${id}`} className="shrink-0 relative group">
+        <Link href={`/ProductDetails/${_id}`} className="shrink-0 relative group">
           <Image
             src={ image?.url? image.url : "" }
             alt={name}
@@ -68,7 +67,7 @@ export default function CartItem({
         <div className="flex-grow">
           <div className="flex justify-between items-start">
             <Link
-              href={`/products/${category}/${id}`}
+              href={`/ProductDetails/${_id}`}
               className="text-lg font-semibold text-gray-800 hover:text-blue-600 transition-colors"
             >
               {name}

@@ -28,7 +28,9 @@ function ProductsPageContent() {
   });
   const [showFilters, setShowFilters] = useState(false);
 
-  ensureProductsLoaded();
+  useEffect(() => {
+    ensureProductsLoaded();
+  }, [ensureProductsLoaded]);
 
   useEffect(() => {
     const categoryFromURL = searchParams.get("category");
