@@ -289,7 +289,7 @@ export default function EditProductModal({ product, isOpen, onClose, onSave }) {
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 flex justify-between items-center">
           <div>
-            <h2 className="text-2xl font-bold">✏️ Edit Product</h2>
+            <h2 className="text-2xl font-bold">✏️ Edit {product.name} Product</h2>
             <p className="text-blue-100 text-sm mt-1">
               Update product information
             </p>

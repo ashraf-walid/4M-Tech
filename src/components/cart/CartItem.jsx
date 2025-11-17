@@ -11,7 +11,7 @@ export default function CartItem({
   id,
   name,
   price,
-  images,
+  image,
   quantity,
   category,
 }) {
@@ -52,11 +52,7 @@ export default function CartItem({
       >
         <Link href={`/products/${category}/${id}`} className="shrink-0 relative group">
           <Image
-            src={
-              Array.isArray(images) && images.length > 0 && images[0]?.url
-                ? images[0].url
-                : ""
-            }
+            src={ image?.url? image.url : "" }
             alt={name}
             width={100}
             height={100}

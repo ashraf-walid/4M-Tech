@@ -94,7 +94,7 @@ const BestSeller = () => {
         <div className="relative">
           <button
             aria-label="Scroll left"
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 shadow hover:bg-yellow-100 rounded-full p-2 transition"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 shadow hover:bg-yellow-100 rounded-full p-2 transition"
             onClick={() => scroll("left")}
           >
             <ChevronLeft className="text-xl text-[#393405]" />
@@ -138,7 +138,7 @@ const BestSeller = () => {
           </div>
           <button
             aria-label="Scroll right"
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 shadow hover:bg-yellow-100 rounded-full p-2 transition"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-300 shadow hover:bg-yellow-100 rounded-full p-2 transition"
             onClick={() => scroll("right")}
             style={{ display: canScrollRight ? "block" : "none" }}
           >

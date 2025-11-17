@@ -67,7 +67,7 @@ export default function CartPage() {
                 id={product._id}
                 name={product.name}
                 price={product.price}
-                images={product.images || product.image}
+                image={product.image}
                 quantity={product.quantity}
                 category={product.category || product.collection}
               />

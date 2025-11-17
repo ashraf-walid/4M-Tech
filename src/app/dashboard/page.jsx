@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import AddProduct from '@/app/dashboard/AddProduct';
 import EditProductList from '@/app/dashboard/EditProductList';
 import ContactMessages from '@/app/dashboard/ContactMessages';
@@ -25,7 +26,7 @@ export default function Dashboard() {
   const [activeTab, setActiveTab] = useState('addProduct');
   const [isListOpen, setIsListOpen] = useState(false);
   // const [loading, setLoading] = useState(true);
-  // const router = useRouter();
+  const router = useRouter();
 
   // verifyAdmin
   // useEffect(() => {
@@ -175,7 +176,7 @@ export default function Dashboard() {
           <h3 className="text-2xl font-bold text-gray-800">
             لوحة التحكم
           </h3>
-          <div className="mt-2 h-1 w-20 bg-blue-500 rounded-full mr-auto"></div>
+          <div className="mt-2 h-1 w-20 bg-blue-500 rounded-full ml-auto"></div>
         </div>
         <nav className="space-y-1">
           {navItems.map((item) => (
@@ -235,6 +236,12 @@ export default function Dashboard() {
             {tabTitles[activeTab] || 'لوحة التحكم'}
           </h1>
           <div className="flex flex-row-reverse items-center gap-4">
+            <button
+              onClick={() => router.push('/')}
+              className="px-4 py-2 text-sm font-medium text-white cursor-pointer bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors duration-200"
+            >
+              العودة للرئيسية
+            </button>
             <div className="flex flex-row-reverse items-center gap-2 text-gray-600">
               <User className="w-5 h-5" />
               {/* <span className="text-sm">{currentUser.email}</span> */}

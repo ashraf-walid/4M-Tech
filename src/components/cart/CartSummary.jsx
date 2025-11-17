@@ -37,7 +37,7 @@ export default function CartSummary({ subtotal, itemCount }) {
           </Link>
           
           <Link
-            href="/Laptops"
+            href="/productsPage"
             className="w-full bg-gray-100 text-gray-800 px-4 py-3 rounded-lg hover:bg-gray-200 transition duration-300 text-center flex items-center justify-center group"
           >
             متابعة التسوق
