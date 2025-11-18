@@ -162,7 +162,7 @@ export default function Dashboard() {
   //   return (
   //     <div className="min-h-screen flex items-center justify-center">
   //       <div className="text-center">
-  //         <p className="text-gray-600">يرجى تسجيل الدخول للوصول إلى لوحة التحكم.</p>
+  //         <p className="text-gray-600">Please log in to access the control panel.</p>
   //       </div>
   //     </div>
   //   );
@@ -170,7 +170,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex relative">
-      {/* الشريط الجانبي للشاشات الكبيرة */}
+      {/* Sidebar for large screens */}
       <div className="w-56 bg-white shadow-lg p-2 min-h-screen max-sm:hidden">
         <div className="mb-8 mt-6 text-right">
           <h3 className="text-2xl font-bold text-gray-800">
@@ -206,7 +206,7 @@ export default function Dashboard() {
         <Logs onClick={()=> setIsListOpen(!isListOpen)}/>
       </div>
 
-      {/* الشريط الجانبي للشاشات الصغيرة */}
+      {/* Sidebar for small screens*/}
       {isListOpen &&
         <div className="w-full bg-white shadow-lg p-6 min-h-screen sm:hidden absolute mt-14 z-50 -top-1 text-right">
           <nav className="space-y-1">
@@ -228,9 +228,9 @@ export default function Dashboard() {
         </div>
       }
       
-      {/* المحتوى الرئيسي */}
+      {/* Main Content*/}
       <main className="flex-1 p-8 max-sm:py-4 max-sm:px-0">
-        {/* رأس لوحة التحكم */}
+        {/* Control panel head*/}
         <div className="bg-white p-6 rounded-lg shadow-sm mb-6 flex items-center justify-between max-sm:hidden">
           <h1 className="text-2xl font-semibold text-gray-800">
             {tabTitles[activeTab] || 'لوحة التحكم'}
@@ -249,7 +249,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* المحتوى الديناميكي */}
+        {/* Dynamic content*/}
         <div className="bg-white rounded-lg shadow-sm p-6 max-sm:p-0 max-sm:mt-12">
           {renderContent()}
         </div>

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev --port 4010",
     "build": "next build",
-    "start": "next start -p $PORT -- --max-old-space-size=384",
+    "start": "node --max-old-space-size=384 node_modules/next/dist/bin/next start -p $PORT",
     "lint": "eslint"
   },
   "dependencies": {
