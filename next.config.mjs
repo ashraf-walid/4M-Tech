@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'standalone',
   images: {
     qualities: [75, 85, 90, 100], 
     remotePatterns: [
@@ -10,7 +11,9 @@ const nextConfig = {
       }
     ],
   },
-  experimental: {},
+  experimental: {
+    optimizeServerReactCache: true,
+  },
 };
 
 export default nextConfig;
