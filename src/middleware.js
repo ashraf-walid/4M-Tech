@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 
+console.log("🚀 MIDDLEWARE FILE LOADED - This should appear on server startup");
+
 export function middleware(req) {
+
+  console.log("🔵🔥 MIDDLEWARE FIRED → pathname:", req.nextUrl.pathname);
+
   const token = req.cookies.get("auth")?.value;
 
   console.log("🎯 the value of token from middleware file is :", token)
@@ -40,6 +45,11 @@ export const config = {
   matcher: [
     "/dashboard/:path*",
     "/editor-panel/:path*",
-    "/reports/:path*"
+    "/reports/:path*",
+    "/_next/data/:path*/dashboard/:path*",
+    "/_next/data/:path*/editor-panel/:path*",
+    "/_next/data/:path*/reports/:path*",
   ],
 };
+
+console.log("🔧 MIDDLEWARE CONFIG LOADED - matcher:", config.matcher);
