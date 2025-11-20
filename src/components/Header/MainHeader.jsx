@@ -63,7 +63,7 @@ const MainHeader = ({ setIsMenuOpen }) => {
           {/* Logo */}
           <Link href="/" className="flex-shrink-0" aria-label="header logo">
             <Image
-              src="/Logo/logo.png"
+              src="/Logo/logo.webp"
               alt="Buy-Tech"
               priority
               width={124}

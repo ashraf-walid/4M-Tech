@@ -2,7 +2,7 @@
 
   const cache = {
     data: new Map(), 
-    ttl: 1000 * 60 * 60, // 60 minutes
+    ttl: 1000 * 60 * 240, // 240 minutes
   };
   
   export function setCache(key, value) {

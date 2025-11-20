@@ -49,7 +49,7 @@ export default function SaleSection() {
       <div className="mx-auto lg:w-[80%] flex items-center justify-center gap-12">
         {/* Left Image */}
         <Image
-          src="/sale/deal1.png"
+          src="/sale/deal1.webp"
           alt="Special Offer"
           width={380}
           height={380}
