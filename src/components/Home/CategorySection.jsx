@@ -14,7 +14,7 @@ const CategorySection = () => {
       name: "اللابتوبات",
       icon: "💻",
       description: "قوة الحوسبة المحمولة",
-      image: "/categories/laptop.webp",
+      image: "/categories/laptop1.webp",
       filter: "laptop",
     },
     {
@@ -22,7 +22,7 @@ const CategorySection = () => {
       name: "أجهزة الكمبيوتر",
       icon: "🖥️",
       description: "محطات عمل عالية الأداء",
-      image: "/categories/desktop.webp",
+      image: "/categories/desktop1.webp",
       filter: "desktop",
     },
     {
@@ -30,7 +30,7 @@ const CategorySection = () => {
       name: "الطابعات",
       icon: "🖨️",
       description: "حلول طباعة احترافية",
-      image: "/categories/printer.webp",
+      image: "/categories/printer1.webp",
       filter: "printer",
     },
     {
@@ -38,7 +38,7 @@ const CategorySection = () => {
       name: "الشاشات",
       icon: "🖥️",
       description: "عروض بجودة عالية ووضوح",
-      image: "/categories/monitor.webp",
+      image: "/categories/monitor1.webp",
       filter: "monitor",
     },
     {
@@ -46,7 +46,7 @@ const CategorySection = () => {
       name: "الاكسسوارات",
       icon: "⌨️",
       description: "ملحقات تقنية أساسية",
-      image: "/categories/accessories.webp",
+      image: "/categories/accessories1.webp",
       filter: "accessory",
     },
   ];
