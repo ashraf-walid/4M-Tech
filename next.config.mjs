@@ -11,9 +11,6 @@ const nextConfig = {
       }
     ],
   },
-  experimental: {
-    optimizeServerReactCache: true,
-  },
 };
 
 export default nextConfig;
