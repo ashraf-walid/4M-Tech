@@ -4,43 +4,57 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const router = useRouter();
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError(null);
     setIsSubmitting(true);
+
     try {
+      console.log("Attempting to log in...");
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include", // important to receive httpOnly cookie
+        credentials: "include", // important for httpOnly cookies
         body: JSON.stringify({ username, password }),
       });
 
+      const data = await res.json();
+      console.log("Login response:", { status: res.status, data });
+
       if (res.ok) {
-        const data = await res.json();
+        console.log("Login successful, user role:", data.role);
+        // Store user role in sessionStorage
         sessionStorage.setItem("userRole", data.role);
-        if (data.role === "admin") router.push("/dashboard");
-        else if (data.role === "editor") router.push("/editor-panel");
-        else if (data.role === "manager") router.push("/reports");
-        else router.push("/");
+        sessionStorage.setItem("isAuthenticated", "true");
+
+        // Force a full page reload to ensure middleware runs
+        if (data.role === "admin") {
+          window.location.href = "/dashboard";
+        } else if (data.role === "editor") {
+          window.location.href = "/editor-panel";
+        } else if (data.role === "manager") {
+          window.location.href = "/reports";
+        } else {
+          window.location.href = "/";
+        }
       } else {
         sessionStorage.removeItem("userRole");
-        const data = await res.json();
-        setError(data.message || "Login failed");
-        router.push("/");
+        sessionStorage.removeItem("isAuthenticated");
+        setError(data.message || "Login failed. Please check your credentials.");
+        throw new Error(data.message || "Login failed");
       }
     } catch (err) {
+      console.error("Login error:", err);
       sessionStorage.removeItem("userRole");
-      setError("Network error");
+      sessionStorage.removeItem("isAuthenticated");
+      setError("Network error. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }

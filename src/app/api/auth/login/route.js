@@ -27,11 +27,14 @@ export async function POST(req) {
 
     const res = NextResponse.json({ message: "Logged in", role: user.role });
 
-    res.cookies.set("auth", token, {
+    res.cookies.set({
+      name: "auth",
+      value: token,
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
       path: "/",
-      maxAge: 2 * 60 * 60,
+      maxAge: 2 * 60 * 60, // 2 hours
     });
 
     console.log("Auth cookie set successfully");
