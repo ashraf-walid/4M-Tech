@@ -4,9 +4,9 @@ import { useState, useMemo } from "react";
 import { Search, ChevronDown, ChevronUp } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
-import { Input } from "@/components/ui/input";
-import { formatPrice } from "@/utils/formatPrice";
+// import { Slider } from "@/components/ui/slider";
+// import { Input } from "@/components/ui/input";
+// import { formatPrice } from "@/utils/formatPrice";
 
 export default function FilterSection({ filters, setFilters, products }) {
   const [expandedSections, setExpandedSections] = useState({
@@ -30,7 +30,7 @@ export default function FilterSection({ filters, setFilters, products }) {
     const cats = [...new Set(products.map((p) => p.category))].filter(Boolean);
     return cats.map((cat) => ({
       value: cat,
-      label: cat === "laptop" ? "لابتوب" : cat === "accessory" ? "إكسسوار" : cat,
+      label: cat,
       count: products.filter((p) => p.category === cat).length,
     }));
   }, [products]);
@@ -86,20 +86,20 @@ export default function FilterSection({ filters, setFilters, products }) {
   };
 
   // Price change
-  const handlePriceChange = (value) => {
-    setFilters((prev) => ({
-      ...prev,
-      priceRange: value,
-    }));
-  };
+  // const handlePriceChange = (value) => {
+  //   setFilters((prev) => ({
+  //     ...prev,
+  //     priceRange: value,
+  //   }));
+  // };
 
   // Search change
-  const handleSearchChange = (e) => {
-    setFilters((prev) => ({
-      ...prev,
-      search: e.target.value,
-    }));
-  };
+  // const handleSearchChange = (e) => {
+  //   setFilters((prev) => ({
+  //     ...prev,
+  //     search: e.target.value,
+  //   }));
+  // };
 
   // Filter group
   const FilterGroup = ({ title, isExpanded, onToggle, children }) => (
@@ -124,7 +124,7 @@ export default function FilterSection({ filters, setFilters, products }) {
   return (
     <div className="space-y-6">
       {/* Search */}
-      <FilterGroup
+      {/* <FilterGroup
         title="البحث"
         isExpanded={expandedSections.search}
         onToggle={() => toggleSection("search")}
@@ -142,7 +142,7 @@ export default function FilterSection({ filters, setFilters, products }) {
             className="pr-10 text-right border-gray-300 focus:border-[#fdf407] focus:ring-[#fdf407]"
           />
         </div>
-      </FilterGroup>
+      </FilterGroup> */}
 
       {/* Category */}
       <FilterGroup
@@ -207,7 +207,7 @@ export default function FilterSection({ filters, setFilters, products }) {
       </FilterGroup>
 
       {/* Price */}
-      <FilterGroup
+      {/* <FilterGroup
         title="السعر"
         isExpanded={expandedSections.price}
         onToggle={() => toggleSection("price")}
@@ -231,7 +231,7 @@ export default function FilterSection({ filters, setFilters, products }) {
             </span>
           </div>
         </div>
-      </FilterGroup>
+      </FilterGroup> */}
 
       {/* Condition */}
       <FilterGroup

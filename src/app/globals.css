@@ -2,19 +2,19 @@
 
 :root {
   /* Color Variables */
-  --color-lemon: #ffde59;
-  --color-cod-gray: #1813137e;
-  --color-dark-ebony: #393405;
-  --color-quill-gray: #d9d8d4;
-  --color-merlin: #3b3934;
-  --color-olivetone: #7c760f;
-  --color-wattle: #dfd93e;
+  --color-light-blue: #8db8fd;
+  --color-dark-transparent: #1813137e;
+  --color-olive-dark: #393405;
+  --color-light-gray: #d9d8d4;
+  --color-dark-gray: #3b3934;
+  --color-olivetone: #390f7c;
+  --color-purple-bright: #110c9e;
   --color-blue: #5170ff;
 
   /* Category Section Specific Variables */
   --category-section-bg: linear-gradient(
     135deg,
-    var(--color-quill-gray) 0%,
+    var(--color-light-gray) 0%,
     #ffffff 100%
   );
   --category-card-shadow: 0 4px 6px rgba(0, 0, 0, 0.05),
@@ -47,11 +47,11 @@
   padding: 3px;
   background: conic-gradient(
     from var(--angle),
-    var(--color-lemon),
-    var(--color-wattle),
+    var(--color-light-blue),
+    var(--color-purple-bright),
     var(--color-olivetone),
-    var(--color-quill-gray),
-    var(--color-lemon)
+    var(--color-light-gray),
+    var(--color-light-blue)
   );
   animation: rotate 3s linear infinite;
 }

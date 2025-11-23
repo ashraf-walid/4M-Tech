@@ -22,10 +22,11 @@ function ProductsPageContent() {
   const [filters, setFilters] = useState({
     category: [],
     brand: [],
-    priceRange: [0, 100000],
+    priceRange: [0, 80000],
     condition: [],
     search: "",
   });
+
   const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
@@ -42,8 +43,16 @@ function ProductsPageContent() {
     }
   }, [searchParams]);
 
+  // Close filter sidebar automatically on mobile when filters change
+  useEffect(() => {
+    if (showFilters) {
+      setShowFilters(false);
+    }
+  }, [filters]);
+
   const isInCart = (productId) => !!cartItem[productId];
   const getProductQuantity = (productId) => cartItem[productId] || 0;
+
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
       const matchesCategory =
@@ -89,7 +98,7 @@ function ProductsPageContent() {
     setFilters({
       category: [],
       brand: [],
-      priceRange: [0, 100000],
+      priceRange: [0, 80000],
       condition: [],
       search: "",
     });

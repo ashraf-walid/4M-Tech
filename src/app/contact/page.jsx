@@ -46,7 +46,7 @@ export default function Contact() {
                             </svg>
                         </div>
                         <h3 className="text-lg font-semibold mb-2">اتصل بنا</h3>
-                        <p className="text-gray-600 dir-ltr">01000980788</p>
+                        <p className="text-gray-600 dir-ltr">01094096548</p>
                     </div>
 
                     {/* Email Card */}

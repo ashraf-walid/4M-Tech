@@ -9,9 +9,12 @@ import {
   Heart,
   Headset,
 } from "lucide-react";
+import useCartStore from '@/store/cartStore';
 
 const MobileSidebar = ({ isMenuOpen, setIsMenuOpen }) => {
   if (!isMenuOpen) return null;
+  const { cartItemCount } = useCartStore();
+
   return (
     <div className="fixed inset-0 z-50 flex transition-all duration-300">
       {/* Overlay */}
@@ -46,7 +49,7 @@ const MobileSidebar = ({ isMenuOpen, setIsMenuOpen }) => {
             className="flex items-center gap-3 p-3 text-gray-200 hover:bg-[#2b2626] rounded-lg transition"
             onClick={() => setIsMenuOpen(false)}
           >
-            <Home size={22} className="text-[var(--color-wattle)]" />
+            <Home size={22} className="text-[var(--color-blue)]" />
             <span>الرئيسية</span>
           </Link>
           <Link
@@ -54,23 +57,28 @@ const MobileSidebar = ({ isMenuOpen, setIsMenuOpen }) => {
             className="flex items-center gap-3 p-3 text-gray-200 hover:bg-[#2b2626] rounded-lg transition"
             onClick={() => setIsMenuOpen(false)}
           >
-            <ShoppingBag size={22} className="text-[var(--color-wattle)]" />
+            <ShoppingBag size={22} className="text-[var(--color-blue)]" />
             <span>المنتجات</span>
           </Link>
           <Link
             href="/CartPage"
-            className="flex items-center gap-3 p-3 text-gray-200 hover:bg-[#2b2626] rounded-lg transition"
+            className="relative flex items-center gap-3 p-3 text-gray-200 hover:bg-[#2b2626] rounded-lg transition"
             onClick={() => setIsMenuOpen(false)}
           >
-            <ShoppingCart size={22} className="text-[var(--color-wattle)]" />
+            <ShoppingCart size={22} className="text-[var(--color-blue)]" />
             <span>سلة التسوق</span>
+            {cartItemCount > 0 && (
+              <span className="absolute bottom-8 right-4 bg-red-500 text-white text-[10px] w-3 h-3 rounded-full flex items-center justify-center">
+                {cartItemCount}
+              </span>
+            )}
           </Link>
           <Link
             href="/"
             className="flex items-center gap-3 p-3 text-gray-200 hover:bg-[#2b2626] rounded-lg transition"
             onClick={() => setIsMenuOpen(false)}
           >
-            <Heart size={22} className="text-[var(--color-wattle)]" />
+            <Heart size={22} className="text-[var(--color-blue)]" />
             <span>المفضلة</span>
           </Link>
           <Link
@@ -78,7 +86,7 @@ const MobileSidebar = ({ isMenuOpen, setIsMenuOpen }) => {
             className="flex items-center gap-3 p-3 text-gray-200 hover:bg-[#2b2626] rounded-lg transition"
             onClick={() => setIsMenuOpen(false)}
           >
-            <Headset size={22} className="text-[var(--color-wattle)]" />
+            <Headset size={22} className="text-[var(--color-blue)]" />
             <span>اتصل بنا</span>
           </Link>
         </nav>
@@ -102,7 +110,7 @@ const MobileSidebar = ({ isMenuOpen, setIsMenuOpen }) => {
           </a>
           {/* WhatsApp */}
           <a
-            href="https://wa.me/201000980788"
+            href="https://wa.me/201094096548"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-[#25D366] transition"

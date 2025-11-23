@@ -48,7 +48,7 @@ const ReturnsPolicy = () => {
                         <div className="bg-green-50 p-4 rounded-lg">
                             <p className="font-semibold mb-2">للاستفسارات والدعم بخصوص الاسترجاع:</p>
                             <p>البريد الإلكتروني: support@2MTechnology.com</p>
-                            <p>الهاتف: 01000980788</p>
+                            <p>الهاتف: 01094096548</p>
                             <p>
                                 أو يمكنك زيارة <Link href="/contact" className="text-green-600 underline">صفحة الدعم</Link>.
                             </p>

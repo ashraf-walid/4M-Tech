@@ -38,7 +38,7 @@ const MainHeader = ({ setIsMenuOpen }) => {
             />
             <Link
               href="/CartPage"
-              className="flex flex-col items-center relative hover:text-[var(--color-wattle)] transition"
+              className="flex flex-col items-center relative hover:text-[var(--color-purple-bright)] transition"
             >
               <ShoppingCart size={30} />
               <span className="text-xs">السلة</span>
@@ -50,7 +50,7 @@ const MainHeader = ({ setIsMenuOpen }) => {
             </Link>
             <Link
               href="#"
-              className="flex flex-col items-center hover:text-[var(--color-wattle)] transition"
+              className="flex flex-col items-center hover:text-[var(--color-purple-bright)] transition"
             >
               <Heart size={30} />
               <span className="text-xs">المفضلة</span>

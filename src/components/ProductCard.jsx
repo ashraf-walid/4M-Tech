@@ -54,20 +54,20 @@ const ProductCard = ({ product, isInCart, getProductQuantity }) => {
             {formatPrice(price)}
           </span>
           {isInCart ? (
-            <div className="flex items-center justify-between bg-[#fdf407] rounded-lg overflow-hidden shadow-md">
+            <div className="flex items-center justify-between bg-[var(--color-purple-bright)] text-white rounded-lg overflow-hidden shadow-md">
               <button
                 onClick={() => addToCart(_id)}
-                className="px-2 py-1 hover:text-gray-700 transition-colors duration-200 font-bold text-black cursor-pointer"
+                className="px-2 py-1 hover:text-gray-700 transition-colors duration-200 font-bold cursor-pointer"
                 aria-label="أضف كمية أخرى"
               >
                 +
               </button>
-              <span className="px-4 py-2 text-[#393405] font-semibold text-lg select-none">
+              <span className="px-4 py-2 font-semibold text-lg select-none">
                 {getProductQuantity(_id)}
               </span>
               <button
                 onClick={() => removeFromCart(_id)}
-                className="px-4 py-2 text-[#393405] transition-colors duration-200 cursor-pointer"
+                className="px-4 py-2 transition-colors duration-200 cursor-pointer"
                 aria-label="حذف المنتج من السلة"
               >
                 <Trash2 size={20} className="hover:text-red-500" />
@@ -76,7 +76,7 @@ const ProductCard = ({ product, isInCart, getProductQuantity }) => {
           ) : (
             <button
               onClick={() => addToCart(_id)}
-              className="bg-[#fdf407] text-sm hover:bg-[#dfd93e] text-[#393405] font-semibold py-2 px-3 rounded-lg cursor-pointer flex items-center gap-2 transition-all duration-300"
+              className="bg-[var(--color-purple-bright)] text-white text-sm hover:bg-[var(--color-light-blue)] font-semibold py-2 px-3 rounded-lg cursor-pointer flex items-center gap-2 transition-all duration-300"
             >
               أضف إلى السلة
               <ShoppingCart size={20} />

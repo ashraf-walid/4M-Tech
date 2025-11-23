@@ -61,13 +61,14 @@ const CategorySection = () => {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#393405] mb-4 leading-[120%] tracking-tight relative inline-block">
             <span className="relative z-10">جميع ما تحتاجه لدينا</span>
-            <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[90%] h-3 bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-100 rounded-lg opacity-70 -z-0"></span>
+            <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[90%] h-3 bg-gradient-to-r from-[var(--color-purple-bright)] via-[var(--color-blue)] to-[var(--color-light-blue)] rounded-lg opacity-70 -z-0"></span>
           </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-12">
           {categories.map((category) => (
             <div
               key={category.id}
+              onClick={() => handleDiscover(category.filter)}
               className="bg-white rounded-md overflow-hidden shadow-md hover:shadow-xl transition-all duration-400 cursor-pointer flex flex-col relative group"
             >
               <div className="relative w-full h-[220px] overflow-hidden">
@@ -94,7 +95,7 @@ const CategorySection = () => {
                 </p>
                 <button 
                   onClick={() => handleDiscover(category.filter)}
-                  className="bg-[#fdf407] hover:bg-[#dfd93e] text-[#393405] border-none py-3 px-7 rounded-lg text-base font-semibold cursor-pointer inline-flex items-center gap-2 transition-all duration-300 shadow-md mt-auto w-full justify-center">
+                  className="bg-[var(--color-blue)] hover:bg-[var(--color-light-blue)] text-[#393405] border-none py-3 px-7 rounded-lg text-base font-semibold cursor-pointer inline-flex items-center gap-2 transition-all duration-300 shadow-md mt-auto w-full justify-center">
                     اكتشف
                   <ChevronLeft className="w-5 h-5" />
                 </button>

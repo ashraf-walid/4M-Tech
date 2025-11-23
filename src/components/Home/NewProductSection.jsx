@@ -159,12 +159,12 @@ const NewProductSection = () => {
         <div className="text-center">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#393405] mb-2 sm:mb-6 md:mb-8 lg:mb-10 leading-[120%] tracking-tight relative inline-block">
             <span className="relative z-10">احدث المنتجات</span>
-            <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[90%] h-3 bg-gradient-to-r from-yellow-200 via-yellow-300 to-yellow-100 rounded-lg opacity-70 -z-0"></span>
+            <span className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[90%] h-3 bg-gradient-to-r from-[var(--color-purple-bright)] via-[var(--color-blue)] to-[var(--color-light-blue)] rounded-lg opacity-70 -z-0"></span>
           </h2>
         </div>
         <div className="relative px-3 sm:px-8 py-1 md:py-4 lg:py-8">
           <button
-            className="absolute left-1 md:left-4 top-1/2 bg-[#fdf407] cursor-pointer -translate-y-1/2 z-10 w-12 h-12 rounded-full  shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+            className="absolute left-1 md:left-4 top-1/2 bg-[var(--color-light-blue)] cursor-pointer -translate-y-1/2 z-10 w-12 h-12 rounded-full  shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors duration-200"
             onClick={prevSlide}
             disabled={newProducts.length < 2}
             aria-disabled={newProducts.length < 2}
@@ -226,7 +226,7 @@ const NewProductSection = () => {
             })}
           </div>
           <button
-            className="absolute right-1 md:right-4 top-1/2 bg-[#fdf407] cursor-pointer -translate-y-1/2 z-10 w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+            className="absolute right-1 md:right-4 top-1/2 bg-[var(--color-light-blue)] cursor-pointer -translate-y-1/2 z-10 w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors duration-200"
             onClick={nextSlide}
             disabled={newProducts.length < 2}
             aria-disabled={newProducts.length < 2}
@@ -243,7 +243,7 @@ const NewProductSection = () => {
               key={index}
               onClick={() => goToSlide(index)}
               className={`w-3 h-3 rounded-full transition-colors duration-200 cursor-pointer
-                  ${index === currentSlide ? "bg-[#fdf407]" : "bg-gray-300"}`}
+                  ${index === currentSlide ? "bg-[var(--color-blue)]" : "bg-gray-300"}`}
               aria-current={index === currentSlide ? "true" : undefined}
               aria-label={`انتقل إلى الشريحة ${index + 1}`}
             />

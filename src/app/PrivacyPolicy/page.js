@@ -61,7 +61,7 @@ const PrivacyPolicy = () => {
             <div className="bg-blue-50 p-4 rounded-lg">
               <p className="font-semibold mb-2">للاستفسارات بخصوص سياسة الخصوصية:</p>
               <p>البريد الإلكتروني: support@2MTechnology.com</p>
-              <p>الهاتف: 01000980788</p>
+              <p>الهاتف: 01094096548</p>
               <p>
                 يمكنك أيضًا زيارة <Link href="/contact" className="text-blue-600 underline hover:text-blue-800">صفحة الدعم</Link>
               </p>
